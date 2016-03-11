@@ -31,3 +31,4 @@
 *.VC.opendb
 
 Debug/
+.vs/
