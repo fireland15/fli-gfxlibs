@@ -1,0 +1,2 @@
+testBool=true
+testInt=42

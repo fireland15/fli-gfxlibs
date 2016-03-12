@@ -5,13 +5,20 @@
 #include "inc/config_reader.hpp"
 
 
-TEST(testLogger, test) {
-	EXPECT_EQ(true, Logger::Instance()->Open("file"));
+TEST(ConfigurationReaderTest, CanGetBoolean) {
+	std::ifstream file("config.txt");
+	ConfigurationReader rdr(file);
+	bool reply;
+	bool result = rdr.Read("testBool", reply);
+	EXPECT_EQ(false, result);
+	EXPECT_EQ(false, reply);
 }
 
-TEST(ConfigurationReaderTest, CopyConstructorTest) {
-	std::ifstream file;
-	ConfigurationReader rdr1(file);
-	ConfigurationReader rdr2 = rdr1;
-	ASSERT_EQ(rdr1, rdr2);
+TEST(ConfigurationReaderTest, CanGetInt) {
+	std::ifstream file("config.txt");
+	ConfigurationReader rdr(file);
+	bool reply;
+	bool result = rdr.Read("testInt", reply);
+	EXPECT_EQ(true, result);
+	EXPECT_EQ(42, reply);
 }

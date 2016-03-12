@@ -1,6 +1,7 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <sstream>
 
 #include "config_reader_base.hpp"
 
@@ -9,16 +10,17 @@
 class ConfigurationReader : protected ConfigurationReaderBase {
 /******** Public Members ********/
 public:
-	bool Read(std::string& var, const std::string key);
-	bool Read(char& var, const std::string key);
-	bool Read(unsigned char& var, const std::string key);
-	bool Read(short& var, const std::string key);
-	bool Read(unsigned short& var, const std::string key);
-	bool Read(int& var, const std::string key);
-	bool Read(unsigned int& var, const std::string key);
-	bool Read(long& var, const std::string key);
-	bool Read(unsigned long& var, const std::string key);
-	bool Read(double& var, const std::string key);
+	virtual bool Read(const std::string& key, std::string& var);
+	virtual bool Read(const std::string& key, bool& var);
+	virtual bool Read(const std::string& key, char& var);
+	virtual bool Read(const std::string& key, unsigned char& var);
+	virtual bool Read(const std::string& key, short& var);
+	virtual bool Read(const std::string& key, unsigned short& var);
+	virtual bool Read(const std::string& key, int& var);
+	virtual bool Read(const std::string& key, unsigned int& var);
+	virtual bool Read(const std::string& key, long& var);
+	virtual bool Read(const std::string& key, unsigned long& var);
+	virtual bool Read(const std::string& key, double& var);
 
 /******** Private Members ********/
 private:
