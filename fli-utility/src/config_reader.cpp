@@ -1,32 +1,23 @@
 #include "..\inc\config_reader.hpp"
 
-ConfigurationReader::ConfigurationReader(const std::string filename) {
-	m_filename = filename;
+ConfigurationReader::ConfigurationReader(std::ifstream& configFile) 
+	: m_configFile(configFile) {
+	ReadConfigValues();
 }
 
-ConfigurationReader::ConfigurationReader(const ConfigurationReader & other) {
-
+ConfigurationReader::ConfigurationReader(const ConfigurationReader & other) 
+	: m_configFile(other.m_configFile) {
+	
 }
 
 ConfigurationReader & ConfigurationReader::operator=(const ConfigurationReader & other) {
-	// TODO: insert return statement here
-	return *(new ConfigurationReader(""));
+	ConfigurationReaderBase::operator=(other);
+	std::swap(m_configFile, other.m_configFile);
+	return *this;
 }
 
 ConfigurationReader::~ConfigurationReader() {
 
-}
-
-bool ConfigurationReader::Initialize()
-{
-	m_configFile.open(m_filename.c_str(), std::ios::in);
-	if (m_configFile.is_open()) {
-		ReadConfigValues();
-		m_configFile.close();
-		return true;
-	}
-	else
-		return false;
 }
 
 void ConfigurationReader::ReadConfigValues()

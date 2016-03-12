@@ -2,9 +2,11 @@
 #include <string>
 #include <map>
 
+#include "config_reader_base.hpp"
+
 #pragma once
 
-class ConfigurationReader {
+class ConfigurationReader : protected ConfigurationReaderBase {
 /******** Public Members ********/
 public:
 	bool Read(std::string& var, const std::string key);
@@ -20,18 +22,14 @@ public:
 
 /******** Private Members ********/
 private:
-	std::ifstream m_configFile;
-	std::string m_filename;
-	std::map<std::string, std::string> m_configValues;
+	std::ifstream& m_configFile;
 
 /******** Public Methods ********/
 public:
-	ConfigurationReader(const std::string filename);
+	ConfigurationReader(std::ifstream& configFile);
 	ConfigurationReader(const ConfigurationReader& other);
 	ConfigurationReader &operator=(const ConfigurationReader &other);
 	~ConfigurationReader();
-
-	bool Initialize();
 
 /******** Private Methods ********/
 private:

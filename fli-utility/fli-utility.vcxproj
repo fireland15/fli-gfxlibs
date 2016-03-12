@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\config_reader.hpp" />
+    <ClInclude Include="inc\config_reader_base.hpp" />
     <ClInclude Include="inc\logger.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
