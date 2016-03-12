@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtest", "gtest\gtest.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fli-utility-unittest", "fli-utility-unittest\fli-utility-unittest.vcxproj", "{718EE457-2152-45DF-BC3F-54DE9F19982F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gmock", "gmock\gmock.vcxproj", "{AC08E4E7-C8C4-40D6-A5C7-2C5F6A1030CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{718EE457-2152-45DF-BC3F-54DE9F19982F}.Release|x64.Build.0 = Release|x64
 		{718EE457-2152-45DF-BC3F-54DE9F19982F}.Release|x86.ActiveCfg = Release|Win32
 		{718EE457-2152-45DF-BC3F-54DE9F19982F}.Release|x86.Build.0 = Release|Win32
+		{AC08E4E7-C8C4-40D6-A5C7-2C5F6A1030CF}.Debug|x64.ActiveCfg = Debug|x64
+		{AC08E4E7-C8C4-40D6-A5C7-2C5F6A1030CF}.Debug|x64.Build.0 = Debug|x64
+		{AC08E4E7-C8C4-40D6-A5C7-2C5F6A1030CF}.Debug|x86.ActiveCfg = Debug|Win32
+		{AC08E4E7-C8C4-40D6-A5C7-2C5F6A1030CF}.Debug|x86.Build.0 = Debug|Win32
+		{AC08E4E7-C8C4-40D6-A5C7-2C5F6A1030CF}.Release|x64.ActiveCfg = Release|x64
+		{AC08E4E7-C8C4-40D6-A5C7-2C5F6A1030CF}.Release|x64.Build.0 = Release|x64
+		{AC08E4E7-C8C4-40D6-A5C7-2C5F6A1030CF}.Release|x86.ActiveCfg = Release|Win32
+		{AC08E4E7-C8C4-40D6-A5C7-2C5F6A1030CF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
