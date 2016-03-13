@@ -1,39 +1,26 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <sstream>
+
+#include "config_reader_base.hpp"
 
 #pragma once
 
-class ConfigurationReader {
-/******** Public Members ********/
-public:
-	bool Read(std::string& var, const std::string key);
-	bool Read(char& var, const std::string key);
-	bool Read(unsigned char& var, const std::string key);
-	bool Read(short& var, const std::string key);
-	bool Read(unsigned short& var, const std::string key);
-	bool Read(int& var, const std::string key);
-	bool Read(unsigned int& var, const std::string key);
-	bool Read(long& var, const std::string key);
-	bool Read(unsigned long& var, const std::string key);
-	bool Read(double& var, const std::string key);
-
-/******** Private Members ********/
+class ConfigurationReader : public ConfigurationReaderBase {
 private:
-	std::ifstream m_configFile;
-	std::string m_filename;
-	std::map<std::string, std::string> m_configValues;
+	std::ifstream& m_configFile;
 
-/******** Public Methods ********/
 public:
-	ConfigurationReader(const std::string filename);
-	ConfigurationReader(const ConfigurationReader& other);
-	ConfigurationReader &operator=(const ConfigurationReader &other);
-	~ConfigurationReader();
+	/// <summary>
+	/// Constructor which sets the file stream from which to read values from.
+	/// </summary>
+	/// <param name="configFile">Configuration file to read configuration values from.</param>
+	ConfigurationReader(std::ifstream& configFile);
 
-	bool Initialize();
-
-/******** Private Methods ********/
-private:
-	void ReadConfigValues();
+	/// <summary>
+	/// Reads configuration values from m_configFile stream, building a std::map of keys and values
+	/// </summary>
+	/// <returns>std::map of values and their keys</returns>
+	virtual std::map<std::string, std::string> GetConfigValues();
 };

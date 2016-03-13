@@ -1,0 +1,4 @@
+testBool=true
+testInt=42
+testString=test
+testChar=t
