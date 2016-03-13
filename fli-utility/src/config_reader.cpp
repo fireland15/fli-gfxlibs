@@ -2,86 +2,20 @@
 
 ConfigurationReader::ConfigurationReader(std::ifstream& configFile) 
 	: m_configFile(configFile) {
-	ReadConfigValues();
-}
-
-ConfigurationReader::ConfigurationReader(const ConfigurationReader & other) 
-	: m_configFile(other.m_configFile) {
-	
-}
-
-ConfigurationReader & ConfigurationReader::operator=(const ConfigurationReader & other) {
-	ConfigurationReaderBase::operator=(other);
-	std::swap(m_configFile, other.m_configFile);
-	return *this;
-}
-
-ConfigurationReader::~ConfigurationReader() {
 
 }
 
-void ConfigurationReader::ReadConfigValues()
+std::map<std::string, std::string> ConfigurationReader::GetConfigValues()
 {
-
-}
-
-bool ConfigurationReader::Read(const std::string& key, std::string & var)
-{
-	return false;
-}
-
-bool ConfigurationReader::Read(const std::string & key, bool & var)
-{
-	auto it = m_configValues.find(key);
-	if (it != m_configValues.end()) {
-		std::string value = it->second;
-		std::stringstream(value) >> var;
-		return true;
+	std::map<std::string, std::string> configValues;
+	if (m_configFile.is_open()) {
+		std::string line;
+		while (std::getline(m_configFile, line)) {
+			size_t pos = line.find('=');
+			std::string key = line.substr(0, pos);
+			std::string value = line.substr(pos + 1);
+			configValues[key] = value;
+		}
 	}
-	return false;
-}
-
-bool ConfigurationReader::Read(const std::string& key, char & var)
-{
-	return false;
-}
-
-bool ConfigurationReader::Read(const std::string& key, unsigned char & var)
-{
-	return false;
-}
-
-bool ConfigurationReader::Read(const std::string& key, short & var)
-{
-	return false;
-}
-
-bool ConfigurationReader::Read(const std::string& key, unsigned short & var)
-{
-	return false;
-}
-
-bool ConfigurationReader::Read(const std::string& key, int & var)
-{
-	return false;
-}
-
-bool ConfigurationReader::Read(const std::string& key, unsigned int & var)
-{
-	return false;
-}
-
-bool ConfigurationReader::Read(const std::string& key, long & var)
-{
-	return false;
-}
-
-bool ConfigurationReader::Read(const std::string& key, unsigned long & var)
-{
-	return false;
-}
-
-bool ConfigurationReader::Read(const std::string& key, double & var)
-{
-	return false;
+	return configValues;
 }

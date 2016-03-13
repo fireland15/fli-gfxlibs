@@ -7,33 +7,20 @@
 
 #pragma once
 
-class ConfigurationReader : protected ConfigurationReaderBase {
-/******** Public Members ********/
-public:
-	virtual bool Read(const std::string& key, std::string& var);
-	virtual bool Read(const std::string& key, bool& var);
-	virtual bool Read(const std::string& key, char& var);
-	virtual bool Read(const std::string& key, unsigned char& var);
-	virtual bool Read(const std::string& key, short& var);
-	virtual bool Read(const std::string& key, unsigned short& var);
-	virtual bool Read(const std::string& key, int& var);
-	virtual bool Read(const std::string& key, unsigned int& var);
-	virtual bool Read(const std::string& key, long& var);
-	virtual bool Read(const std::string& key, unsigned long& var);
-	virtual bool Read(const std::string& key, double& var);
-
-/******** Private Members ********/
+class ConfigurationReader : public ConfigurationReaderBase {
 private:
 	std::ifstream& m_configFile;
 
-/******** Public Methods ********/
 public:
+	/// <summary>
+	/// Constructor which sets the file stream from which to read values from.
+	/// </summary>
+	/// <param name="configFile">Configuration file to read configuration values from.</param>
 	ConfigurationReader(std::ifstream& configFile);
-	ConfigurationReader(const ConfigurationReader& other);
-	ConfigurationReader &operator=(const ConfigurationReader &other);
-	~ConfigurationReader();
 
-/******** Private Methods ********/
-private:
-	void ReadConfigValues();
+	/// <summary>
+	/// Reads configuration values from m_configFile stream, building a std::map of keys and values
+	/// </summary>
+	/// <returns>std::map of values and their keys</returns>
+	virtual std::map<std::string, std::string> GetConfigValues();
 };

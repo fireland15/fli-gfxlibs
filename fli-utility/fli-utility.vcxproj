@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\configuration.cpp" />
     <ClCompile Include="src\config_reader.cpp" />
     <ClCompile Include="src\logger.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\configuration.hpp" />
     <ClInclude Include="inc\config_reader.hpp" />
     <ClInclude Include="inc\config_reader_base.hpp" />
     <ClInclude Include="inc\logger.hpp" />
@@ -78,7 +80,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>F:\Documents\VS Projects\fli-gfxlibs\fli-utility\inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>F:\Documents\VS Projects\fli-gfxlibs\fli-utility\inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
