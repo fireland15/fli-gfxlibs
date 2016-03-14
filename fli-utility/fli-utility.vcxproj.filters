@@ -38,5 +38,8 @@
     <ClInclude Include="inc\configuration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="logger_base.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
