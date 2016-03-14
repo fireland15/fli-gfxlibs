@@ -40,17 +40,31 @@ bool Configuration::Get(const std::string& key, char & var)
 
 bool Configuration::Get(const std::string& key, unsigned char & var)
 {
-	return false;
+	auto it = m_configValues.find(key);
+	if (it == m_configValues.end())
+		return false;
+	unsigned int temp;
+	std::stringstream(it->second) >> temp;
+	var = (unsigned char)temp;
+	return true;
 }
 
 bool Configuration::Get(const std::string& key, short & var)
 {
-	return false;
+	auto it = m_configValues.find(key);
+	if (it == m_configValues.end())
+		return false;
+	std::stringstream(it->second) >> var;
+	return true;
 }
 
 bool Configuration::Get(const std::string& key, unsigned short & var)
 {
-	return false;
+	auto it = m_configValues.find(key);
+	if (it == m_configValues.end())
+		return false;
+	std::stringstream(it->second) >> var;
+	return true;
 }
 
 bool Configuration::Get(const std::string& key, int & var)
@@ -65,20 +79,50 @@ bool Configuration::Get(const std::string& key, int & var)
 
 bool Configuration::Get(const std::string& key, unsigned int & var)
 {
-	return false;
+	auto it = m_configValues.find(key);
+	if (it == m_configValues.end())
+		return false;
+
+	std::stringstream(it->second) >> var;
+	return true;
 }
 
 bool Configuration::Get(const std::string& key, long & var)
 {
-	return false;
+	auto it = m_configValues.find(key);
+	if (it == m_configValues.end())
+		return false;
+
+	std::stringstream(it->second) >> var;
+	return true;
 }
 
 bool Configuration::Get(const std::string& key, unsigned long & var)
 {
-	return false;
+	auto it = m_configValues.find(key);
+	if (it == m_configValues.end())
+		return false;
+
+	std::stringstream(it->second) >> var;
+	return true;
+}
+
+bool Configuration::Get(const std::string & key, float & var)
+{
+	auto it = m_configValues.find(key);
+	if (it == m_configValues.end())
+		return false;
+
+	std::stringstream(it->second) >> var;
+	return true;
 }
 
 bool Configuration::Get(const std::string& key, double & var)
 {
-	return false;
+	auto it = m_configValues.find(key);
+	if (it == m_configValues.end())
+		return false;
+
+	std::stringstream(it->second) >> var;
+	return true;
 }

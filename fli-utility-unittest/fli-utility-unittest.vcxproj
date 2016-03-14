@@ -152,7 +152,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="fli-utility-unittest.cpp" />
+    <ClCompile Include="ConfigurationReader-unittest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="config.txt" />

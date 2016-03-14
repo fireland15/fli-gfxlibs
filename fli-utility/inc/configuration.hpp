@@ -25,5 +25,6 @@ public:
 	bool Get(const std::string& key, unsigned int& var);
 	bool Get(const std::string& key, long& var);
 	bool Get(const std::string& key, unsigned long& var);
+	bool Get(const std::string& key, float& var);
 	bool Get(const std::string& key, double& var);
 };
