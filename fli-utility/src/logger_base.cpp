@@ -3,9 +3,9 @@
 
 namespace fli {
 	namespace util {
-		namespace config {
+		namespace log {
 
-			LoggerBase::LoggerBase() { }
+			LoggerBase::LoggerBase(LogLvl level) : m_loggingLevel(level) { }
 
 		}
 	}

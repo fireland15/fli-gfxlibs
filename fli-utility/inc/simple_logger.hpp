@@ -3,18 +3,17 @@
 
 namespace fli {
 	namespace util {
-		namespace config {
-
+		namespace log {
+			
 			class SimpleLogger : protected LoggerBase {
 			private:
+				std::ostream& m_destination;
 
 			public:
-				SimpleLogger();
+				SimpleLogger(std::ostream& destination, LogLvl level);
 				~SimpleLogger();
 
-				virtual void BeginLogging(std::ostream& destination, LogLvl level);
 				virtual void Log();
-				virtual void StopLogging();
 			};
 
 		}

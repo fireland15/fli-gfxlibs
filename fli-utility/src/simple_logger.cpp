@@ -3,21 +3,20 @@
 
 namespace fli {
 	namespace util {
-		namespace config {
+		namespace log {
 
-			SimpleLogger::SimpleLogger() : LoggerBase() { }
-			SimpleLogger::~SimpleLogger() { }
+			SimpleLogger::SimpleLogger(std::ostream& destination, LogLvl level) : m_destination(destination), LoggerBase(level) {
+				m_destination << "Simple Logger Started" << std::endl;
+				m_destination << "\tLog Level: " << level << std::endl;
+				m_destination << "\tTime:      " << LogEntry::GetTimeStamp() << std::endl;
+			}
 
-			void SimpleLogger::BeginLogging(std::ostream& destination, LogLvl level) {
-				LoggerBase::m_destination = destination;
-				LoggerBase::m_loggingLevel = level;
+			SimpleLogger::~SimpleLogger() { 
+				m_destination << "Simple Logger Finished" << std::endl;
+				m_destination << "\tTime: " << LogEntry::GetTimeStamp() << std::endl;
 			}
 
 			void SimpleLogger::Log() {
-
-			}
-
-			void SimpleLogger::StopLogging() {
 
 			}
 
