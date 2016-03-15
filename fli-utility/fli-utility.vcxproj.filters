@@ -24,6 +24,12 @@
     <ClCompile Include="src\configuration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\logger_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\simple_logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\config_reader.hpp">
@@ -38,7 +44,10 @@
     <ClInclude Include="inc\configuration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="logger_base.hpp">
+    <ClInclude Include="inc\logger_base.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\simple_logger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

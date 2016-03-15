@@ -1,5 +1,12 @@
 #include "logger_base.hpp"
 
-LoggerBase::LoggerBase() { }
 
-LoggerBase::BeginLogging
+namespace fli {
+	namespace util {
+		namespace config {
+
+			LoggerBase::LoggerBase() { }
+
+		}
+	}
+}

@@ -22,6 +22,8 @@
     <ClCompile Include="src\configuration.cpp" />
     <ClCompile Include="src\config_reader.cpp" />
     <ClCompile Include="src\logger.cpp" />
+    <ClCompile Include="src\logger_base.cpp" />
+    <ClCompile Include="src\simple_logger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\configuration.hpp" />
@@ -29,6 +31,7 @@
     <ClInclude Include="inc\config_reader_base.hpp" />
     <ClInclude Include="inc\logger.hpp" />
     <ClInclude Include="inc\logger_base.hpp" />
+    <ClInclude Include="inc\simple_logger.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F5A44EAD-F451-46A0-B622-5088B55578D9}</ProjectGuid>
