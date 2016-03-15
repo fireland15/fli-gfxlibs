@@ -13,12 +13,18 @@ namespace fli {
             
             class ConcurrentLogger : protected SimpleLogger {
             private:
-                
+                std::queue<LogEntry*>
             public:
                 ConcurrentLogger(std::ostream& target, LogLvl level);
                 ~SimpleLConcurrentLoggeroggerMT();
                 
                 virtual void Log(LogEntry& entry);
+                void Log(LogEntry* entry);
+                
+            private:
+                void Writer() {
+                    
+                }
             };
             
         }

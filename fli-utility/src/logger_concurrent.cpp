@@ -1,4 +1,4 @@
-#include "logger_simple_mt.hpp"
+#include "logger_concurrent.hpp"
 
 namespace fli {
     namespace util {
@@ -13,6 +13,10 @@ namespace fli {
             }
             
             void ConcurrentLogger::Log(LogEntry& entry) {
+                
+            }
+            
+            void ConcurrentLogger::Log(LogEntry* entry) {
                 
             }
             
