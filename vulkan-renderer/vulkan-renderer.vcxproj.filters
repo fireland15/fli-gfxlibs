@@ -15,12 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="config.txt">
-      <Filter>Resource Files</Filter>
-    </None>
+    <ClInclude Include="include\device.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConfigurationReader-unittest.cpp">
+    <ClCompile Include="src\device.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

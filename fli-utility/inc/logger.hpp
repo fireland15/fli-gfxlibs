@@ -16,8 +16,8 @@ enum DbgLevel {
 #ifdef LOGGING
 #define LOG(level, poster, msg) Logger::Instance()->Write(level, poster, msg)
 #else
-	#define LOG(level, poster, msg)
-#endif // DEBUG
+#define LOG(level, poster, msg)
+#endif // LOGGING
 
 class Logger {
 	/******** Public Members ********/

@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{718EE457-2152-45DF-BC3F-54DE9F19982F}</ProjectGuid>
+    <ProjectGuid>{CD101451-6B4D-4EF4-A145-7F54ED806D40}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>fliutilityunittest</RootNamespace>
+    <RootNamespace>fliapp</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,14 +74,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>F:\Documents\VS Projects\fli-gfxlibs\fli-utility;F:\Documents\VS Projects\fli-gfxlibs\gtest\include;F:\Documents\VS Projects\fli-gfxlibs\gtest;$(IncludePath)</IncludePath>
+    <IncludePath>F:\Documents\VS Projects\fli-gfxlibs\fli-utility\inc;F:\Documents\VS Projects\fli-gfxlibs\vulkan-renderer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>F:\Documents\VS Projects\fli-gfxlibs\fli-utility;F:\Documents\VS Projects\fli-gfxlibs\gtest\include;F:\Documents\VS Projects\fli-gfxlibs\gtest;$(IncludePath)</IncludePath>
+    <IncludePath>F:\Documents\VS Projects\fli-gfxlibs\fli-utility\inc;F:\Documents\VS Projects\fli-gfxlibs\vulkan-renderer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -103,6 +103,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/D LOGGING %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,6 +136,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/D LOGGING %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,18 +146,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\fli-utility\fli-utility.vcxproj">
       <Project>{f5a44ead-f451-46a0-b622-5088b55578d9}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\gtest\gtest.vcxproj">
-      <Project>{853ea477-0e4e-41dd-8a28-9c3f915082ee}</Project>
+    <ProjectReference Include="..\vulkan-renderer\vulkan-renderer.vcxproj">
+      <Project>{1b02884b-30ad-434c-a87c-9bcdb439e809}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="ConfigurationReader-unittest.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="config.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -32,3 +32,7 @@
 
 Debug/
 .vs/
+.DS_Store
+*.xdc
+.txt
+
