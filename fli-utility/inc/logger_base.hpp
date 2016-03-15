@@ -5,7 +5,8 @@
 
 struct LogEntry {
 public:
-	std::string entry;
+	std::string m_entry;
+    std::string m_details;
 
 	LogEntry(std::string& sender, std::string& entry, std::vector<std::string>& details);
 private:

@@ -28,7 +28,7 @@
     <ClInclude Include="inc\config_reader.hpp" />
     <ClInclude Include="inc\config_reader_base.hpp" />
     <ClInclude Include="inc\logger.hpp" />
-    <ClInclude Include="logger_base.hpp" />
+    <ClInclude Include="inc\logger_base.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F5A44EAD-F451-46A0-B622-5088B55578D9}</ProjectGuid>
