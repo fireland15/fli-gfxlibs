@@ -24,7 +24,7 @@
     <ClCompile Include="src\log_entry.cpp" />
     <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\logger_base.cpp" />
-    <ClCompile Include="src\simple_logger.cpp" />
+    <ClCompile Include="src\logger_simple.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\configuration.hpp" />
@@ -33,7 +33,7 @@
     <ClInclude Include="inc\log_entry.hpp" />
     <ClInclude Include="inc\logger.hpp" />
     <ClInclude Include="inc\logger_base.hpp" />
-    <ClInclude Include="inc\simple_logger.hpp" />
+    <ClInclude Include="inc\logger_simple.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F5A44EAD-F451-46A0-B622-5088B55578D9}</ProjectGuid>

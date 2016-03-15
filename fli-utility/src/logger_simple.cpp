@@ -1,4 +1,4 @@
-#include "simple_logger.hpp"
+#include "logger_simple.hpp"
 
 
 namespace fli {

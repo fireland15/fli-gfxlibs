@@ -27,10 +27,10 @@
     <ClCompile Include="src\logger_base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\simple_logger.cpp">
+    <ClCompile Include="src\log_entry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\log_entry.cpp">
+    <ClCompile Include="src\logger_simple.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,10 +50,10 @@
     <ClInclude Include="inc\logger_base.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\simple_logger.hpp">
+    <ClInclude Include="inc\log_entry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\log_entry.hpp">
+    <ClInclude Include="inc\logger_simple.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
