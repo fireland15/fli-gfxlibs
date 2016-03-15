@@ -7,6 +7,9 @@ namespace fli {
 	namespace util {
 		namespace config {
 
+			/// <summary>
+			/// Abstract class from which configuration readers should inherit.
+			/// </summary>
 			class ConfigurationReaderBase {
 			public:
 				/// <summary>

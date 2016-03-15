@@ -18,11 +18,12 @@ namespace fli {
 					out.append(temp);
 					out.append("\n\t");
 				}
+				out = out.substr(0, out.size() - 2);
 
 				return out;
 			}
 
-			inline std::string ToString(LogLvl level) {
+			inline std::string LogEntry::ToString(LogLvl level) {
 				switch (level) {
 				case LogLvl::all:
 					return "all";
@@ -34,6 +35,8 @@ namespace fli {
 					return "non";
 				case LogLvl::wrn:
 					return "wrn";
+				default:
+					return "";
 				}
 			}
 

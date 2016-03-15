@@ -8,13 +8,13 @@
 class ConfigurationReaderTest : public ::testing::Test {
 protected:
 	std::ifstream file;
-	Configuration config;
+	fli::util::config::Configuration config;
 	bool result;
 
 	virtual void SetUp() {
 		file.open("config.txt");
-		ConfigurationReader rdr(file);
-		config = ConfigurationReader(rdr);
+		fli::util::config::ConfigurationReader rdr(file);
+		config = fli::util::config::ConfigurationReader(rdr);
 		result = false;
 	}
 

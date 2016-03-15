@@ -3,6 +3,7 @@
 namespace fli {
 	namespace util {
 		namespace config {
+
 			Configuration::Configuration() {
 
 			}
@@ -129,6 +130,7 @@ namespace fli {
 				std::stringstream(it->second) >> var;
 				return true;
 			}
+
 		}
 	}
 }

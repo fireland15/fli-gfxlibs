@@ -11,8 +11,14 @@ namespace fli {
 	namespace util {
 		namespace config {
 
+			/// <summary>
+			/// Class for reading configuration values from a simple text file of key=value pairs of configuration values.
+			/// </summary>
 			class ConfigurationReader : public ConfigurationReaderBase {
 			private:
+				/// <summary>
+				/// The file from which configuration values are be read.
+				/// </summary>
 				std::ifstream& m_configFile;
 
 			public:
