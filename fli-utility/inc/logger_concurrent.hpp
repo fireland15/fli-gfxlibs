@@ -3,9 +3,9 @@
 #include <queue>
 #include <thread>
 #include <mutex>
-#include <conditional_variable>
+#include <condition_variable>
 
-#include "logger_base.hpp"
+#include "logger_simple.hpp"
 
 namespace fli {
     namespace util {
@@ -13,18 +13,17 @@ namespace fli {
             
             class ConcurrentLogger : protected SimpleLogger {
             private:
-                std::queue<LogEntry*>
+				std::queue<std::unique_ptr<LogEntry>> m_writeQueue;
+				bool m_shutdown;
+
             public:
                 ConcurrentLogger(std::ostream& target, LogLvl level);
-                ~SimpleLConcurrentLoggeroggerMT();
+                ~ConcurrentLogger();
                 
-                virtual void Log(LogEntry& entry);
-                void Log(LogEntry* entry);
+                virtual void Log(std::unique_ptr<LogEntry>&& entry);
                 
             private:
-                void Writer() {
-                    
-                }
+				void Writer();
             };
             
         }

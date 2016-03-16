@@ -33,6 +33,9 @@
     <ClCompile Include="src\logger_simple.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\logger_concurrent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\config_reader.hpp">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\logger_simple.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\logger_concurrent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\configuration.cpp" />
     <ClCompile Include="src\config_reader.cpp" />
+    <ClCompile Include="src\logger_concurrent.cpp" />
     <ClCompile Include="src\log_entry.cpp" />
     <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\logger_base.cpp" />
@@ -30,6 +31,7 @@
     <ClInclude Include="inc\configuration.hpp" />
     <ClInclude Include="inc\config_reader.hpp" />
     <ClInclude Include="inc\config_reader_base.hpp" />
+    <ClInclude Include="inc\logger_concurrent.hpp" />
     <ClInclude Include="inc\log_entry.hpp" />
     <ClInclude Include="inc\logger.hpp" />
     <ClInclude Include="inc\logger_base.hpp" />

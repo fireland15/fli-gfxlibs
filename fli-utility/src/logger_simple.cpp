@@ -16,9 +16,9 @@ namespace fli {
 				m_target << "\tTime: " << LogEntry::GetTimeStamp() << std::endl;
 			}
 
-			void SimpleLogger::Log(LogEntry& entry) {
-				if (entry.level <= m_loggingLevel)
-					m_target << entry.ToString();
+			void SimpleLogger::Log(std::unique_ptr<LogEntry>&& entry) {
+				if (entry->level <= m_loggingLevel)
+					m_target << entry->ToString();
 			}
 
 		}
