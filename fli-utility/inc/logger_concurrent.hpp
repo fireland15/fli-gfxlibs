@@ -4,6 +4,7 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include <atomic>
 
 #include "logger_simple.hpp"
 
@@ -11,10 +12,17 @@ namespace fli {
     namespace util {
         namespace log {
             
-            class ConcurrentLogger : protected SimpleLogger {
+            class ConcurrentLogger : protected LoggerBase {
             private:
 				std::queue<std::unique_ptr<LogEntry>> m_writeQueue;
-				bool m_shutdown;
+				std::mutex m_queueMutex;
+				std::condition_variable m_queueCond;
+
+				std::atomic_flag m_shutdown;
+
+				std::thread m_writer;
+
+				std::ostream& m_target;
 
             public:
                 ConcurrentLogger(std::ostream& target, LogLvl level);
@@ -23,7 +31,7 @@ namespace fli {
                 virtual void Log(std::unique_ptr<LogEntry>&& entry);
                 
             private:
-				void Writer();
+				void _write();
             };
             
         }
