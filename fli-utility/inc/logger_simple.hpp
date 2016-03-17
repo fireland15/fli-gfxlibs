@@ -1,5 +1,6 @@
-#include "logger_base.hpp"
+#pragma once
 
+#include "logger_base.hpp"
 
 namespace fli {
 	namespace util {
@@ -9,7 +10,7 @@ namespace fli {
 			/// SimpleLogger class. Single threaded loggin to an ostream derived object.
 			/// </summary>
 			class SimpleLogger : protected LoggerBase {
-			private:
+			protected:
 				/// <summary>
 				/// Target where log entries are written to. Must be derived from std::ostream
 				/// </summary>
@@ -32,7 +33,7 @@ namespace fli {
 				/// Writes a entry to m_destination.
 				/// </summary>
 				/// <param name="entry">Reference to entry to write to target.</param>
-				virtual void Log(LogEntry& entry);
+				virtual void Log(std::unique_ptr<LogEntry>&& entry);
 			};
 
 		}

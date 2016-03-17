@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "log_entry.hpp"
 
 namespace fli {
@@ -26,8 +28,8 @@ namespace fli {
 				/// <summary>
 				/// Interface for a Log operation.
 				/// </summary>
-				/// <param name="entry">Reference to entry to write to target.</param>
-				virtual void Log(LogEntry& entry) = 0;
+				/// <param name="entry">unique ptr</param>
+				virtual void Log(std::unique_ptr<LogEntry>&& entry) = 0;
 			};
 
 		}
