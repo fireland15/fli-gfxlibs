@@ -41,21 +41,18 @@ namespace fli {
 			void ConcurrentLogger::_write() {
 				while (m_shutdown.test_and_set()) {
 					std::unique_lock<std::mutex> lock(m_queueMutex);
-					//m_target << "** locked **" << std::endl;
+
 					while (m_writeQueue.empty()) {
-						//m_target << "** waiting **" << std::endl;
 						m_queueCond.wait(lock);
 						if (!m_shutdown.test_and_set())
 							return;
 					}
 
-					//m_target << "** done waiting **" << std::endl;
 					while (!m_writeQueue.empty()) {
 						std::unique_ptr<LogEntry> p = std::move(m_writeQueue.front());
 						m_writeQueue.pop();
 						m_target << p->ToString();
 					}
-					//m_target << "** unlocked **" << std::endl;
 				}
 			}
             
