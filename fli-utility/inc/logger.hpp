@@ -13,7 +13,7 @@ enum DbgLevel {
 	debug1,
 };
 
-#ifdef LOGGING
+#ifdef _DEBUG
 #define LOG(level, poster, msg) Logger::Instance()->Write(level, poster, msg)
 #else
 #define LOG(level, poster, msg)
