@@ -19,10 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\device.hpp" />
+    <ClInclude Include="include\Vulkan.hpp" />
+    <ClInclude Include="include\vk_platform.h" />
+    <ClInclude Include="include\vk_tostrings.hpp" />
+    <ClInclude Include="include\vulkan.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\device.cpp" />
+    <ClCompile Include="src\Vulkan.cpp" />
+    <ClCompile Include="src\vk_tostrings.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1B02884B-30AD-434C-A87C-9BCDB439E809}</ProjectGuid>
@@ -77,9 +81,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>F:\Documents\VS Projects\fli-gfxlibs\vulkan-renderer\include;F:\Documents\VS Projects\fli-gfxlibs\fli-utility\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Documents\VS Projects\fli-gfxlibs\vulkan-renderer\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>F:\Documents\VS Projects\fli-gfxlibs\vulkan-renderer\include;F:\Documents\VS Projects\fli-gfxlibs\fli-utility\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Documents\VS Projects\fli-gfxlibs\vulkan-renderer\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
