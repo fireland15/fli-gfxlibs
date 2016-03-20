@@ -11,6 +11,7 @@ namespace fli {
 			enum LogLvl {
 				err, // Only fatal errors are logged
 				wrn, // Warnings about possible problems and fatal errors are logged
+				trc, // Info about entering functions is logged
 				inf, // Info about application runtime state, warnings, and errors are logged
 				all, // All logging events are logged
 				non  // No information is logged
