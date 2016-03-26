@@ -80,7 +80,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>F:\Documents\VS Projects\fli-gfxlibs\vulkan-renderer\include;F:\Documents\VS Projects\fli-gfxlibs\fli-utility\inc;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\vulkan-renderer\include;$(SolutionDir)\fli-utility\inc;$(IncludePath)</IncludePath>
     <LibraryPath>F:\Documents\VS Projects\fli-gfxlibs\vulkan-renderer\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

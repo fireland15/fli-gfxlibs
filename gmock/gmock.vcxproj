@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>F:\Documents\VS Projects\fli-gfxlibs\gtest\include;F:\Documents\VS Projects\fli-gfxlibs\gmock\include;F:\Documents\VS Projects\fli-gfxlibs\gmock;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\gtest\include;$(SolutionDir)\gmock\include;$(SolutionDir)\gmock;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>F:\Documents\VS Projects\fli-gfxlibs\gtest\include;F:\Documents\VS Projects\fli-gfxlibs\gmock\include;F:\Documents\VS Projects\fli-gfxlibs\gmock;$(IncludePath)</IncludePath>
