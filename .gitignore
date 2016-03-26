@@ -34,6 +34,7 @@ Debug/
 .vs/
 .DS_Store
 *.xdc
-.txt
+*.txt
 
 /x64/
+*/x64/
