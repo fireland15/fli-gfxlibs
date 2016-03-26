@@ -19,12 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\exceptions\vk_exceptions.hpp" />
+    <ClInclude Include="include\vk_device.hpp" />
+    <ClInclude Include="include\vk_instance.hpp" />
     <ClInclude Include="include\Vulkan.hpp" />
     <ClInclude Include="include\vk_platform.h" />
     <ClInclude Include="include\vk_tostrings.hpp" />
     <ClInclude Include="include\vulkan.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\vk_instance.cpp" />
     <ClCompile Include="src\Vulkan.cpp" />
     <ClCompile Include="src\vk_tostrings.cpp" />
   </ItemGroup>
@@ -110,6 +114,10 @@
     <Link>
       <SubSystem>Windows</SubSystem>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>F:\Documents\VS Projects\fli-gfxlibs\vulkan-renderer\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libs/vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -142,6 +150,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>F:\Documents\VS Projects\fli-gfxlibs\vulkan-renderer\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libs/vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

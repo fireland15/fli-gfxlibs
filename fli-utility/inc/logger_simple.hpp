@@ -9,7 +9,7 @@ namespace fli {
 			/// <summary>
 			/// SimpleLogger class. Single threaded loggin to an ostream derived object.
 			/// </summary>
-			class SimpleLogger : protected LoggerBase {
+			class SimpleLogger : public LoggerBase {
 			protected:
 				/// <summary>
 				/// Target where log entries are written to. Must be derived from std::ostream

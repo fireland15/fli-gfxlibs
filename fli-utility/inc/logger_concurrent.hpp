@@ -12,7 +12,7 @@ namespace fli {
     namespace util {
         namespace log {
             
-            class ConcurrentLogger : protected LoggerBase {
+            class ConcurrentLogger : public LoggerBase {
             private:
 				std::queue<std::unique_ptr<LogEntry>> m_writeQueue;
 				std::mutex m_queueMutex;
