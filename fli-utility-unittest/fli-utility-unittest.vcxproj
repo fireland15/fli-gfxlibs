@@ -74,7 +74,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>F:\Documents\VS Projects\fli-gfxlibs\fli-utility;F:\Documents\VS Projects\fli-gfxlibs\gtest\include;F:\Documents\VS Projects\fli-gfxlibs\gtest;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\fli-utility;$(SolutionDir)\gtest\include;$(SolutionDir)\gtest;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
