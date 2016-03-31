@@ -18,6 +18,10 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\SystemBase.h" />
+    <ClInclude Include="include\WorldState.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{95529E31-C131-47AA-B1AC-D61DA37594DF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
