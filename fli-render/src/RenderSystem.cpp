@@ -12,7 +12,7 @@ void RenderSystem::Start() {
 
 }
 
-void RenderSystem::Update(WorldState& worldState, double time) {
+void RenderSystem::Update(Scene& worldState, double time) {
 
 }
 

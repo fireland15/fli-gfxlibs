@@ -27,8 +27,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\BatchPipeline.h" />
+    <ClInclude Include="include\DrawCall.h" />
+    <ClInclude Include="include\IBatchOptimizer.h" />
+    <ClInclude Include="include\IDrawCallGenerator.h" />
+    <ClInclude Include="include\IDrawCallOrganizer.h" />
+    <ClInclude Include="include\RenderBatch.h" />
+    <ClInclude Include="include\RenderPipelineBase.h" />
     <ClInclude Include="include\RenderSystem.h" />
     <ClInclude Include="src\RenderSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\BatchPipeline.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3F608799-053E-427E-99A9-A023D8A9E8CA}</ProjectGuid>
@@ -82,10 +92,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)\fli-utility\inc;$(SolutionDir)\fli-render\include;$(SolutionDir)\fli-core\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10586.0\um;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10586.0\shared;$(SolutionDir)\fli-utility\inc;$(SolutionDir)\fli-render\include;$(SolutionDir)\fli-core\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.10586.0\um\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)\fli-utility\inc;$(SolutionDir)\fli-render\include;$(SolutionDir)\fli-core\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10586.0\um;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10586.0\shared;$(SolutionDir)\fli-utility\inc;$(SolutionDir)\fli-render\include;$(SolutionDir)\fli-core\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.10586.0\um\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

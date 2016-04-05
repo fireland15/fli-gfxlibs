@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\SystemBase.h" />
-    <ClInclude Include="include\WorldState.h" />
+    <ClInclude Include="include\Scene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{95529E31-C131-47AA-B1AC-D61DA37594DF}</ProjectGuid>

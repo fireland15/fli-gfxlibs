@@ -1,6 +1,6 @@
 #pragma once
 
 //TODO: Temporary
-class WorldState {
+class Scene {
 
 };

@@ -13,10 +13,12 @@ private:
 	Configuration* m_pConfig;
 
 public:
+	RenderSystem();
+
 	void SetLogger(LoggerBase* pLogger);
 	void SetConfig(Configuration* pConfig);
 
 	virtual void Start();
-	virtual void Update(WorldState& worldState, double time);
+	virtual void Update(Scene& scene, double time);
 	virtual void Stop();
 };

@@ -74,14 +74,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\fli-utility\inc;$(SolutionDir)\vulkan-renderer\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\fli-render\include;$(SolutionDir)\fli-core\include;$(SolutionDir)\fli-utility\inc;$(SolutionDir)\vulkan-renderer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>F:\Documents\VS Projects\fli-gfxlibs\fli-utility\inc;F:\Documents\VS Projects\fli-gfxlibs\vulkan-renderer\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\fli-render\include;$(SolutionDir)\fli-core\include;F:\Documents\VS Projects\fli-gfxlibs\fli-utility\inc;F:\Documents\VS Projects\fli-gfxlibs\vulkan-renderer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -151,6 +151,12 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\fli-core\fli-core.vcxproj">
+      <Project>{95529e31-c131-47aa-b1ac-d61da37594df}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\fli-render\fli-render.vcxproj">
+      <Project>{3f608799-053e-427e-99a9-a023d8a9e8ca}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\fli-utility\fli-utility.vcxproj">
       <Project>{f5a44ead-f451-46a0-b622-5088b55578d9}</Project>
     </ProjectReference>
