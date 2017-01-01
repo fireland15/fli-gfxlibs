@@ -19,8 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\SystemBase.h" />
+    <ClInclude Include="include\DynamicRenderMeshComponent.h" />
+    <ClInclude Include="include\MisdirectContainer.h" />
+    <ClInclude Include="include\Handle.h" />
+    <ClInclude Include="include\Entity.h" />
     <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="include\IContainer.h" />
+    <ClInclude Include="include\StaticRenderMeshComponent.h" />
+    <ClInclude Include="include\TransformComponent.h" />
+    <ClInclude Include="include\SystemBase.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{95529E31-C131-47AA-B1AC-D61DA37594DF}</ProjectGuid>
@@ -73,7 +80,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(ProjectDir)\include;$(SolutionDir)\glm\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fli-utility", "fli-utility\fli-utility.vcxproj", "{F5A44EAD-F451-46A0-B622-5088B55578D9}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fli-render", "fli-render\fli-render.vcxproj", "{3F608799-053E-427E-99A9-A023D8A9E8CA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fli-core", "fli-core\fli-core.vcxproj", "{95529E31-C131-47AA-B1AC-D61DA37594DF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fli-core-tests", "fli-core-tests\fli-core-tests.vcxproj", "{2649287C-44B2-4277-9208-E46DB73CB6C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,14 @@ Global
 		{95529E31-C131-47AA-B1AC-D61DA37594DF}.Release|x64.Build.0 = Release|x64
 		{95529E31-C131-47AA-B1AC-D61DA37594DF}.Release|x86.ActiveCfg = Release|Win32
 		{95529E31-C131-47AA-B1AC-D61DA37594DF}.Release|x86.Build.0 = Release|Win32
+		{2649287C-44B2-4277-9208-E46DB73CB6C8}.Debug|x64.ActiveCfg = Debug|x64
+		{2649287C-44B2-4277-9208-E46DB73CB6C8}.Debug|x64.Build.0 = Debug|x64
+		{2649287C-44B2-4277-9208-E46DB73CB6C8}.Debug|x86.ActiveCfg = Debug|Win32
+		{2649287C-44B2-4277-9208-E46DB73CB6C8}.Debug|x86.Build.0 = Debug|Win32
+		{2649287C-44B2-4277-9208-E46DB73CB6C8}.Release|x64.ActiveCfg = Release|x64
+		{2649287C-44B2-4277-9208-E46DB73CB6C8}.Release|x64.Build.0 = Release|x64
+		{2649287C-44B2-4277-9208-E46DB73CB6C8}.Release|x86.ActiveCfg = Release|Win32
+		{2649287C-44B2-4277-9208-E46DB73CB6C8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
