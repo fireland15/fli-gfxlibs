@@ -27,7 +27,13 @@
     <ClInclude Include="include\IContainer.h" />
     <ClInclude Include="include\StaticRenderMeshComponent.h" />
     <ClInclude Include="include\TransformComponent.h" />
-    <ClInclude Include="include\SystemBase.h" />
+    <ClInclude Include="include\ISystem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Handle.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{95529E31-C131-47AA-B1AC-D61DA37594DF}</ProjectGuid>

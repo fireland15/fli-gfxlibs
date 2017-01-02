@@ -12,7 +12,7 @@ namespace fli {
 	namespace gfx {
 		namespace core {
 			template<typename T>
-			class MisdirectContainer : public IContainer<T> {
+			class MisdirectContainer : public IContainerT<T> {
 			private:
 				std::vector<T> m_storage;
 				std::map<Handle, size_t> m_handleMap;
@@ -25,7 +25,7 @@ namespace fli {
 
 				virtual T& Get(const Handle& handle) {
 					if (m_handleMap.count(handle) == 0) {
-						throw std::exception("Component handle not mapped.");
+						throw std::exception("Handle not mapped.");
 					}
 
 					size_t index = m_handleMap[handle];
@@ -54,7 +54,7 @@ namespace fli {
 
 				virtual void Remove(Handle& handle) {
 					if (m_handleMap.count(handle) == 0) {
-						throw std::exception("Component handle not mapped");
+						throw std::exception("Handle not mapped");
 					}
 
 					size_t indexToDelete = m_handleMap[handle];

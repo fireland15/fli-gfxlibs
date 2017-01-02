@@ -8,15 +8,11 @@ namespace fli {
 				int m_value;
 
 			public:
-				Handle()
-					: m_value(-1) { }
+				Handle();
 
-				Handle(int value)
-					: m_value(value) { }
+				Handle(int value);
 
-				bool IsValid() {
-					return m_value >= 0;
-				}
+				bool IsValid();
 
 				inline bool operator==(const Handle rhs) const {
 					return m_value == rhs.m_value;
@@ -34,16 +30,9 @@ namespace fli {
 					return m_value < rhs.m_value;
 				}
 
-				Handle operator++() {
-					m_value++;
-					return *this;
-				}
+				Handle operator++();
 
-				Handle operator++(int) {
-					Handle h(m_value);
-					m_value++;
-					return h;
-				}
+				Handle operator++(int);
 			};
 		}
 	}

@@ -5,8 +5,10 @@
 namespace fli {
 	namespace gfx {
 		namespace core {
+			class IContainer { };
+
 			template<typename T>
-			class IContainer {
+			class IContainerT : public IContainer {
 			public:
 				virtual T& Get(const Handle&) = 0;
 				virtual Handle Add(T) = 0;

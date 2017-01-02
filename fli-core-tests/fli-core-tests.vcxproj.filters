@@ -29,7 +29,10 @@
     <ClCompile Include="ComponentContainerTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EntityContainerTests.cpp">
+    <ClCompile Include="EntityTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
