@@ -9,7 +9,7 @@ namespace fli {
 	namespace gfx {
 		namespace core {
 			template<typename TComponent>
-			class MockComponentContainer : public IContainer<TComponent> {
+			class MockComponentContainer : public IContainerT<TComponent> {
 				virtual TComponent& Get(const Handle&) {
 					return TComponent();
 				}

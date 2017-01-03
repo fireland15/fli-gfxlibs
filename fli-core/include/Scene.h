@@ -20,27 +20,38 @@ namespace fli {
 
 			class Scene {
 			private:
-				bool m_allocContainers = false;
-				std::unordered_map<std::type_index, IContainer&> m_components;
+				std::unordered_map<std::type_index, bool> m_allocations;
+				std::unordered_map<std::type_index, IContainer*> m_components;
 				IContainerT<Entity>& m_entities;
+				bool m_allocatedEntitiesContainer = false;
 
 			public:
 				Scene()
 					: m_entities(*(new MisdirectContainer<Entity>())) {
-					m_components[typeid(TransformComponent)] = *(new MisdirectContainer<TransformComponent>());
-					m_components[typeid(StaticRenderMeshComponent)] = *(new MisdirectContainer<StaticRenderMeshComponent>());
-					m_components[typeid(DynamicRenderMeshComponent)] = *(new MisdirectContainer<DynamicRenderMeshComponent>());
+						m_allocatedEntitiesContainer = true;
+
+						AllocateContainer<MisdirectContainer, TransformComponent>();
+						AllocateContainer<MisdirectContainer, StaticRenderMeshComponent>();
+						AllocateContainer<MisdirectContainer, DynamicRenderMeshComponent>();
+						
+						/*m_components[typeid(TransformComponent)] = *(new MisdirectContainer<TransformComponent>());
+						m_allocations[typeid(TransformComponent)] = true;
+
+						m_components[typeid(StaticRenderMeshComponent)] = *(new MisdirectContainer<StaticRenderMeshComponent>());
+						m_allocations[typeid(StaticRenderMeshComponent)] = true;
+
+						m_components[typeid(DynamicRenderMeshComponent)] = *(new MisdirectContainer<DynamicRenderMeshComponent>());
+						m_allocations[typeid(DynamicRenderMeshComponent)] = true;*/
 				}
 
 				~Scene() {
-					if (m_allocContainers) {
-						delete & m_transformComponents;
-						delete & m_staticRenderMeshComponents;
-						delete & m_dynamicRenderMeshComponents;
-						delete & m_entities;
+					for (auto x : m_components) {
+						if (m_allocations.count(x.first) > 0 && m_allocations[x.first]) {
+							delete m_components[x.first];
+						}
 					}
 				}
-
+				
 				EntityKey CreateEntity() {
 					Entity newEntity;
 					return m_entities.Add(newEntity);
@@ -51,8 +62,6 @@ namespace fli {
 				}
 
 				void DeleteEntity(EntityKey& key) {
-					DeleteTransformComponentFor(key);
-
 					m_entities.Remove(key);
 				}
 
@@ -70,93 +79,25 @@ namespace fli {
 					if (!entity.HasComponent<TComponent>()) {
 						throw std::exception("Cannot get component. Handle is invalid.");
 					}
-					return entity.GetComponent<TComponent>();
+					Handle h = entity.GetComponent<TComponent>();
+
+					IContainer* c = m_components[typeid(TComponent)];
+					IContainerT<TComponent>* container = static_cast<IContainerT<TComponent>>(c);
+					return container->Get(h);
 				}
 
 				template<typename TComponent>
 				void AddComponentFor(const EntityKey entityKey, TComponent component) {
-					Handle h = m_transformComponents.Add(component);
-					m_entities.Get(entityKey).hTransform = h;
+					/*Handle h = m_transformComponents.Add(component);
+					m_entities.Get(entityKey).hTransform = h;*/
 				}
 
 				template<typename TComponent>
 				void DeleteComponentFor(const EntityKey entityKey) {
-					Handle h = m_entities.Get(entityKey).hTransform;
+					/*Handle h = m_entities.Get(entityKey).hTransform;
 					if (h.IsValid()) {
 						m_transformComponents.Remove(h);
-					}
-				}
-
-				/*************************************************************
-				* Transform Component Methods
-				**************************************************************/
-
-				TransformComponent& GetTransformComponentFor(const EntityKey entityKey) {
-					Entity entity = m_entities.Get(entityKey);
-					if (!entity.hTransform.IsValid()) {
-						throw std::exception("Cannot get component. Handle is invalid.");
-					}
-					return m_transformComponents.Get(entity.hTransform);
-				}
-
-				void AddComponentFor(const EntityKey entityKey, TransformComponent component) {
-					Handle h = m_transformComponents.Add(component);
-					m_entities.Get(entityKey).hTransform = h;
-				}
-
-				void DeleteTransformComponentFor(const EntityKey entityKey) {
-					Handle h = m_entities.Get(entityKey).hTransform;
-					if (h.IsValid()) {
-						m_transformComponents.Remove(h);
-					}
-				}
-
-				/*************************************************************
-				* Dynamic Render Mesh Component Methods
-				**************************************************************/
-
-				DynamicRenderMeshComponent& GetDynamicRenderMeshComponentFor(const EntityKey key) {
-					Entity entity = m_entities.Get(key);
-					if (!entity.hDynamicRenderMesh.IsValid()) {
-						throw std::exception("Cannot get component. Handle is invalid.");
-					}
-					return m_dynamicRenderMeshComponents.Get(entity.hDynamicRenderMesh);
-				}
-
-				void AddComponentFor(const EntityKey key, DynamicRenderMeshComponent component) {
-					Handle h = m_dynamicRenderMeshComponents.Add(component);
-					m_entities.Get(key).hDynamicRenderMesh = h;
-				}
-
-				void DeleteDynamicRenderMeshComponentFor(const EntityKey key) {
-					Handle h = m_entities.Get(key).hDynamicRenderMesh;
-					if (h.IsValid()) {
-						m_dynamicRenderMeshComponents.Remove(h);
-					}
-				}
-
-				/*************************************************************
-				* Static Render Mesh Component Methods
-				**************************************************************/
-
-				StaticRenderMeshComponent& GetStaticRenderMeshComponentFor(const EntityKey key) {
-					Entity entity = m_entities.Get(key);
-					if (!entity.hStaticRenderMesh.IsValid()) {
-						throw std::exception("Cannot get component. Handle is invalid.");
-					}
-					return m_staticRenderMeshComponents.Get(entity.hStaticRenderMesh);
-				}
-
-				void AddComponentFor(const EntityKey key, StaticRenderMeshComponent component) {
-					Handle h = m_staticRenderMeshComponents.Add(component);
-					m_entities.Get(key).hStaticRenderMesh = h;
-				}
-
-				void DeleteStaticRenderMeshComponentFor(const EntityKey key) {
-					Handle h = m_entities.Get(key).hStaticRenderMesh;
-					if (h.IsValid()) {
-						m_staticRenderMeshComponents.Remove(h);
-					}
+					}*/
 				}
 
 				/*************************************************************
@@ -165,6 +106,21 @@ namespace fli {
 
 				std::vector<EntityKey> GetEntitiesWhere(std::function<bool(Entity)> predicate) {
 					return m_entities.Filter(predicate);
+				}
+
+			private:
+				template<template<typename> class TContainer, typename T>
+				void AllocateContainer() {
+					// Clean up old container before allocating a new one if there is an old container
+					// Todo: May be necessary to copy contents over one day.
+					if (m_components.count(typeid(T)) > 0) {
+						if (m_allocations[typeid(T)] == true) {
+							delete m_components[typeid(T)];
+						}
+					}
+
+					m_components[typeid(T)] = new TContainer<T>();
+					m_allocations[typeid(T)] = true;
 				}
 			};
 		}
