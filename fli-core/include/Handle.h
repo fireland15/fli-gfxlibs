@@ -33,6 +33,8 @@ namespace fli {
 				Handle operator++();
 
 				Handle operator++(int);
+
+				static inline Handle Default() { return Handle(); }
 			};
 		}
 	}

@@ -27,6 +27,11 @@ namespace fli {
 				void AddComponent(Handle h) {
 					m_componentHandles[typeid(T)] = h;
 				}
+
+				template<typename T>
+				void DeleteComponent() {
+					m_componentHandles.erase(typeid(T));
+				}
 			};
 		}
 	}

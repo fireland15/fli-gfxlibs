@@ -5,7 +5,10 @@
 namespace fli {
 	namespace gfx {
 		namespace core {
-			class IContainer { };
+			class IContainer { 
+			public:
+				virtual ~IContainer() { }
+			};
 
 			template<typename T>
 			class IContainerT : public IContainer {

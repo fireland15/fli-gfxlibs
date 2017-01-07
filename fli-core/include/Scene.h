@@ -29,24 +29,11 @@ namespace fli {
 				Scene()
 					: m_entities(*(new MisdirectContainer<Entity>())) {
 						m_allocatedEntitiesContainer = true;
-
-						AllocateContainer<MisdirectContainer, TransformComponent>();
-						AllocateContainer<MisdirectContainer, StaticRenderMeshComponent>();
-						AllocateContainer<MisdirectContainer, DynamicRenderMeshComponent>();
-						
-						/*m_components[typeid(TransformComponent)] = *(new MisdirectContainer<TransformComponent>());
-						m_allocations[typeid(TransformComponent)] = true;
-
-						m_components[typeid(StaticRenderMeshComponent)] = *(new MisdirectContainer<StaticRenderMeshComponent>());
-						m_allocations[typeid(StaticRenderMeshComponent)] = true;
-
-						m_components[typeid(DynamicRenderMeshComponent)] = *(new MisdirectContainer<DynamicRenderMeshComponent>());
-						m_allocations[typeid(DynamicRenderMeshComponent)] = true;*/
 				}
 
 				~Scene() {
 					for (auto x : m_components) {
-						if (m_allocations.count(x.first) > 0 && m_allocations[x.first]) {
+						if (m_allocations.count(x.first) > 0 && m_allocations[x.first] == true) {
 							delete m_components[x.first];
 						}
 					}
@@ -75,29 +62,39 @@ namespace fli {
 
 				template<typename TComponent>
 				TComponent& GetComponentFor(const EntityKey entityKey) {
-					Entity entity = m_entities.Get(entityKey);
+					Entity& entity = m_entities.Get(entityKey);
 					if (!entity.HasComponent<TComponent>()) {
-						throw std::exception("Cannot get component. Handle is invalid.");
+						throw std::exception("Cannot get component. Entity does not have component.");
 					}
 					Handle h = entity.GetComponent<TComponent>();
-
-					IContainer* c = m_components[typeid(TComponent)];
-					IContainerT<TComponent>* container = static_cast<IContainerT<TComponent>>(c);
+					IContainerT<TComponent>* container = GetContainerFor<TComponent>();
 					return container->Get(h);
 				}
 
 				template<typename TComponent>
 				void AddComponentFor(const EntityKey entityKey, TComponent component) {
-					/*Handle h = m_transformComponents.Add(component);
-					m_entities.Get(entityKey).hTransform = h;*/
+					Entity& entity = m_entities.Get(entityKey);
+					if (entity.HasComponent<TComponent>()) {
+						throw std::exception("Cannot add component to entity. Not implemented.");
+						// Todo: Remove old component and replace with new one
+						// or copy contents
+					}
+					IContainerT<TComponent>* container = GetContainerFor<TComponent>();
+					Handle h = container->Add(component);
+					entity.AddComponent<TComponent>(h);
 				}
 
 				template<typename TComponent>
 				void DeleteComponentFor(const EntityKey entityKey) {
-					/*Handle h = m_entities.Get(entityKey).hTransform;
-					if (h.IsValid()) {
-						m_transformComponents.Remove(h);
-					}*/
+					Entity& entity = m_entities.Get(entityKey);
+					if (!entity.HasComponent<TComponent>()) {
+						// Todo: decide what happens here
+						throw std::exception("Cannot delete component from entity that does not have component");
+					}
+					Handle h = entity.GetComponent<TComponent>();
+					entity.DeleteComponent<TComponent>();
+					IContainerT<TComponent>* container = GetContainerFor<TComponent>();
+					container->Remove(h);
 				}
 
 				/*************************************************************
@@ -108,9 +105,37 @@ namespace fli {
 					return m_entities.Filter(predicate);
 				}
 
+				/*************************************************************
+				* Component Container Assignment Methods
+				**************************************************************/
+
+				template<typename TComponent>
+				bool IsComponentInScene() {
+					return m_components.count(typeid(TComponent)) > 0;
+				}
+
+				template<template<typename> class TContainer, typename TComponent>
+				void AddComponent() {
+					if (IsComponentInScene<TComponent>()) {
+						throw std::exception("Component is already in scene.");
+					}
+					AllocateContainer<TContainer, TComponent>();
+				}
+
+				template<typename TComponent>
+				void AddComponent() {
+					if (IsComponentInScene<TComponent>()) {
+						throw std::exception("Component is already in scene.");
+					}
+					AllocateContainer<MisdirectContainer, TComponent>();
+				}
+
+
 			private:
 				template<template<typename> class TContainer, typename T>
 				void AllocateContainer() {
+					static_assert(std::is_base_of<IContainer, TContainer<T>>::value, "TContainer must inherit from fli::gfx::core::IContainer");
+
 					// Clean up old container before allocating a new one if there is an old container
 					// Todo: May be necessary to copy contents over one day.
 					if (m_components.count(typeid(T)) > 0) {
@@ -119,8 +144,13 @@ namespace fli {
 						}
 					}
 
-					m_components[typeid(T)] = new TContainer<T>();
+					m_components[typeid(T)] = static_cast<IContainer*>(new TContainer<T>());
 					m_allocations[typeid(T)] = true;
+				}
+
+				template<typename TComponent>
+				inline IContainerT<TComponent>* GetContainerFor() {
+					return static_cast<IContainerT<TComponent>*>(m_components[typeid(TComponent)]);
 				}
 			};
 		}

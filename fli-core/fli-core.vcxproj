@@ -19,7 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Clock.h" />
     <ClInclude Include="include\DynamicRenderMeshComponent.h" />
+    <ClInclude Include="include\Engine.h" />
+    <ClInclude Include="include\IRenderer.h" />
     <ClInclude Include="include\MisdirectContainer.h" />
     <ClInclude Include="include\Handle.h" />
     <ClInclude Include="include\Entity.h" />
@@ -34,6 +37,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\fli-utility\fli-utility.vcxproj">
+      <Project>{f5a44ead-f451-46a0-b622-5088b55578d9}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{95529E31-C131-47AA-B1AC-D61DA37594DF}</ProjectGuid>
@@ -87,7 +95,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)\include;$(SolutionDir)\glm\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\fli-core\include;$(SolutionDir)\glm;$(SolutionDir)\fli-utility\inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)\fli-core\include;$(SolutionDir)\glm;$(SolutionDir)\fli-utility\inc;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

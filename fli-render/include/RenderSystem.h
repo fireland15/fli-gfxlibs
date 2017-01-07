@@ -18,7 +18,7 @@ public:
 	void SetLogger(LoggerBase* pLogger);
 	void SetConfig(Configuration* pConfig);
 
-	virtual void Start();
+	virtual void Initialize();
 	virtual void Update(Scene& scene, double time);
 	virtual void Stop();
 };

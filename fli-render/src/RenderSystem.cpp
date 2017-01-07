@@ -8,7 +8,7 @@ void RenderSystem::SetConfig(Configuration* pConfig) {
 	m_pConfig = pConfig;
 }
 
-void RenderSystem::Start() {
+void RenderSystem::Initialize() {
 
 }
 
