@@ -158,6 +158,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ClockTests.cpp" />
     <ClCompile Include="EngineTests.cpp" />
     <ClCompile Include="SceneTests.cpp" />
     <ClCompile Include="EntityTests.cpp" />
