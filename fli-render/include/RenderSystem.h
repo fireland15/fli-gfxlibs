@@ -1,24 +1,50 @@
 #pragma once
 
-#include "SystemBase.h"
-#include "logger_base.hpp"
-#include "configuration.hpp"
+#include <IRenderer.h>
+#include <OpenGlContext.h>
+#include <Scene.h>
+#include <logger_base.hpp>
+#include <configuration.hpp>
+
+#include <TransformComponent.h>
 
 typedef fli::util::log::LoggerBase LoggerBase;
 typedef fli::util::config::Configuration Configuration;
 
-class RenderSystem : public SystemBase {
-private:
-	LoggerBase* m_pLogger;
-	Configuration* m_pConfig;
+namespace fli {
+	namespace gfx {
+		namespace render {
+			class RenderSystem : public core::IRenderer {
+			private:
+				LoggerBase* m_pLogger;
+				Configuration* m_pConfig;
 
-public:
-	RenderSystem();
+				OpenGlContext m_context;
 
-	void SetLogger(LoggerBase* pLogger);
-	void SetConfig(Configuration* pConfig);
+			public:
+				RenderSystem(OpenGlContext context)
+					: m_context(context) { }
 
-	virtual void Initialize();
-	virtual void Update(Scene& scene, double time);
-	virtual void Stop();
-};
+				void SetLogger(LoggerBase* pLogger);
+				void SetConfig(Configuration* pConfig);
+
+				virtual void Setup(core::Scene& scene, util::config::Configuration & config) override {
+					if (!scene.IsComponentInScene<core::TransformComponent>()) {
+						scene.AddComponent<core::TransformComponent>();
+					}
+					if (!scene.IsComponentInScene<core::DynamicRenderMeshComponent>()) {
+						scene.AddComponent<core::DynamicRenderMeshComponent>();
+					}
+					if (!scene.IsComponentInScene<core::StaticRenderMeshComponent>()) {
+						scene.AddComponent<core::StaticRenderMeshComponent>();
+					}
+				}
+
+				virtual void Initialize() override;
+				virtual void Update(core::Scene& scene, double time) override;
+				virtual void Render(core::Scene& scene, double time) override;
+				virtual void Stop() override;
+			};
+		}
+	}
+}

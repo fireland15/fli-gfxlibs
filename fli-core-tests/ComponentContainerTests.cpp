@@ -66,7 +66,7 @@ namespace fli {
 					MisdirectContainer<int> container;
 					Handle h[5];
 					for (int i = 0; i < 5; i++) {
-						h[i] = container.Add(i + 2);
+						h[i] = container.Add(i);
 					}
 
 					Assert::AreEqual(container.Size(), (size_t)5);

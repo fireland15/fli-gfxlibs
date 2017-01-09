@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "ISystem.h"
 #include "IRenderer.h"
+#include "Clock.h"
 
 namespace fli {
 	namespace gfx {
@@ -17,6 +18,7 @@ namespace fli {
 				std::list<ISystem*> m_systems;
 				std::list<IRenderer*> m_renderers;
 				Scene m_scene;
+				Clock m_clock;
 
 				bool m_run = false;
 
@@ -46,29 +48,60 @@ namespace fli {
 				**************************************************************/
 
 				void Run() {
-					double timestep = 30.0;
 					m_run = true;
+					Clock::Timepoint t = m_clock.Now();
+					Clock::Duration dt = m_clock.TimeFromEpoch(t);
 
-					// Todo: Find out how to do loop more betterer
 					while (m_run) {
-						UpdateSystems(timestep);
-						Render(timestep);
+						double milliseconds = dt.Milliseconds();
+
+						UpdateSystems(milliseconds);
+						Render(milliseconds);
+
+						dt = m_clock.Now() - t;
+						t = m_clock.Now();
 					}
 				}
 
+				/// Allows for a custom loop to be implemented from outside the engine class.
 				void Run(std::function<void(Engine&)> mainLoop) {
 					mainLoop(*this);
 				}
 
+				/// <summary>
+				/// Calls each system's Update() method.
+				/// </summary>
+				/// <param name="time">The number of milliseconds to simulate in each system.</param>
 				void UpdateSystems(double time) {
 					for (ISystem* s : m_systems) {
 						s->Update(m_scene, time);
 					}
 				}
 
+				/// <summary>
+				/// Calls each renderers render method.
+				/// </summary>
+				/// <param name="time">The number of milliseconds in the current timestep.</param>
 				void Render(double time) {
 					for (IRenderer* r : m_renderers) {
 						r->Render(m_scene, time);
+					}
+				}
+
+				/// <summary>
+				/// Returns the current timepoint for the engine's clock.
+				/// </summary>
+				Clock::Timepoint Now() {
+					return m_clock.Now();
+				}
+
+				void Stop() {
+					for (ISystem* s : m_systems) {
+						s->Stop();
+					}
+
+					for (IRenderer* r : m_renderers) {
+						r->Stop();
 					}
 				}
 

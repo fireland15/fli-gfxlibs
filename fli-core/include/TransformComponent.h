@@ -34,17 +34,17 @@ namespace fli {
 
 				Scale GetScale() { return m_scale; }
 
-				void SetPosition(const Position p) {
+				void SetPosition(const Position& p) {
 					m_position = p;
 					UpdateModelMatrix();
 				}
 
-				void SetOrientation(const Orientation o) {
+				void SetOrientation(const Orientation& o) {
 					m_orientation = o;
 					UpdateModelMatrix();
 				}
 
-				void SetOrientation(const Scale s) {
+				void SetOrientation(const Scale& s) {
 					m_scale = s;
 					UpdateModelMatrix();
 				}

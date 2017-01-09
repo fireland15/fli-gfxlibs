@@ -36,7 +36,7 @@ namespace fli {
 					return m_storage[index];
 				}
 
-				virtual Handle Add(T component) {
+				virtual Handle Add(T&& component) {
 					size_t insertIndex = m_storage.size();
 					m_storage.push_back(component);
 

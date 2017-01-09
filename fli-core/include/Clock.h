@@ -45,9 +45,9 @@ namespace fli {
 					Duration(LARGE_INTEGER, LARGE_INTEGER, LARGE_INTEGER);
 
 				public:
-					float Microseconds();
-					float Milliseconds();
-					float Seconds();
+					double Microseconds();
+					double Milliseconds();
+					double Seconds();
 
 					friend Duration Timepoint::operator-(const Timepoint&);
 					friend Duration Timepoint::operator-(const Timepoint&) const;

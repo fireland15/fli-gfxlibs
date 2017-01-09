@@ -47,17 +47,6 @@ namespace fli {
 					Engine e = Engine(util::config::Configuration(cfgrdr));
 				}
 
-				TEST_METHOD(TestConstructionFailedConfig) {
-					MockConfigReader cfgrdr;
-					cfgrdr.Add("timestepwrong", "30.0");
-
-					auto func = [&cfgrdr] {
-						Engine e = Engine(util::config::Configuration(cfgrdr)); 
-					};
-
-					Assert::ExpectException<std::exception>(func);
-				}
-
 				TEST_METHOD(InitializeCallsSetupForEachSystem) {
 					MockConfigReader cfgrdr;
 					cfgrdr.Add("timestep", "30.0");

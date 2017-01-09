@@ -42,6 +42,12 @@
     <ClInclude Include="include\RenderBatch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\OpenGlContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BatchPipeline.cpp">

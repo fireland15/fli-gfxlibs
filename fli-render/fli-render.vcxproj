@@ -32,9 +32,11 @@
     <ClInclude Include="include\IBatchOptimizer.h" />
     <ClInclude Include="include\IDrawCallGenerator.h" />
     <ClInclude Include="include\IDrawCallOrganizer.h" />
+    <ClInclude Include="include\OpenGlContext.h" />
     <ClInclude Include="include\RenderBatch.h" />
     <ClInclude Include="include\RenderPipelineBase.h" />
     <ClInclude Include="include\RenderSystem.h" />
+    <ClInclude Include="include\Window.h" />
     <ClInclude Include="src\RenderSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -51,7 +53,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -64,7 +66,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -92,12 +94,15 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10586.0\um;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10586.0\shared;$(SolutionDir)\fli-utility\inc;$(SolutionDir)\fli-render\include;$(SolutionDir)\fli-core\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.10586.0\um\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\glm;$(SolutionDir)\glew\include;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10586.0\um;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10586.0\shared;$(SolutionDir)\fli-utility\inc;$(SolutionDir)\fli-render\include;$(SolutionDir)\fli-core\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\fli-gfxlibs\glew\bin\Debug\Win32;C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.10586.0\um\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10586.0\um;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.10586.0\shared;$(SolutionDir)\fli-utility\inc;$(SolutionDir)\fli-render\include;$(SolutionDir)\fli-core\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.10586.0\um\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)fli-render\include;$(SolutionDir)glew\include;$(SolutionDir)fli-core\include;$(SolutionDir)fli-utility\include;$(SolutionDir)glm;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

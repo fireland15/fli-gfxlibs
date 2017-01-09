@@ -22,22 +22,22 @@ namespace fli {
 				, m_end(end)
 				, m_frequency(frequency) { }
 
-			float Clock::Duration::Microseconds() {
+			double Clock::Duration::Microseconds() {
 				LARGE_INTEGER dif;
 				dif.QuadPart = m_end.QuadPart - m_begin.QuadPart;
-				return ((float) dif.QuadPart * 1000000) / m_frequency.QuadPart;
+				return ((double) dif.QuadPart * 1000000) / m_frequency.QuadPart;
 			}
 
-			float Clock::Duration::Milliseconds() {
+			double Clock::Duration::Milliseconds() {
 				LARGE_INTEGER dif;
 				dif.QuadPart = m_end.QuadPart - m_begin.QuadPart;
-				return ((float)dif.QuadPart * 1000) / m_frequency.QuadPart;
+				return ((double) dif.QuadPart * 1000) / m_frequency.QuadPart;
 			}
 
-			float Clock::Duration::Seconds() {
+			double Clock::Duration::Seconds() {
 				LARGE_INTEGER dif;
 				dif.QuadPart = m_end.QuadPart - m_begin.QuadPart;
-				return (float) dif.QuadPart / m_frequency.QuadPart;
+				return (double) dif.QuadPart / m_frequency.QuadPart;
 			}
 
 			Clock::Clock() {

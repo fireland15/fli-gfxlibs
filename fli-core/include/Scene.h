@@ -72,7 +72,7 @@ namespace fli {
 				}
 
 				template<typename TComponent>
-				void AddComponentFor(const EntityKey entityKey, TComponent component) {
+				void AddComponentFor(const EntityKey& entityKey, TComponent component) {
 					Entity& entity = m_entities.Get(entityKey);
 					if (entity.HasComponent<TComponent>()) {
 						throw std::exception("Cannot add component to entity. Not implemented.");
