@@ -18,7 +18,13 @@ namespace fli {
 					int x = 23231 + 343434;
 					Clock::Timepoint t3 = c.Now();
 					Clock::Duration d1 = c.TimeFromNow(t1);
-					float microseconds = d1.Milliseconds();
+					float microsecond = d1.Microseconds();
+					float miliseconds = d1.Milliseconds();
+					float seconds = d1.Seconds();
+
+
+					Clock::Duration d2 = c.TimeFromEpoch(c.Now());
+					float m2 = d2.Microseconds();
 				}
 			};
 		}
