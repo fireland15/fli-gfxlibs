@@ -4,8 +4,8 @@
 namespace fli {
 	namespace gfx {
 		namespace render {
-			OpenGlContext::OpenGlContext(Window& window)
-				: m_window(window) {
+			OpenGlContext::OpenGlContext(HWND hWnd)
+				: m_hWnd(hWnd) {
 				InitializeGlew();
 				InitializeOpenGl();
 			}
@@ -13,11 +13,19 @@ namespace fli {
 			OpenGlContext::~OpenGlContext() {
 				wglMakeCurrent(m_hDc, 0);
 				wglDeleteContext(m_hRc);
-				ReleaseDC(m_window.GetHWnd(), m_hDc);
+				ReleaseDC(m_hWnd, m_hDc);
 			}
 
 			void OpenGlContext::Present() {
 				SwapBuffers(m_hDc);
+			}
+
+			int OpenGlContext::MajorVersion() {
+				return m_contextVersionMajor;
+			}
+
+			int OpenGlContext::MinorVersion() {
+				return m_contextVersionMinor;
 			}
 
 			void OpenGlContext::InitializeGlew() {
@@ -87,7 +95,7 @@ namespace fli {
 			}
 
 			void OpenGlContext::InitializeOpenGl() {
-				m_hDc = GetDC(m_window.GetHWnd());
+				m_hDc = GetDC(m_hWnd);
 
 				int pixelFormat;
 
@@ -125,10 +133,9 @@ namespace fli {
 				if (!wglMakeCurrent(m_hDc, m_hRc)) {
 					throw std::exception("Failed to make render context current.");
 				}
-								
-				int v[2];
-				glGetIntegerv(GL_MAJOR_VERSION, &v[0]);
-				glGetIntegerv(GL_MINOR_VERSION, &v[1]);
+				
+				glGetIntegerv(GL_MAJOR_VERSION, &m_contextVersionMajor);
+				glGetIntegerv(GL_MINOR_VERSION, &m_contextVersionMinor);
 			}
 		}
 	}

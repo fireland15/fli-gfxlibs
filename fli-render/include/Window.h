@@ -8,6 +8,8 @@
 #include <functional>
 #include <glm.hpp>
 
+#include "OpenGlContext.h"
+
 namespace fli {
 	namespace gfx {
 		namespace render {
@@ -22,12 +24,25 @@ namespace fli {
 				std::function<void(UINT, WPARAM, LPARAM)>* mp_msgCallback;
 				bool m_shouldClose = false;
 
+				OpenGlContext* mp_context;
+
 			public:
 				Window(HINSTANCE hInstance, std::string title, glm::uvec2 screenPosition, glm::uvec2 size)
 					: m_screenPosition(screenPosition)
 					, m_size(size)
 					, m_title(title)
-					, mp_msgCallback(nullptr) {
+					, mp_msgCallback(nullptr) 
+					, mp_context(nullptr) {
+					Create(hInstance);
+				}
+
+				~Window() {
+					if (mp_msgCallback) {
+						delete mp_msgCallback;
+					}
+					if (mp_context) {
+						delete mp_context;
+					}
 				}
 
 				void Create(HINSTANCE hInstance) {
@@ -70,16 +85,21 @@ namespace fli {
 					m_hWnd = hWnd;
 				}
 
-				void Show() {
-					ShowWindow(m_hWnd, SW_SHOW);
-				}
-
 				HWND GetHWnd() {
 					return m_hWnd;
 				}
 
 				bool ShouldClose() {
 					return m_shouldClose;
+				}
+
+				/*************************************************************
+				* Rendering Context Creation
+				**************************************************************/
+
+				OpenGlContext* GetOpenGlContext() {
+					CreateOpenGlContext();
+					return mp_context;
 				}
 
 				/*************************************************************
@@ -136,6 +156,11 @@ namespace fli {
 					}
 
 					return DefWindowProc(hWnd, msg, wParam, lParam);
+				}
+
+			private:
+				void CreateOpenGlContext() {
+					mp_context = new OpenGlContext(m_hWnd);
 				}
 			};
 		}

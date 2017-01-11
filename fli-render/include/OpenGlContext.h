@@ -5,12 +5,11 @@
 
 #include <Windows.h>
 #include <assert.h>
+#include <exception>
 
 #include <gl/glew.h>
 #include <gl/wglew.h>
 #include <gl/GL.h>
-
-#include "Window.h"
 
 #pragma comment(lib, "opengl32.lib") 
 
@@ -21,15 +20,21 @@ namespace fli {
 			private:
 				HDC m_hDc;
 				HGLRC m_hRc;
+				HWND m_hWnd;
 
-				Window& m_window;
+				int m_contextVersionMajor;
+				int m_contextVersionMinor;
 
 			public:
-				OpenGlContext(Window& window);
+				OpenGlContext(HWND hWnd);
 
 				~OpenGlContext();
 
 				void Present();
+
+				int MajorVersion();
+
+				int MinorVersion();
 
 			private:
 				void InitializeGlew();
