@@ -20,13 +20,15 @@ namespace fli {
 				HWND m_hWnd;
 
 				std::function<void(UINT, WPARAM, LPARAM)>* mp_msgCallback;
+				bool m_shouldClose = false;
 
 			public:
-				Window(std::string title, glm::uvec2 screenPosition, glm::uvec2 size)
+				Window(HINSTANCE hInstance, std::string title, glm::uvec2 screenPosition, glm::uvec2 size)
 					: m_screenPosition(screenPosition)
 					, m_size(size)
 					, m_title(title)
-					, mp_msgCallback(nullptr) { }
+					, mp_msgCallback(nullptr) {
+				}
 
 				void Create(HINSTANCE hInstance) {
 					if (!hInstance) {
@@ -69,12 +71,15 @@ namespace fli {
 				}
 
 				void Show() {
-					ShowWindow(m_hWnd, SW_SHOWDEFAULT);
-					UpdateWindow(m_hWnd);
+					ShowWindow(m_hWnd, SW_SHOW);
 				}
 
 				HWND GetHWnd() {
 					return m_hWnd;
+				}
+
+				bool ShouldClose() {
+					return m_shouldClose;
 				}
 
 				/*************************************************************
@@ -86,9 +91,11 @@ namespace fli {
 				}
 
 				void ProcessMessages() {
-					//PeekMessage(&msg, NULL, 0, 0)) {
-					//TranslateMessage(&msg);
-					//DispatchMessage(&msg);
+					MSG msg;
+					while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+						TranslateMessage(&msg);
+						DispatchMessage(&msg);
+					}
 				}
 
 				void WindowsMessageHandler(UINT msg, WPARAM wParam, LPARAM lParam) {
@@ -100,9 +107,11 @@ namespace fli {
 						{
 						case WM_CLOSE:
 							DestroyWindow(m_hWnd);
+							m_shouldClose = true;
 							break;
 						case WM_DESTROY:
 							DestroyWindow(m_hWnd);
+							m_shouldClose = true;
 							break;
 						default:
 							break;

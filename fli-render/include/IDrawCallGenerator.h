@@ -8,5 +8,5 @@
 
 class IDrawCallGenerator {
 public:
-	virtual std::vector<DrawCall> operator()(std::unique_ptr<Scene> pScene) = 0;
+	//virtual std::vector<DrawCall> operator()(std::unique_ptr<Scene> pScene) = 0;
 };
