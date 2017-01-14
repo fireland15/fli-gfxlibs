@@ -28,6 +28,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\fli-render\opengl_error.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\fli-render\window_resize_enum.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

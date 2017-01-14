@@ -54,13 +54,6 @@ namespace gfx {
 				theta += 0.005f;
 
 				m_pContext->SwapBuffer();
-
-				OpenGlError err = OpenGlCheckErrors();
-				if (err.IsError()) {
-					Log("OpenGL Error", err.ToString(), logging::LogLvl::err);
-					m_shouldRender = false;
-					throw std::exception();
-				}
 			}
 		}
 
