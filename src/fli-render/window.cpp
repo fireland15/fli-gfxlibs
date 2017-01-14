@@ -7,15 +7,11 @@ namespace gfx {
 			: m_screenPosition(screenPosition)
 			, m_size(size)
 			, m_title(title)
-			, mp_msgCallback(nullptr)
 			, mp_context(nullptr) {
 			Create(hInstance);
 		}
 
 		Window::~Window() {
-			if (mp_msgCallback) {
-				delete mp_msgCallback;
-			}
 			if (mp_context) {
 				delete mp_context;
 			}
@@ -82,11 +78,6 @@ namespace gfx {
 			CreateOpenGlContext();
 			return mp_context;
 		}
-		
-		void 
-		Window::SetMsgCallback(std::function<void(UINT, WPARAM, LPARAM)>* callback) {
-			mp_msgCallback = callback;
-		}
 
 		void 
 		Window::ProcessMessages() {
@@ -99,36 +90,32 @@ namespace gfx {
 
 		void 
 		Window::WindowsMessageHandler(UINT msg, WPARAM wParam, LPARAM lParam) {
-			if (mp_msgCallback != nullptr) {
-				(*mp_msgCallback)(msg, wParam, lParam);
-			}
-			else {
-				switch (msg)
-				{
-				case WM_SIZE:
-					m_size.x = LOWORD(lParam);
-					m_size.y = HIWORD(lParam);
-					mp_context->ResizeViewport(m_size);
-					break;
-				case WM_CLOSE:
-					if (mp_context) {
-						delete mp_context;
-						mp_context = nullptr;
-					}
-					DestroyWindow(m_hWnd);
-					m_shouldClose = true;
-					break;
-				case WM_DESTROY:
-					if (mp_context) {
-						delete mp_context;
-						mp_context = nullptr;
-					}
-					DestroyWindow(m_hWnd);
-					m_shouldClose = true;
-					break;
-				default:
-					break;
+			switch (msg)
+			{
+			case WM_KEYDOWN:
+			case WM_KEYUP:
+				DispatchKeyboardInputMessages(msg, wParam);
+				break;
+			case WM_ACTIVATE:
+			case WM_ENABLE:
+				DispatchEnableMessages(wParam);
+				break;
+			case WM_SIZE:
+				DispatchResizeMessages(wParam, lParam);
+				break;
+			case WM_CLOSE:
+			case WM_DESTROY:
+				DispatchCloseMessages();
+				// Todo: Replace with a context disposal method
+				if (mp_context) {
+					delete mp_context;
+					mp_context = nullptr;
 				}
+				DestroyWindow(m_hWnd);
+				m_shouldClose = true;
+				break;
+			default:
+				break;
 			}
 		}
 
@@ -161,26 +148,101 @@ namespace gfx {
 		* Windows Message Handling Methods
 		**************************************************************/
 
-		void 
-		Window::CloseWindowHandler(std::function<void()> callback) {
-			m_closeWindowCallbacks.push_back(callback);
+		void
+		Window::AddCloseWindowHandler(std::function<void()> callback) {
+			m_closeMessageHandlers.push_back(callback);
+		}
+
+		void
+		Window::AddResizeWindowHandler(std::function<void(eWindowResize, glm::uvec2)> callback) {
+			m_resizeMessageHandlers.push_back(callback);
+		}
+
+		void
+		Window::AddKeyboardInputHandler(std::function<void(eKeyboardInput, eKeyState)> callback) {
+			m_keyboardInputHandlers.push_back(callback);
 		}
 
 		void 
-		Window::ResizeWindowHandler(std::function<void(Size, glm::uvec2)> callback) {
-			m_resizeWindowCallbacks.push_back(callback);
+		Window::AddEnableWindowHandler(std::function<void()> callback) {
+			m_enabledMessageHandlers.push_back(callback);
 		}
 
 		void 
-		Window::CloseWindowCallbacks() {
-			for (auto callback : m_closeWindowCallbacks) {
+		Window::AddDisableWindowHandler(std::function<void()> callback) {
+			m_disabledMessageHandlers.push_back(callback);
+		}
 
+		/*************************************************************
+		* Callback Calling Methods
+		**************************************************************/
+
+		void 
+		Window::DispatchCloseMessages() {
+			for (auto callback : m_closeMessageHandlers) {
+				callback();
 			}
 		}
 
 		void 
-		Window::ResizeWindowCallbacks(Size, glm::uvec2) {
+		Window::DispatchResizeMessages(WPARAM wParam, LPARAM lParam) {
+			glm::uvec2 size(LOWORD(lParam), HIWORD(lParam));
+			eWindowResize type;
+			switch (wParam) {
+			case SIZE_MAXHIDE:
+				type = eWindowResize::MaxHide;
+				break;
+			case SIZE_MAXIMIZED:
+				type = eWindowResize::Maximized;
+				break;
+			case SIZE_MAXSHOW:
+				type = eWindowResize::MaxShow;
+				break;
+			case SIZE_MINIMIZED:
+				type = eWindowResize::Minimized;
+				break;
+			case SIZE_RESTORED:
+				type = eWindowResize::Restored;
+				break;
+			}
 
+			for (auto callback : m_resizeMessageHandlers) {
+				callback(type, size);
+			}
+		}
+
+		void 
+		Window::DispatchEnableMessages(WPARAM wParam) {
+			if (wParam == true) {
+				for (auto callback : m_enabledMessageHandlers) {
+					callback();
+				}
+			}
+			else {
+				for (auto callback : m_disabledMessageHandlers) {
+					callback();
+				}
+			}
+		}
+
+		void 
+		Window::DispatchKeyboardInputMessages(UINT msg, WPARAM wParam){
+			eKeyState state;
+			if (msg == WM_KEYDOWN) {
+				state = eKeyState::Down;
+			}
+			else if (msg == WM_KEYUP) {
+				state = eKeyState::Up;
+			}
+			else {
+				return;
+			}
+
+			eKeyboardInput vkCode = eKeyboardInput(wParam);
+
+			for (auto callback : m_keyboardInputHandlers) {
+				callback(vkCode, state);
+			}
 		}
 
 	}
