@@ -155,7 +155,9 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\fli-render\opengl_context.hpp" />
     <ClInclude Include="..\..\include\fli-render\simple_render_system.hpp" />
+    <ClInclude Include="..\..\include\fli-render\keyboard_input_enum.hpp" />
     <ClInclude Include="..\..\include\fli-render\window.hpp" />
+    <ClInclude Include="..\..\include\fli-render\window_resize_enum.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\fli-render\opengl_context.cpp" />

@@ -27,6 +27,12 @@
     <ClInclude Include="..\..\include\fli-render\simple_render_system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\fli-render\window_resize_enum.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\fli-render\keyboard_input_enum.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\fli-render\window.cpp">

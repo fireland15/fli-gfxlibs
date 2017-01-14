@@ -4,15 +4,19 @@
 
 #include <Windows.h>
 
+#include <vector>
 #include <string>
 #include <functional>
 #include <glm\glm.hpp>
 
 #include "opengl_context.hpp"
+#include "window_resize_enum.hpp"
+#include "keyboard_input_enum.hpp"
 
 namespace gfx {
 	namespace render {
 		class Window {
+		public:
 		private:
 			glm::uvec2 m_screenPosition;
 			glm::uvec2 m_size;
@@ -20,19 +24,17 @@ namespace gfx {
 
 			HWND m_hWnd;
 
-			std::function<void(UINT, WPARAM, LPARAM)>* mp_msgCallback;
+			std::vector<std::function<void()>> m_closeMessageHandlers;
+			std::vector<std::function<void(eWindowResize, glm::uvec2)>> m_resizeMessageHandlers;
+			std::vector<std::function<void()>> m_enabledMessageHandlers;
+			std::vector<std::function<void()>> m_disabledMessageHandlers;
+			std::vector<std::function<void(eKeyboardInput, eKeyState)>> m_keyboardInputHandlers;
+
 			bool m_shouldClose = false;
 
 			OpenGlContext* mp_context;
 
 		public:
-			enum class Size {
-				MaxHide,
-				MaxShow,
-				Maximize,
-				Minimized,
-				Restored
-			};
 
 			Window(
 				HINSTANCE hInstance, 
@@ -61,17 +63,25 @@ namespace gfx {
 			**************************************************************/
 
 			// Handles WM_CLOSE & WM_DESTROY
-			void CloseWindowHandler(std::function<void()> callback);
+			void AddCloseWindowHandler(std::function<void()> callback);
 
-			void ResizeWindowHandler(std::function<void(Size, glm::uvec2)> callback);
+			// Handle WM_SIZE
+			void AddResizeWindowHandler(std::function<void(eWindowResize, glm::uvec2)> callback);
 
-			void KeyboardInputHandler(std::function<void()> callback);
+			// Handles WM_KEYDOWN, WM_KEYUP and virtual key codes
+			void AddKeyboardInputHandler(std::function<void(eKeyboardInput, eKeyState)> callback);
+
+			// Handles WM_ENABLE && wParam == true
+			void AddEnableWindowHandler(std::function<void()> callback);
+
+			// Handles WM_ENABLE && wParam == false
+			void AddDisableWindowHandler(std::function<void()> callback);
+
+
 
 			/*************************************************************
 			* Windows Message Handling Methods
 			**************************************************************/
-
-			void SetMsgCallback(std::function<void(UINT, WPARAM, LPARAM)>* callback);
 
 			void ProcessMessages();
 
@@ -85,6 +95,19 @@ namespace gfx {
 
 		private:
 			void CreateOpenGlContext();
+			
+			/*************************************************************
+			* Callback Calling Methods
+			**************************************************************/
+
+			void DispatchCloseMessages();
+
+			void DispatchResizeMessages(WPARAM wParam, LPARAM lParam);
+
+			void DispatchEnableMessages(WPARAM wParam);
+
+			void DispatchKeyboardInputMessages(UINT msg, WPARAM wParam);
+
 		};
 	}
 }

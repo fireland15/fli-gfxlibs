@@ -33,14 +33,17 @@ void HandleMessages(UINT msg, WPARAM wParam, LPARAM lParam) {
 	}
 }
 
+void Keyboard(eKeyboardInput input, eKeyState state) {
+	std::cout << (int)input << " " << (int)state << std::endl;
+}
+
 int main() {
 	std::cout.sync_with_stdio(false);
 	HINSTANCE hInstance = GetModuleHandle(0);
 	gfx::render::Window w(hInstance, "fli-app", glm::uvec2(100, 100), glm::uvec2(300, 300));
-
+	w.AddKeyboardInputHandler(std::function<void(eKeyboardInput, eKeyState)>(Keyboard));
 	gfx::render::OpenGlContext* c = w.GetOpenGlContext();
 	std::function<void(UINT, WPARAM, LPARAM)>* func = new std::function<void(UINT, WPARAM, LPARAM)>(HandleMessages);
-	w.SetMsgCallback(func);
 
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	while (!w.ShouldClose()) {
