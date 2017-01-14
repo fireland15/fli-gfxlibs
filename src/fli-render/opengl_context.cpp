@@ -131,7 +131,15 @@ namespace gfx {
 				throw std::exception("Failed to set pixel format");
 			}
 
+			GLint attribs[]{
+				WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
+				WGL_CONTEXT_MINOR_VERSION_ARB, 0
+				//WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+				//0
+			};
+
 			m_hRc = wglCreateContext(m_hDc);
+			//m_hRc = wglCreateContextAttribsARB(m_hDc, 0, attribs);
 			if (!wglMakeCurrent(m_hDc, m_hRc)) {
 				throw std::exception("Failed to make render context current.");
 			}

@@ -32,6 +32,8 @@ namespace gfx {
 
 			void SwapBuffer();
 
+			void MakeCurrent();
+
 			int MajorVersion();
 
 			int MinorVersion();

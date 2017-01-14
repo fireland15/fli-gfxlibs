@@ -5,6 +5,7 @@
 #include <Windows.h>
 
 #include <string>
+#include <vector>
 #include <functional>
 #include <glm\glm.hpp>
 
@@ -13,18 +14,6 @@
 namespace gfx {
 	namespace render {
 		class Window {
-		private:
-			glm::uvec2 m_screenPosition;
-			glm::uvec2 m_size;
-			std::string m_title;
-
-			HWND m_hWnd;
-
-			std::function<void(UINT, WPARAM, LPARAM)>* mp_msgCallback;
-			bool m_shouldClose = false;
-
-			OpenGlContext* mp_context;
-
 		public:
 			enum class Size {
 				MaxHide,
@@ -34,6 +23,22 @@ namespace gfx {
 				Restored
 			};
 
+		private:
+			glm::uvec2 m_screenPosition;
+			glm::uvec2 m_size;
+			std::string m_title;
+
+			HWND m_hWnd;
+
+			std::function<void(UINT, WPARAM, LPARAM)>* mp_msgCallback;
+			std::vector<std::function<void()>> m_closeWindowCallbacks;
+			std::vector<std::function<void(Size, glm::uvec2)>> m_resizeWindowCallbacks;
+
+			bool m_shouldClose = false;
+
+			OpenGlContext* mp_context;
+
+		public:
 			Window(
 				HINSTANCE hInstance, 
 				std::string title, 
@@ -63,9 +68,10 @@ namespace gfx {
 			// Handles WM_CLOSE & WM_DESTROY
 			void CloseWindowHandler(std::function<void()> callback);
 
+			// Handles WM_SIZE
 			void ResizeWindowHandler(std::function<void(Size, glm::uvec2)> callback);
 
-			void KeyboardInputHandler(std::function<void()> callback);
+			//void KeyboardInputHandler(std::function<void()> callback);
 
 			/*************************************************************
 			* Windows Message Handling Methods
@@ -85,6 +91,11 @@ namespace gfx {
 
 		private:
 			void CreateOpenGlContext();
+
+			void CloseWindowCallbacks();
+
+			void ResizeWindowCallbacks(Size, glm::uvec2);
+
 		};
 	}
 }

@@ -158,7 +158,11 @@
     <ClInclude Include="..\..\include\fli-core\irenderer.hpp" />
     <ClInclude Include="..\..\include\fli-core\isystem.hpp" />
     <ClInclude Include="..\..\include\fli-core\scene.hpp" />
+    <ClInclude Include="..\..\include\fli-core\system_base.hpp" />
     <ClInclude Include="..\..\include\fli-core\transform_component.hpp" />
+    <ClCompile Include="..\..\src\fli-core\system_base.cpp">
+      <FileType>CppHeader</FileType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\fli-core\clock.cpp" />

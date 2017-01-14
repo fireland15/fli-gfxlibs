@@ -157,5 +157,31 @@ namespace gfx {
 			mp_context = new OpenGlContext(m_hWnd);
 		}
 
+		/*************************************************************
+		* Windows Message Handling Methods
+		**************************************************************/
+
+		void 
+		Window::CloseWindowHandler(std::function<void()> callback) {
+			m_closeWindowCallbacks.push_back(callback);
+		}
+
+		void 
+		Window::ResizeWindowHandler(std::function<void(Size, glm::uvec2)> callback) {
+			m_resizeWindowCallbacks.push_back(callback);
+		}
+
+		void 
+		Window::CloseWindowCallbacks() {
+			for (auto callback : m_closeWindowCallbacks) {
+
+			}
+		}
+
+		void 
+		Window::ResizeWindowCallbacks(Size, glm::uvec2) {
+
+		}
+
 	}
 }
