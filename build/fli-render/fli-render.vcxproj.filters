@@ -21,9 +21,6 @@
     <ClInclude Include="..\..\include\fli-render\window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\fli-render\opengl_context.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\fli-render\simple_render_system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -69,9 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\fli-render\window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\fli-render\opengl_context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\fli-render\simple_render_system.cpp">
