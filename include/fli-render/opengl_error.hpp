@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include <gl\glew.h>
+#include <gl\GLU.h>
 
 #define OpenGlCheckErrors() gfx::render::OpenGlError::CheckErrors(__FILE__, __LINE__)
 

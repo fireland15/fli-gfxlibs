@@ -27,8 +27,6 @@ namespace gfx {
 
 			OpenGlContext* m_pContext;
 
-			float theta = 0.0f;
-
 			bool m_shouldRender = true;
 
 		public:

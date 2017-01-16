@@ -28,7 +28,7 @@ namespace gfx {
 				return OpenGlError(nullptr);
 			}
 			else {
-				const GLubyte* errstr = glewGetErrorString(err);
+				const GLubyte* errstr = gluErrorString(err);
 				return OpenGlError(errstr);
 			}
 		}

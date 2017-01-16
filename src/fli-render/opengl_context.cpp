@@ -12,6 +12,16 @@ namespace gfx {
 			wglMakeCurrent(m_hDc, 0);
 			wglDeleteContext(m_hRc);
 			ReleaseDC(m_hWnd, m_hDc);
+
+			m_hRc = 0;
+			m_hDc = 0;
+		}
+
+		bool OpenGlContext::IsValid() {
+			if (m_hRc == 0 || m_hDc == 0) {
+				return false;
+			}
+			return true;
 		}
 
 		void OpenGlContext::SwapBuffer() {
@@ -28,6 +38,10 @@ namespace gfx {
 
 		void OpenGlContext::ResizeViewport(const glm::uvec2& size) {
 			glViewport(0, 0, size.x, size.y);
+		}
+
+		OpenGlResourceManager& OpenGlContext::ResourceManager() {
+			return m_resources;
 		}
 
 		void OpenGlContext::InitializeGlew() {

@@ -12,6 +12,8 @@
 #include <gl\GL.h>
 #include <glm\glm.hpp>
 
+#include "opengl_resource_manager.hpp"
+
 namespace gfx {
 	namespace render {
 		class OpenGlContext {
@@ -19,6 +21,8 @@ namespace gfx {
 			HDC m_hDc;
 			HGLRC m_hRc;
 			HWND m_hWnd;
+
+			OpenGlResourceManager m_resources;
 
 			int m_contextVersionMajor;
 			int m_contextVersionMinor;
@@ -30,15 +34,17 @@ namespace gfx {
 
 			~OpenGlContext();
 
-			void SwapBuffer();
+			bool IsValid();
 
-			void MakeCurrent();
+			void SwapBuffer();
 
 			int MajorVersion();
 
 			int MinorVersion();
 
 			void ResizeViewport(const glm::uvec2& size);
+
+			OpenGlResourceManager& ResourceManager();
 
 		private:
 			void InitializeGlew();

@@ -153,10 +153,20 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\fli-render\buffer_data_type_enum.hpp" />
+    <ClInclude Include="..\..\include\fli-render\vertex_attribute_normalize_enum.hpp" />
     <ClInclude Include="..\..\include\fli-render\opengl_error.hpp" />
     <ClInclude Include="..\..\include\fli-render\opengl_context.hpp" />
+    <ClInclude Include="..\..\include\fli-render\opengl_resource_manager.hpp" />
     <ClInclude Include="..\..\include\fli-render\simple_render_system.hpp" />
     <ClInclude Include="..\..\include\fli-render\keyboard_input_enum.hpp" />
+    <ClInclude Include="..\..\include\fli-render\vertex_array_object.hpp" />
+    <ClInclude Include="..\..\include\fli-render\vertex_attribute.hpp" />
+    <ClInclude Include="..\..\include\fli-render\vertex_buffer_object.hpp" />
+    <ClInclude Include="..\..\include\fli-render\vertex_buffer_object_data_descriptor.hpp" />
+    <ClInclude Include="..\..\include\fli-render\vertex_buffer_object_descriptor.hpp" />
+    <ClInclude Include="..\..\include\fli-render\vertex_buffer_object_target_enum.hpp" />
+    <ClInclude Include="..\..\include\fli-render\vertex_buffer_object_usage_enum.hpp" />
     <ClInclude Include="..\..\include\fli-render\window.hpp" />
     <ClInclude Include="..\..\include\fli-render\window_resize_enum.hpp" />
   </ItemGroup>
