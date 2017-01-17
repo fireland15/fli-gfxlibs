@@ -60,7 +60,9 @@ namespace opengl {
 		}
 
 		void DeleteProgram(Program& program) {
-
+			GLuint obj = program.Obj();
+			glDeleteProgram(obj);
+			program.Obj(0);
 		}
 		
 	};

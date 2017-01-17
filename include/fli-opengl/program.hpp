@@ -14,10 +14,16 @@ namespace opengl {
 	private:
 		Program(GLuint obj);
 
+		GLuint Obj();
+
+		void Obj(GLuint obj);
+
 	public:
 		Program();
 
 		void Attach(Shader& shader);
+
+		void Detach(Shader& shader);
 
 		bool Link();
 
@@ -29,7 +35,6 @@ namespace opengl {
 
 	private:
 		GLuint m_obj;
-		std::vector<Shader&> m_attachedShaders;
 		bool m_hasErrors;
 		std::string m_errors;
 	};

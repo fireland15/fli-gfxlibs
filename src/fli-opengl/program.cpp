@@ -7,16 +7,25 @@ namespace opengl {
 		, m_hasErrors(false)
 		, m_errors("No errors") { }
 
+	GLuint Program::Obj() {
+		return m_obj;
+	}
+
+	void Program::Obj(GLuint obj) {
+		m_obj = obj;
+	}
+
 	Program::Program()
 		: m_obj(0)
 		, m_hasErrors(false)
 		, m_errors("No errors") { }
 
 	void Program::Attach(Shader& shader) {
-		if (!shader.HasErrors()) {
-			glAttachShader(m_obj, shader.Obj());
-			m_attachedShaders.push_back(shader);
-		}
+		glAttachShader(m_obj, shader.Obj());
+	}
+
+	void Program::Detach(Shader& shader) {
+		glDetachShader(m_obj, shader.Obj());
 	}
 
 	bool Program::Link() {

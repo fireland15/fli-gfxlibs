@@ -18,8 +18,6 @@ namespace opengl {
 	public:
 		VertexArray();
 
-
-
 		friend class GL;
 	};
 
