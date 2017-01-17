@@ -2,8 +2,21 @@
 
 namespace opengl {
 
-	VertexArray::VertexArray() {
-		glGenVertexArrays(1, &m_vao);
+	VertexArray::VertexArray(GLuint obj) 
+		: m_vao(obj) {
+
+	}
+
+	VertexArray::VertexArray()
+		: m_vao(0) {
+	}
+
+	GLuint VertexArray::Obj() {
+		return m_vao;
+	}
+
+	void VertexArray::Obj(GLuint obj) {
+		m_vao = obj;
 	}
 
 }

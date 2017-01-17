@@ -166,11 +166,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\fli-opengl\context.hpp" />
-    <ClInclude Include="..\..\include\fli-opengl\buffer.h" />
+    <ClInclude Include="..\..\include\fli-opengl\buffer.hpp" />
+    <ClInclude Include="..\..\include\fli-opengl\opengl.hpp" />
+    <ClInclude Include="..\..\include\fli-opengl\program.hpp" />
+    <ClInclude Include="..\..\include\fli-opengl\shader.hpp" />
+    <ClInclude Include="..\..\include\fli-opengl\shader_source.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\vertex_array.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\fli-opengl\buffer.cpp" />
     <ClCompile Include="..\..\src\fli-opengl\context.cpp" />
+    <ClCompile Include="..\..\src\fli-opengl\program.cpp" />
+    <ClCompile Include="..\..\src\fli-opengl\shader.cpp" />
+    <ClCompile Include="..\..\src\fli-opengl\shader_source.cpp" />
     <ClCompile Include="..\..\src\fli-opengl\vertex_array.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

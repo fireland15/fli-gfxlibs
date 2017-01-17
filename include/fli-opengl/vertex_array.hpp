@@ -9,8 +9,18 @@ namespace opengl {
 	private:
 		GLuint m_vao;
 
+		VertexArray(GLuint obj);
+
+		GLuint Obj();
+
+		void Obj(GLuint);
+
 	public:
 		VertexArray();
+
+
+
+		friend class GL;
 	};
 
 }
