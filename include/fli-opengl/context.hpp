@@ -4,8 +4,8 @@
 
 #include <Windows.h>
 
-#include <GL\glew.h>
-#include <GL\wglew.h>
+#include <glew\glew.h>
+#include <glew\wglew.h>
 #include <GL\GL.h>
 
 #include <exception>

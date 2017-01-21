@@ -19,9 +19,9 @@ namespace opengl {
 		std::string src = m_source.Code();
 		GLsizei count = 1;
 		const GLchar* string = src.c_str();
-		const GLint* length = (GLint*) src.length();
+		const GLint length = (GLint) src.length();
 
-		glShaderSource(m_obj, count, &string, length);
+		glShaderSource(m_obj, count, &string, &length);
 	}
 
 	Shader::Shader() 

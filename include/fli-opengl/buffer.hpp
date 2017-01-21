@@ -1,8 +1,11 @@
 #pragma once
 
-#include <gl\glew.h>
-#include <gl\wglew.h>
+#include <vector>
+
+#include <glew\glew.h>
 #include <gl\GL.h>
+
+#include "attribute_variable.hpp"
 
 namespace opengl {
 
@@ -26,7 +29,7 @@ namespace opengl {
 			UniformBuffer			= GL_UNIFORM_BUFFER
 		};
 
-		enum Usage : GLenum {
+		enum Usages : GLenum {
 			StreamDraw	= GL_STREAM_DRAW,
 			StreamRead	= GL_STREAM_READ,
 			StreamCopy	= GL_STREAM_COPY,
@@ -36,6 +39,49 @@ namespace opengl {
 			DynamicDraw = GL_DYNAMIC_DRAW,
 			DynamicRead = GL_DYNAMIC_READ,
 			DynamicCopy = GL_DYNAMIC_COPY
+		};
+
+		enum DataType : GLenum {
+			Byte			= GL_BYTE,
+			UnsignedByte	= GL_UNSIGNED_BYTE,
+			Short			= GL_SHORT,
+			UnsignedShort	= GL_UNSIGNED_SHORT,
+			Int				= GL_INT,
+			UnsignedInt		= GL_UNSIGNED_INT,
+			HalfFloat		= GL_HALF_FLOAT,
+			Float			= GL_FLOAT,
+			Double			= GL_DOUBLE,
+			Fixed			= GL_FIXED
+		};
+
+		enum Normalize : GLboolean {
+			Yes	= GL_TRUE,
+			No	= GL_FALSE
+		};
+
+		enum AttribSize : GLint {
+			One		= 1,
+			Two		= 2,
+			Three	= 3,
+			Four	= 4
+		};
+
+		struct DataDescriptor {
+		public:
+			AttribSize AttributeSize;
+			DataType Type;
+			Normalize Normalize;
+			GLsizei Stride;
+			GLvoid* Offset;
+		};
+
+		struct Descriptor {
+		public:
+			Targets Target;
+			void* pData;
+			GLsizeiptr Size;
+			Usages Usage;
+			std::vector<DataDescriptor> DataDescriptions;
 		};
 
 	private:
@@ -54,9 +100,15 @@ namespace opengl {
 
 		void Unbind();
 
-		void Data(Targets target, GLsizeiptr size, void* data, Usage usage);
+		void SetData(const Descriptor& desc);
 
 		bool IsBound();
+
+		Targets Target();
+
+		Usages Usage();
+
+		const Descriptor& Description();
 
 	private:
 		GLuint m_obj;
@@ -64,6 +116,8 @@ namespace opengl {
 		Targets m_target;
 
 		bool m_isBound;
+
+		Descriptor m_description;
 
 		friend class GL;
 

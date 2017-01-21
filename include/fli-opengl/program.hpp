@@ -3,10 +3,11 @@
 #include <vector>
 #include <string>
 
-#include <GL\glew.h>
+#include <glew\glew.h>
 #include <GL\GL.h>
 
 #include "shader.hpp"
+#include "attribute_variable.hpp"
 
 namespace opengl {
 
@@ -25,11 +26,15 @@ namespace opengl {
 
 		void Detach(Shader& shader);
 
+		void Use();
+
 		bool Link();
 
 		bool HasErrors();
 
 		std::string GetErrors();
+
+		AttributeVariable GetAttributeVariable(std::string name);
 
 		friend class GL;
 

@@ -10,9 +10,9 @@
 #include <functional>
 #include <glm\glm.hpp>
 
-#include "opengl_context.hpp"
 #include "window_resize_enum.hpp"
 #include "keyboard_input_enum.hpp"
+#include <fli-opengl\context.hpp>
 
 namespace gfx {
 	namespace render {
@@ -32,7 +32,7 @@ namespace gfx {
 
 			bool m_shouldClose = false;
 
-			OpenGlContext* mp_context;
+			opengl::OpenGlContext* mp_context;
 
 		public:
 
@@ -56,7 +56,7 @@ namespace gfx {
 			* Rendering Context Creation
 			**************************************************************/
 
-			OpenGlContext* GetOpenGlContext();
+			opengl::OpenGlContext* GetOpenGlContext();
 
 			/*************************************************************
 			* Windows Message Handling Methods

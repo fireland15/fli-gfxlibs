@@ -10,9 +10,7 @@
 #include <fli-core\transform_component.hpp>
 #include <fli-utility\logger_base.hpp>
 #include <fli-utility\configuration.hpp>
-
-#include "opengl_context.hpp"
-#include "opengl_error.hpp"
+#include <fli-opengl\context.hpp>
 
 typedef logging::LoggerBase LoggerBase;
 typedef config::Configuration Configuration;
@@ -25,12 +23,12 @@ namespace gfx {
 		private:
 			Configuration* m_pConfig;
 
-			OpenGlContext* m_pContext;
+			opengl::OpenGlContext* m_pContext;
 
 			bool m_shouldRender = true;
 
 		public:
-			SimpleRenderSystem(OpenGlContext* context);
+			SimpleRenderSystem(opengl::OpenGlContext* context);
 
 			void SetConfig(Configuration* pConfig);
 

@@ -3,7 +3,7 @@
 namespace gfx {
 	namespace render {
 
-		SimpleRenderSystem::SimpleRenderSystem(OpenGlContext* context)
+		SimpleRenderSystem::SimpleRenderSystem(opengl::OpenGlContext* context)
 			: m_pContext(context)
 			, SystemBase() {
 			m_systemName = "render";

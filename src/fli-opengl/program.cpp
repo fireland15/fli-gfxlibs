@@ -28,6 +28,10 @@ namespace opengl {
 		glDetachShader(m_obj, shader.Obj());
 	}
 
+	void Program::Use() {
+		glUseProgram(m_obj);
+	}
+
 	bool Program::Link() {
 		glLinkProgram(m_obj);
 
@@ -56,6 +60,11 @@ namespace opengl {
 
 	std::string Program::GetErrors() {
 		return m_errors;
+	}
+
+	AttributeVariable Program::GetAttributeVariable(std::string name) {
+		GLint location = glGetAttribLocation(m_obj, name.c_str());
+		return AttributeVariable(location, name);
 	}
 
 }

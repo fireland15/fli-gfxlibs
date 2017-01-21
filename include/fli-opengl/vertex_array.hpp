@@ -1,14 +1,15 @@
 #pragma once
 
-#include <GL\glew.h>
+#include <glew\glew.h>
 #include <GL\GL.h>
+
+#include "attribute_variable.hpp"
+#include "buffer.hpp"
 
 namespace opengl {
 
 	class VertexArray {
 	private:
-		GLuint m_vao;
-
 		VertexArray(GLuint obj);
 
 		GLuint Obj();
@@ -18,7 +19,22 @@ namespace opengl {
 	public:
 		VertexArray();
 
+		void EnableVertexAttribute(const AttributeVariable& attrib);
+
+		void SetVertexAttributePointer(const AttributeVariable& attrib, const Buffer::DataDescriptor& desc);
+
+		void Bind();
+
+		void Unbind();
+
+		bool IsBound();
+
 		friend class GL;
+
+	private:
+		bool m_isBound;
+
+		GLuint m_vao;
 	};
 
 }

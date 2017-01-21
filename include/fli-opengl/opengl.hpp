@@ -2,7 +2,7 @@
 
 #include <map>
 
-#include <GL\glew.h>
+#include <glew\glew.h>
 #include <GL\GL.h>
 
 #include "context.hpp"
@@ -10,6 +10,7 @@
 #include "buffer.hpp"
 #include "shader.hpp"
 #include "program.hpp"
+#include "opengl_error.hpp"
 
 namespace opengl {
 
@@ -17,7 +18,12 @@ namespace opengl {
 	private:
 
 	public:
-		GL(OpenGlContext context);
+		enum Buffers : GLbitfield {
+			Color			= GL_COLOR_BUFFER_BIT,
+			Depth			= GL_DEPTH_BUFFER_BIT,
+			Accumulation	= GL_ACCUM_BUFFER_BIT,
+			Stencil			= GL_STENCIL_BUFFER_BIT
+		};
 
 		VertexArray CreateVertexArray() {
 			GLuint obj;
@@ -63,6 +69,18 @@ namespace opengl {
 			GLuint obj = program.Obj();
 			glDeleteProgram(obj);
 			program.Obj(0);
+		}
+
+		OpenGlError GetErrors() {
+			return OpenGlError((OpenGlError::Error)glGetError());
+		}
+
+		void ClearColor(glm::vec4 color) {
+			glClearColor(color.r, color.g, color.b, color.a);
+		}
+
+		void Clear(GLbitfield buffers) {
+			glClear(buffers);
 		}
 		
 	};

@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include <GL\glew.h>
+#include <glew\glew.h>
 #include <GL\GL.h>
 
 #include "shader_source.hpp"

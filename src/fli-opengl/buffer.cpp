@@ -21,22 +21,37 @@ namespace opengl {
 	}
 
 	void Buffer::Bind() {
-		glBindBuffer(m_target, m_obj);
-		m_isBound = true;
+		if (!m_isBound) {
+			glBindBuffer(m_target, m_obj);
+			m_isBound = true;
+		}
 	}
 
 	void Buffer::Unbind() {
-		glBindBuffer(m_target, 0);
-		m_isBound = false;
+		if (m_isBound) {
+			glBindBuffer(m_target, 0);
+			m_isBound = false;
+		}
 	}
 
-	void Buffer::Data(Targets target, GLsizeiptr size, void* data, Usage usage) {
-		if (!m_isBound) Bind();
-		glBufferData(target, size, data, usage);
+	void Buffer::SetData(const Descriptor& desc) {
+		glBufferData(desc.Target, desc.Size, desc.pData, desc.Usage);
 	}
 
 	bool Buffer::IsBound() {
 		return m_isBound;
+	}
+
+	Buffer::Targets Buffer::Target() {
+		return m_description.Target;
+	}
+
+	Buffer::Usages Buffer::Usage() {
+		return m_description.Usage;
+	}
+
+	const Buffer::Descriptor& Buffer::Description() {
+		return m_description;
 	}
 
 }

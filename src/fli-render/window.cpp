@@ -73,7 +73,7 @@ namespace gfx {
 			return m_shouldClose;
 		}
 
-		OpenGlContext* 
+		opengl::OpenGlContext* 
 		Window::GetOpenGlContext() {
 			CreateOpenGlContext();
 			return mp_context;
@@ -141,7 +141,7 @@ namespace gfx {
 
 		void 
 		Window::CreateOpenGlContext() {
-			mp_context = new OpenGlContext(m_hWnd);
+			mp_context = new opengl::OpenGlContext(m_hWnd);
 		}
 
 		/*************************************************************
@@ -213,7 +213,7 @@ namespace gfx {
 
 		void 
 		Window::DispatchEnableMessages(WPARAM wParam) {
-			if (wParam == true) {
+			if (BOOL(wParam) == true) {
 				for (auto callback : m_enabledMessageHandlers) {
 					callback();
 				}
