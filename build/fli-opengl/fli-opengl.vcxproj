@@ -169,11 +169,13 @@
     <ClInclude Include="..\..\include\fli-opengl\attribute_variable.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\context.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\buffer.hpp" />
+    <ClInclude Include="..\..\include\fli-opengl\mesh_manager.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\opengl.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\opengl_error.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\program.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\shader.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\shader_source.hpp" />
+    <ClInclude Include="..\..\include\fli-opengl\static_mesh.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\vertex_array.hpp" />
   </ItemGroup>
   <ItemGroup>
