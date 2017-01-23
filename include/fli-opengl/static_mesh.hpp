@@ -1,6 +1,8 @@
 #pragma once
 
-#include "vertex_array.hpp"
+#include <vector>
+
+#include <glm\glm.hpp>
 
 namespace opengl {
 
