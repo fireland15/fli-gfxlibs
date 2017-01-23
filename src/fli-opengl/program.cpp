@@ -15,6 +15,30 @@ namespace opengl {
 		m_obj = obj;
 	}
 
+	void Program::GetAttributeVariables() {
+		GLint numActiveAttribs = 0;
+
+		glGetProgramInterfaceiv(m_obj, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numActiveAttribs);
+
+		std::vector<GLchar> nameData(256);
+		std::vector<GLenum> props;
+		props.push_back(GL_NAME_LENGTH);
+		props.push_back(GL_TYPE);
+		props.push_back(GL_ARRAY_SIZE);
+		std::vector<GLint> values(props.size());
+
+		for (GLint i = 0; i < numActiveAttribs; i++) {
+			glGetProgramResourceiv(m_obj, GL_PROGRAM_INPUT, i, (GLsizei)props.size(), &props[0], (GLsizei)values.size(), 0, &values[0]);
+
+			nameData.resize(values[0]);
+			glGetProgramResourceName(m_obj, GL_PROGRAM_INPUT, i, (GLsizei)nameData.size(), 0, &nameData[0]);
+			std::string name((char*)&nameData[0], nameData.size() - 1);
+
+			AttributeVariable var(i, name, (AttributeVariable::AttribType)values[1]);
+			m_attributeVariables.push_back(var);
+		}
+	}
+
 	Program::Program()
 		: m_obj(0)
 		, m_hasErrors(false)
@@ -51,6 +75,8 @@ namespace opengl {
 			return false;
 		}
 
+		GetAttributeVariables();
+
 		return true;
 	}
 
@@ -62,9 +88,18 @@ namespace opengl {
 		return m_errors;
 	}
 
-	AttributeVariable Program::GetAttributeVariable(std::string name) {
-		GLint location = glGetAttribLocation(m_obj, name.c_str());
-		return AttributeVariable(location, name);
+	const AttributeVariable& Program::GetAttributeVariable(std::string name) {
+		for (const AttributeVariable& var : m_attributeVariables) {
+			if (var.Name().compare(name) == 0) {
+				return var;
+			}
+		}
+
+		throw std::exception("Could not find an attribute variable with name");
+	}
+
+	const std::vector<AttributeVariable>& Program::AttributeVariables() {
+		return m_attributeVariables;
 	}
 
 }

@@ -169,18 +169,23 @@
     <ClInclude Include="..\..\include\fli-opengl\attribute_variable.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\context.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\buffer.hpp" />
+    <ClInclude Include="..\..\include\fli-opengl\mesh_descriptor.hpp" />
+    <ClInclude Include="..\..\include\fli-opengl\mesh_factory.hpp" />
+    <ClInclude Include="..\..\include\fli-opengl\static_mesh.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\opengl.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\opengl_error.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\program.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\shader.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\shader_source.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\vertex_array.hpp" />
+    <ClInclude Include="..\..\include\fli-opengl\vertex_attribute_descriptor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\fli-opengl\attribute_location.cpp" />
     <ClCompile Include="..\..\src\fli-opengl\attribute_variable.cpp" />
     <ClCompile Include="..\..\src\fli-opengl\buffer.cpp" />
     <ClCompile Include="..\..\src\fli-opengl\context.cpp" />
+    <ClCompile Include="..\..\src\fli-opengl\mesh_factory.cpp" />
     <ClCompile Include="..\..\src\fli-opengl\opengl_error.cpp" />
     <ClCompile Include="..\..\src\fli-opengl\program.cpp" />
     <ClCompile Include="..\..\src\fli-opengl\shader.cpp" />

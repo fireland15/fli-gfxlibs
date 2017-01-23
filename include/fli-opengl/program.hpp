@@ -19,6 +19,8 @@ namespace opengl {
 
 		void Obj(GLuint obj);
 
+		void GetAttributeVariables();
+
 	public:
 		Program();
 
@@ -34,14 +36,20 @@ namespace opengl {
 
 		std::string GetErrors();
 
-		AttributeVariable GetAttributeVariable(std::string name);
+		const AttributeVariable& GetAttributeVariable(std::string name);
+
+		const std::vector<AttributeVariable>& AttributeVariables();
 
 		friend class GL;
 
 	private:
 		GLuint m_obj;
+
 		bool m_hasErrors;
+
 		std::string m_errors;
+
+		std::vector<AttributeVariable> m_attributeVariables;
 	};
 
 }

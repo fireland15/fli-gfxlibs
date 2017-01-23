@@ -48,6 +48,18 @@
     <ClInclude Include="..\..\include\fli-opengl\opengl_error.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\fli-opengl\static_mesh.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\fli-opengl\mesh_factory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\fli-opengl\mesh_descriptor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\fli-opengl\vertex_attribute_descriptor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\fli-opengl\context.cpp">
@@ -75,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\fli-opengl\opengl_error.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\fli-opengl\mesh_factory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

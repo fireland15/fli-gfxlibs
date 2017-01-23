@@ -115,7 +115,7 @@ void Setup(opengl::GL& gl) {
 	gl.DeleteShader(fragmentShader);
 	std::cout << gl.GetErrors().ToString() << std::endl;
 
-	opengl::AttributeVariable position = program.GetAttributeVariable("position");
+	const opengl::AttributeVariable& position = program.GetAttributeVariable("position\0");
 	
 	vao = gl.CreateVertexArray();
 	std::cout << gl.GetErrors().ToString() << std::endl;
@@ -145,6 +145,10 @@ void Setup(opengl::GL& gl) {
 
 	vbo.Unbind();
 	vao.Unbind();
+
+	for (const opengl::AttributeVariable& var : program.AttributeVariables()) {
+		std::cout << var.Name() << std::endl;
+	}
 }
 
 void Render() {
