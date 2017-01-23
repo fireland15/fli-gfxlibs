@@ -92,5 +92,8 @@
     <ClCompile Include="..\..\src\fli-opengl\mesh_factory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\fli-opengl\static_mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

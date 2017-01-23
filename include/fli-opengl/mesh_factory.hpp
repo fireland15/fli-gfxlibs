@@ -12,6 +12,7 @@ namespace opengl {
 
 	class MeshFactory {
 	public:
+		MeshFactory() = default;
 		MeshFactory(const MeshFactory& other) = delete;
 		MeshFactory(MeshFactory&& other) = delete;
 		MeshFactory operator=(const MeshFactory& other) = delete;

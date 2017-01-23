@@ -177,7 +177,6 @@
     <ClInclude Include="..\..\include\fli-opengl\program.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\shader.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\shader_source.hpp" />
-    <ClInclude Include="..\..\include\fli-opengl\static_mesh.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\vertex_array.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\vertex_attribute_descriptor.hpp" />
   </ItemGroup>
@@ -191,6 +190,7 @@
     <ClCompile Include="..\..\src\fli-opengl\program.cpp" />
     <ClCompile Include="..\..\src\fli-opengl\shader.cpp" />
     <ClCompile Include="..\..\src\fli-opengl\shader_source.cpp" />
+    <ClCompile Include="..\..\src\fli-opengl\static_mesh.cpp" />
     <ClCompile Include="..\..\src\fli-opengl\vertex_array.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

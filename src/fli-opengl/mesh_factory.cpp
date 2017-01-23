@@ -92,6 +92,10 @@ namespace opengl {
 	}
 
 	StaticMesh MeshFactory::CreateStaticMesh(const MeshDescriptor& desc) {
+		unsigned int numVertices = desc.Vertices.size();
+
+		std::vector<Buffer> vertexBuffers;
+
 		VertexArray vao = GL::CreateVertexArray();
 		vao.Bind();
 
@@ -119,6 +123,8 @@ namespace opengl {
 
 		vbo.Unbind();
 
+		vertexBuffers.push_back(vbo);
+
 		for (VertexAttributeDescriptor attribDesc : desc.AttributeDescriptors) {
 			Buffer buffer = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
 			buffer.Bind();
@@ -142,7 +148,11 @@ namespace opengl {
 			vao.SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
 
 			buffer.Unbind();
+
+			vertexBuffers.push_back(buffer);
 		}
+
+		return StaticMesh(numVertices, vao, vertexBuffers);
 	}
 
 }

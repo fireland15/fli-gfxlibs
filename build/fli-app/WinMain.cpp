@@ -13,35 +13,49 @@
 #include <fli-opengl\context.hpp>
 #include <fli-opengl\opengl.hpp>
 #include <fli-opengl\buffer.hpp>
+#include <fli-opengl\mesh_factory.hpp>
+#include <fli-opengl\mesh_descriptor.hpp>
+#include <fli-opengl\static_mesh.hpp>
+#include <fli-opengl\vertex_attribute_descriptor.hpp>
 #include <glm\glm.hpp>
 
-opengl::VertexArray vao;
-opengl::Buffer vbo;
 opengl::GL gl;
 opengl::OpenGlContext context;
 opengl::Program program;
 opengl::Shader vertexShader;
 opengl::Shader fragmentShader;
+opengl::MeshFactory meshFactory;
+opengl::StaticMesh mesh;
 
 std::string vertexSourceString =
 "#version 330\n"\
-"layout(location = 0) in vec3 position;\n"\
+"in vec3 position;\n"\
+"in vec4 color;\n"\
+"out vec4 fColor;\n"\
 "void main() {\n"\
 "gl_Position.xyz = position;\n"\
 "gl_Position.w = 1.0;\n"\
+"fColor = color;\n"\
 "}\n";
 
 std::string fragmentSourceString =
 "#version 330\n"\
-"out vec4 color;\n"\
+"in vec4 fColor;\n"\
+"out vec4 fragcolor;\n"\
 "void main() {\n"\
-"color = vec4(1,0,0,0.5);\n"\
+"fragcolor = fColor;\n"\
 "}\n";
 
 glm::vec3 vertices[3] = {
 	glm::vec3(-1.0f, -1.0f, 0.0f),
 	glm::vec3(1.0f, -1.0f, 0.0f),
 	glm::vec3(0.0f, 1.0f, 0.0f)
+};
+
+glm::vec4 colors[3] = {
+	glm::vec4(1.0f, 0.0f, 0.0f, 1.0f),
+	glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),
+	glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)
 };
 
 void Setup(opengl::GL& gl) {
@@ -65,24 +79,16 @@ void Setup(opengl::GL& gl) {
 
 	if (!vertexShader.Compile()) {
 		std::cout << vertexShader.GetErrors() << std::endl;
-		vbo.Unbind();
-		vao.Unbind();
 		gl.DeleteShader(vertexShader);
 		gl.DeleteShader(fragmentShader);
-		gl.DeleteBuffer(vbo);
-		gl.DeleteVertexArray(vao);
 		exit(-1);
 	}
 	std::cout << gl.GetErrors().ToString() << std::endl;
 
 	if (!fragmentShader.Compile()) {
 		std::cout << fragmentShader.GetErrors() << std::endl;
-		vbo.Unbind();
-		vao.Unbind();
 		gl.DeleteShader(vertexShader);
 		gl.DeleteShader(fragmentShader);
-		gl.DeleteBuffer(vbo);
-		gl.DeleteVertexArray(vao);
 		exit(-1);
 	}
 	std::cout << gl.GetErrors().ToString() << std::endl;
@@ -97,13 +103,9 @@ void Setup(opengl::GL& gl) {
 		std::cout << program.GetErrors() << std::endl;
 		program.Detach(vertexShader);
 		program.Detach(fragmentShader);
-		vbo.Unbind();
-		vao.Unbind();
 		gl.DeleteShader(vertexShader);
 		gl.DeleteShader(fragmentShader);
 		gl.DeleteProgram(program);
-		gl.DeleteBuffer(vbo);
-		gl.DeleteVertexArray(vao);
 		exit(-1);
 	}
 
@@ -115,37 +117,21 @@ void Setup(opengl::GL& gl) {
 	gl.DeleteShader(fragmentShader);
 	std::cout << gl.GetErrors().ToString() << std::endl;
 
-	const opengl::AttributeVariable& position = program.GetAttributeVariable("position\0");
+	const opengl::AttributeVariable& position = program.GetAttributeVariable("position");
+	const opengl::AttributeVariable& color = program.GetAttributeVariable("color");
 	
-	vao = gl.CreateVertexArray();
-	std::cout << gl.GetErrors().ToString() << std::endl;
-	vbo = gl.CreateBuffer(opengl::Buffer::Targets::ArrayBuffer);
-	std::cout << gl.GetErrors().ToString() << std::endl;
-	vao.Bind();
-	vbo.Bind();
+	opengl::MeshDescriptor meshDesc;
+	meshDesc.Vertices = std::vector<glm::vec3>(vertices, std::end(vertices));
+	meshDesc.PositionVariable = position;
 
-	opengl::Buffer::DataDescriptor dataDesc;
-	dataDesc.Type = opengl::Buffer::DataType::Float;
-	dataDesc.Normalize = opengl::Buffer::Normalize::No;
-	dataDesc.AttributeSize = opengl::Buffer::AttribSize::Three;
-	dataDesc.Stride = 0;
-	dataDesc.Offset = 0;
+	opengl::VertexAttributeDescriptor colorDesc;
+	colorDesc.pAttributes = colors;
+	colorDesc.Size = 12;
+	colorDesc.AttributeVariable = color;
+	meshDesc.AttributeDescriptors.push_back(colorDesc);
 
-	opengl::Buffer::Descriptor desc;
-	desc.DataDescriptions.push_back(dataDesc);
-	desc.pData = &vertices;
-	desc.Size = sizeof(vertices);
-	desc.Target = opengl::Buffer::Targets::ArrayBuffer;
-	desc.Usage = opengl::Buffer::Usages::StaticDraw;
-
-	vbo.SetData(desc);
-
-	vao.EnableVertexAttribute(position);
-	vao.SetVertexAttributePointer(position, dataDesc);
-
-	vbo.Unbind();
-	vao.Unbind();
-
+	mesh = meshFactory.CreateStaticMesh(meshDesc);
+	
 	for (const opengl::AttributeVariable& var : program.AttributeVariables()) {
 		std::cout << var.Name() << std::endl;
 	}
@@ -153,9 +139,7 @@ void Setup(opengl::GL& gl) {
 
 void Render() {
 	program.Use();
-	vao.Bind();
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	vao.Unbind();
+	mesh.Render();
 }
 
 int main() {
@@ -172,7 +156,7 @@ int main() {
 
 	int i = 0;
 
-	glClearColor(1.0f, 1.0f, 1.0f, 0.5f);
+	glClearColor(0.0f, 1.0f, 1.0f, 0.5f);
 
 	while (i++, !w.ShouldClose()) {
 		w.ProcessMessages();

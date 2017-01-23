@@ -4,15 +4,23 @@
 
 #include <glm\glm.hpp>
 
+#include "vertex_array.hpp"
+
 namespace opengl {
 
 	class StaticMesh {
 	public:
-		StaticMesh() = delete;
-		StaticMesh(VertexArray& vertexArray);
+		StaticMesh() = default;
+		StaticMesh(unsigned int numVertices, VertexArray vertexArray, std::vector<Buffer> vertexBuffer);
+
+		void Render();
 
 	private:
-		VertexArray& m_vertexArray;
+		VertexArray m_vertexArray;
+
+		std::vector<Buffer> m_vertexBuffers;
+
+		unsigned int m_numVertices;
 
 	};
 
