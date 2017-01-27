@@ -68,8 +68,11 @@ namespace opengl {
 
 		struct DataDescriptor {
 		public:
+			// Size of each attribute value
 			AttribSize AttributeSize;
+			// The data type of the attribute
 			DataType Type;
+			// Should the gfx card normalize the values
 			Normalize Normalize;
 			GLsizei Stride;
 			GLvoid* Offset;
@@ -79,6 +82,7 @@ namespace opengl {
 		public:
 			Targets Target;
 			void* pData;
+			// size of data in bytes
 			GLsizeiptr Size;
 			Usages Usage;
 			std::vector<DataDescriptor> DataDescriptions;

@@ -6,15 +6,12 @@
 namespace opengl {
 
 	class AttributeLocation {
-	private:
+	public:
 		AttributeLocation(GLint location);
 
-	public:
 		AttributeLocation();
 
 		GLint Value() const;
-
-		friend class AttributeVariable;
 
 	private:
 		GLint m_value;

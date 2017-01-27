@@ -2,16 +2,13 @@
 
 #include <string>
 
-#include <glew\glew.h>
-#include <GL\GL.h>
-
-#include "attribute_location.hpp"
+#include "uniform_location.hpp"
 
 namespace opengl {
 
-	class AttributeVariable {
+	class UniformVariable {
 	public:
-		enum AttribType : GLenum {
+		enum UniformType : GLenum {
 			Float = GL_FLOAT,
 			Vec2f = GL_FLOAT_VEC2,
 			Vec3f = GL_FLOAT_VEC3,
@@ -48,26 +45,24 @@ namespace opengl {
 			Mat4x3d = GL_DOUBLE_MAT4x3
 		};
 
-		AttributeVariable(AttributeLocation location, std::string name, AttribType type);
+		UniformVariable();
 
-		AttributeVariable();
+		UniformVariable(UniformLocation location, std::string name, UniformType type);
 
 		std::string Name() const;
 
-		AttribType Type() const;
+		UniformType Type() const;
 
-		bool IsValid();
+		bool IsValid() const;
 
-		const AttributeLocation& Location() const;
+		const UniformLocation& Location() const;
 
 	private:
-		AttributeLocation m_location;
+		UniformLocation m_location;
 
 		std::string m_name;
 
-		AttribType m_type;
-
-		friend class Program;
+		UniformType m_type;
 	};
 
 }

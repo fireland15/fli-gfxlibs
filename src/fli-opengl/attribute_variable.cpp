@@ -2,7 +2,7 @@
 
 namespace opengl {
 
-	AttributeVariable::AttributeVariable(GLint location, std::string name, AttribType type)
+	AttributeVariable::AttributeVariable(AttributeLocation location, std::string name, AttribType type)
 		: m_location(location)
 		, m_name(name)
 		, m_type(type) { }

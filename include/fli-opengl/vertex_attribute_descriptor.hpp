@@ -7,7 +7,7 @@ namespace opengl {
 	struct VertexAttributeDescriptor {
 	public:
 		void* pAttributes;
-		int Size;
+		unsigned int Size;
 		AttributeVariable AttributeVariable;
 	};
 

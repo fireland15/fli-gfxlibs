@@ -8,6 +8,7 @@
 
 #include "shader.hpp"
 #include "attribute_variable.hpp"
+#include "uniform_variable.hpp"
 
 namespace opengl {
 
@@ -19,7 +20,9 @@ namespace opengl {
 
 		void Obj(GLuint obj);
 
-		void GetAttributeVariables();
+		void QueryForAttributeVariables();
+
+		void QueryForUniformVariables();
 
 	public:
 		Program();
@@ -50,6 +53,8 @@ namespace opengl {
 		std::string m_errors;
 
 		std::vector<AttributeVariable> m_attributeVariables;
+
+		std::vector<UniformVariable> m_uniformVariables;
 	};
 
 }

@@ -28,22 +28,24 @@ opengl::MeshFactory meshFactory;
 opengl::StaticMesh mesh;
 
 std::string vertexSourceString =
-"#version 330\n"\
-"in vec3 position;\n"\
-"in vec4 color;\n"\
-"out vec4 fColor;\n"\
+"#version 430\n"\
+"layout(location = 1) in vec3 position;\n"\
+"layout(location = 0) in vec4 color;\n"\
+"layout(location = 4) uniform vec4 ucolor;\n"\
+"out vec4 vColor;\n"\
 "void main() {\n"\
 "gl_Position.xyz = position;\n"\
 "gl_Position.w = 1.0;\n"\
-"fColor = color;\n"\
+"vColor = color + ucolor;\n"\
 "}\n";
 
 std::string fragmentSourceString =
-"#version 330\n"\
-"in vec4 fColor;\n"\
-"out vec4 fragcolor;\n"\
+"#version 430\n"\
+"in vec4 vColor;\n"\
+"out vec4 fColor;\n"\
+"layout(location = 4) uniform vec4 ucolor;\n"\
 "void main() {\n"\
-"fragcolor = fColor;\n"\
+"fColor = vColor;\n"\
 "}\n";
 
 glm::vec3 vertices[3] = {
@@ -125,8 +127,8 @@ void Setup(opengl::GL& gl) {
 	meshDesc.PositionVariable = position;
 
 	opengl::VertexAttributeDescriptor colorDesc;
-	colorDesc.pAttributes = colors;
-	colorDesc.Size = 12;
+	colorDesc.pAttributes = &colors[0];
+	colorDesc.Size = sizeof(colors);
 	colorDesc.AttributeVariable = color;
 	meshDesc.AttributeDescriptors.push_back(colorDesc);
 

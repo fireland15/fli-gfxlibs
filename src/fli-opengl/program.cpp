@@ -15,7 +15,7 @@ namespace opengl {
 		m_obj = obj;
 	}
 
-	void Program::GetAttributeVariables() {
+	void Program::QueryForAttributeVariables() {
 		GLint numActiveAttribs = 0;
 
 		glGetProgramInterfaceiv(m_obj, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numActiveAttribs);
@@ -34,8 +34,32 @@ namespace opengl {
 			glGetProgramResourceName(m_obj, GL_PROGRAM_INPUT, i, (GLsizei)nameData.size(), 0, &nameData[0]);
 			std::string name((char*)&nameData[0], nameData.size() - 1);
 
-			AttributeVariable var(i, name, (AttributeVariable::AttribType)values[1]);
+			AttributeVariable var(AttributeLocation(i), name, (AttributeVariable::AttribType)values[1]);
 			m_attributeVariables.push_back(var);
+		}
+	}
+
+	void Program::QueryForUniformVariables() {
+		GLint numActiveUniforms = 0;
+
+		glGetProgramInterfaceiv(m_obj, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numActiveUniforms);
+
+		std::vector<GLchar> nameData(256);
+		std::vector<GLenum> props;
+		props.push_back(GL_NAME_LENGTH);
+		props.push_back(GL_TYPE);
+		props.push_back(GL_ARRAY_SIZE);
+		std::vector<GLint> values(props.size());
+
+		for (GLint i = 0; i < numActiveUniforms; i++) {
+			glGetProgramResourceiv(m_obj, GL_UNIFORM, i, (GLsizei)props.size(), &props[0], (GLsizei)values.size(), 0, &values[0]);
+
+			nameData.resize(values[0]);
+			glGetProgramResourceName(m_obj, GL_UNIFORM, i, (GLsizei)nameData.size(), 0, &nameData[0]);
+			std::string name((char*)&nameData[0], nameData.size() - 1);
+
+			UniformVariable var(UniformLocation(i), name, (UniformVariable::UniformType)values[1]);
+			m_uniformVariables.push_back(var);
 		}
 	}
 
@@ -75,7 +99,8 @@ namespace opengl {
 			return false;
 		}
 
-		GetAttributeVariables();
+		QueryForAttributeVariables();
+		QueryForUniformVariables();
 
 		return true;
 	}
