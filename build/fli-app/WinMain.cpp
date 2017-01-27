@@ -28,8 +28,8 @@ opengl::StaticMesh mesh;
 
 std::string vertexSourceString =
 "#version 430\n"\
-"layout(location = 1) in vec3 position;\n"\
-"layout(location = 0) in vec4 color;\n"\
+"layout(location = 0) in vec3 position;\n"\
+"layout(location = 3) in vec4 color;\n"\
 "layout(location = 4) uniform vec4 ucolor;\n"\
 "out vec4 vColor;\n"\
 "void main() {\n"\

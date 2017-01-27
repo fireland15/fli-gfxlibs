@@ -34,7 +34,9 @@ namespace opengl {
 			glGetProgramResourceName(m_obj, GL_PROGRAM_INPUT, i, (GLsizei)nameData.size(), 0, &nameData[0]);
 			std::string name((char*)&nameData[0], nameData.size() - 1);
 
-			AttributeVariable var(AttributeLocation(i), name, (AttributeVariable::AttribType)values[1]);
+			GLint location = glGetProgramResourceLocation(m_obj, GL_PROGRAM_INPUT, name.c_str());
+
+			AttributeVariable var(AttributeLocation(location), name, (AttributeVariable::AttribType)values[1]);
 			m_attributeVariables.push_back(var);
 		}
 	}
@@ -58,7 +60,9 @@ namespace opengl {
 			glGetProgramResourceName(m_obj, GL_UNIFORM, i, (GLsizei)nameData.size(), 0, &nameData[0]);
 			std::string name((char*)&nameData[0], nameData.size() - 1);
 
-			UniformVariable var(UniformLocation(i), name, (UniformVariable::UniformType)values[1]);
+			GLint location = glGetProgramResourceLocation(m_obj, GL_UNIFORM, name.c_str());
+
+			UniformVariable var(UniformLocation(location), name, (UniformVariable::UniformType)values[1]);
 			m_uniformVariables.push_back(var);
 		}
 	}
@@ -126,5 +130,239 @@ namespace opengl {
 	const std::vector<AttributeVariable>& Program::AttributeVariables() {
 		return m_attributeVariables;
 	}
+	
+	void Program::SetUniform(UniformVariable uniform, float value) {
+		if (uniform.Type() == UniformVariable::UniformType::Float) {
+			glProgramUniform1f(m_obj, uniform.Location().Value(), value);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, glm::vec2 value) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec2f) {
+			glProgramUniform2f(m_obj, uniform.Location().Value(), value[0], value[1]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, glm::vec3 value) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec3f) {
+			glProgramUniform3f(m_obj, uniform.Location().Value(), value[0], value[1], value[2]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, glm::vec4 value) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec4f) {
+			glProgramUniform4f(m_obj, uniform.Location().Value(), value[0], value[1], value[2], value[3]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, int value) {
+		if (uniform.Type() == UniformVariable::UniformType::Int) {
+			glProgramUniform1i(m_obj, uniform.Location().Value(), value);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, glm::ivec2 value) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec2i) {
+			glProgramUniform2i(m_obj, uniform.Location().Value(), value[0], value[1]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, glm::ivec3 value) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec3i) {
+			glProgramUniform3i(m_obj, uniform.Location().Value(), value[0], value[1], value[2]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, glm::ivec4 value) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec4i) {
+			glProgramUniform4i(m_obj, uniform.Location().Value(), value[0], value[1], value[2], value[3]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, unsigned int value) {
+		if (uniform.Type() == UniformVariable::UniformType::UnsignedInt) {
+			glProgramUniform1ui(m_obj, uniform.Location().Value(), value);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, glm::uvec2 value) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec2u) {
+			glProgramUniform2ui(m_obj, uniform.Location().Value(), value[0], value[1]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, glm::uvec3 value) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec3u) {
+			glProgramUniform3ui(m_obj, uniform.Location().Value(), value[0], value[1], value[2]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, glm::uvec4 value) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec4u) {
+			glProgramUniform4ui(m_obj, uniform.Location().Value(), value[0], value[1], value[2], value[3]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<float> values) {
+		if (uniform.Type() == UniformVariable::UniformType::Float) {
+			glProgramUniform1fv(m_obj, uniform.Location().Value(), values.size(), &values[0]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::vec2> values) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec2f) {
+			glProgramUniform2fv(m_obj, uniform.Location().Value(), values.size(), &values[0][0]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::vec3> values) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec3f) {
+			glProgramUniform3fv(m_obj, uniform.Location().Value(), values.size(), &values[0][0]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::vec4> values) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec4f) {
+			glProgramUniform4fv(m_obj, uniform.Location().Value(), values.size(), &values[0][0]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<int> values) {
+		if (uniform.Type() == UniformVariable::UniformType::Int) {
+			glProgramUniform1iv(m_obj, uniform.Location().Value(), values.size(), &values[0]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::ivec2> values) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec2i) {
+			glProgramUniform2iv(m_obj, uniform.Location().Value(), values.size(), &values[0][0]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::ivec3> values) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec3i) {
+			glProgramUniform3iv(m_obj, uniform.Location().Value(), values.size(), &values[0][0]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::ivec4> values) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec4i) {
+			glProgramUniform4iv(m_obj, uniform.Location().Value(), values.size(), &values[0][0]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<unsigned int> values) {
+		if (uniform.Type() == UniformVariable::UniformType::UnsignedInt) {
+			glProgramUniform1uiv(m_obj, uniform.Location().Value(), values.size(), &values[0]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::uvec2> values) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec2u) {
+			glProgramUniform2uiv(m_obj, uniform.Location().Value(), values.size(), &values[0][0]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::uvec3> values) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec3u) {
+			glProgramUniform3uiv(m_obj, uniform.Location().Value(), values.size(), &values[0][0]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::uvec4> values) {
+		if (uniform.Type() == UniformVariable::UniformType::Vec4u) {
+			glProgramUniform4uiv(m_obj, uniform.Location().Value(), values.size(), &values[0][0]);
+		}
+		else {
+			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::mat2> values);
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::mat3> values);
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::mat4> values);
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::mat2x3> values);
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::mat3x2> values);
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::mat2x4> values);
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::mat4x2> values);
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::mat3x4> values);
+
+	void Program::SetUniform(UniformVariable uniform, std::vector<glm::mat4x3> values);
 
 }
