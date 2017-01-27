@@ -92,7 +92,7 @@ namespace opengl {
 	}
 
 	StaticMesh MeshFactory::CreateStaticMesh(const MeshDescriptor& desc) {
-		unsigned int numVertices = desc.Vertices.size();
+		unsigned int numVertices = (unsigned int)desc.Vertices.size();
 
 		std::vector<Buffer> vertexBuffers;
 

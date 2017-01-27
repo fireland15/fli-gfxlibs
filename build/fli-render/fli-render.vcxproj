@@ -162,6 +162,14 @@
     <ClCompile Include="..\..\src\fli-render\simple_render_system.cpp" />
     <ClCompile Include="..\..\src\fli-render\window.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\fli-opengl\fli-opengl.vcxproj">
+      <Project>{be54bbf9-7550-4b72-b08f-cf68efad0c6d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\fli-utility\fli-utility.vcxproj">
+      <Project>{f959e1e9-287f-478e-99b0-2526f943913c}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

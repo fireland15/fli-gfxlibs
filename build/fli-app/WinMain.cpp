@@ -3,7 +3,6 @@
 #include <sstream>
 
 #define _WIN32_LEAN_AND_MEAN
-#define GLEW_STATIC
 
 #include <Windows.h>
 

@@ -213,7 +213,7 @@ namespace gfx {
 
 		void 
 		Window::DispatchEnableMessages(WPARAM wParam) {
-			if (BOOL(wParam) == true) {
+			if (BOOL(wParam) != 0) {
 				for (auto callback : m_enabledMessageHandlers) {
 					callback();
 				}

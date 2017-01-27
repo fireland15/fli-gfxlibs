@@ -35,6 +35,9 @@ namespace opengl {
 		case Error::Unknown:
 			return "Unknown";
 			break;
+		default:
+			return "Unknown";
+			break;
 		}
 	}
 
