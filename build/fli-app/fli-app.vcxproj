@@ -99,7 +99,7 @@
     <IntDir>$(SolutionDir)temp\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include\$(ProjectName)\;$(SolutionDir)include\</IncludePath>
-    <LibraryPath>$(SolutionDir)lib\glew\;$(SolutionDir)lib\fli-utility\$(Platform)\$(Configuration)\;$(SolutionDir)lib\fli-render\$(Platform)\$(Configuration)\;$(SolutionDir)lib\fli-core\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)lib\glew\;$(SolutionDir)lib\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

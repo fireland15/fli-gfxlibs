@@ -59,6 +59,9 @@ glm::vec4 colors[3] = {
 	glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)
 };
 
+glm::vec4 color = glm::vec4(0.99f, 0.99f, 0.99f, 0.99f);
+float dColor = 0.00005f;
+
 void Setup(opengl::GL& gl) {
 	wglSwapIntervalEXT(0);
 
@@ -120,7 +123,8 @@ void Setup(opengl::GL& gl) {
 
 	const opengl::AttributeVariable& position = program.GetAttributeVariable("position");
 	const opengl::AttributeVariable& color = program.GetAttributeVariable("color");
-	
+	const opengl::UniformVariable& ucolor = program.GetUniformVariable("ucolor");
+
 	opengl::MeshDescriptor meshDesc;
 	meshDesc.Vertices = std::vector<glm::vec3>(vertices, std::end(vertices));
 	meshDesc.PositionVariable = position;
@@ -140,6 +144,17 @@ void Setup(opengl::GL& gl) {
 
 void Render() {
 	program.Use();
+	const opengl::UniformVariable& ucolor = program.GetUniformVariable("ucolor");
+
+	if (color.x < 0.25f || color.x > 1.0f) {
+		dColor *= -1;
+	}
+
+	color.x = color.x - dColor;
+	color.y = color.y - dColor;
+	color.z = color.z - dColor;
+
+	program.SetUniform(ucolor, color);
 	mesh.Render();
 }
 

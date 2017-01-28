@@ -45,6 +45,10 @@ namespace opengl {
 
 		const std::vector<AttributeVariable>& AttributeVariables();
 
+		const UniformVariable& GetUniformVariable(std::string name);
+
+		const std::vector<UniformVariable>& UniformVariables();
+
 		void SetUniform(UniformVariable uniform, float value);
 
 		void SetUniform(UniformVariable uniform, glm::vec2 value);
