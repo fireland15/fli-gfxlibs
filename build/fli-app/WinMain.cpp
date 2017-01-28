@@ -16,6 +16,7 @@
 #include <fli-opengl\mesh_descriptor.hpp>
 #include <fli-opengl\static_mesh.hpp>
 #include <fli-opengl\vertex_attribute_descriptor.hpp>
+#include <fli-opengl\program_factory.hpp>
 #include <glm\glm.hpp>
 
 opengl::GL gl;
@@ -61,69 +62,34 @@ glm::vec4 colors[3] = {
 
 glm::vec4 color = glm::vec4(0.99f, 0.99f, 0.99f, 0.99f);
 float dColor = 0.00005f;
+opengl::UniformVariable& ucolor = opengl::UniformVariable();
 
-void Setup(opengl::GL& gl) {
+bool Setup() {
 	wglSwapIntervalEXT(0);
 
 	opengl::ShaderSource vertexSource;
 	vertexSource.AddSource(vertexSourceString);
-	std::cout << gl.GetErrors().ToString() << std::endl;
 
 	opengl::ShaderSource fragmentSource;
 	fragmentSource.AddSource(fragmentSourceString);
-	std::cout << gl.GetErrors().ToString() << std::endl;
 
-	vertexShader = gl.CreateShader(opengl::Shader::Type::Vertex);
-	fragmentShader = gl.CreateShader(opengl::Shader::Type::Fragment);
-	std::cout << gl.GetErrors().ToString() << std::endl;
-
-	vertexShader.SetSource(vertexSource);
-	fragmentShader.SetSource(fragmentSource);
-	std::cout << gl.GetErrors().ToString() << std::endl;
-
-	if (!vertexShader.Compile()) {
-		std::cout << vertexShader.GetErrors() << std::endl;
-		gl.DeleteShader(vertexShader);
-		gl.DeleteShader(fragmentShader);
-		exit(-1);
+	try {
+		vertexShader = opengl::ProgramFactory::CreateVertexShader(vertexSource);
+		fragmentShader = opengl::ProgramFactory::CreateFragmentShader(fragmentSource);
+		program = opengl::ProgramFactory::CreateProgram({ vertexShader, fragmentShader });
 	}
-	std::cout << gl.GetErrors().ToString() << std::endl;
-
-	if (!fragmentShader.Compile()) {
-		std::cout << fragmentShader.GetErrors() << std::endl;
-		gl.DeleteShader(vertexShader);
-		gl.DeleteShader(fragmentShader);
-		exit(-1);
+	catch (opengl::shader_compilation_exception ex) {
+		std::cout << ex.what() << std::endl;
+		return false;
 	}
-	std::cout << gl.GetErrors().ToString() << std::endl;
-
-	program = gl.CreateProgram();
-	std::cout << gl.GetErrors().ToString() << std::endl;
-	program.Attach(vertexShader);
-	program.Attach(fragmentShader);
-	std::cout << gl.GetErrors().ToString() << std::endl;
-
-	if (!program.Link()) {
-		std::cout << program.GetErrors() << std::endl;
-		program.Detach(vertexShader);
-		program.Detach(fragmentShader);
-		gl.DeleteShader(vertexShader);
-		gl.DeleteShader(fragmentShader);
-		gl.DeleteProgram(program);
-		exit(-1);
+	catch (opengl::program_link_exception ex) {
+		std::cout << ex.what() << std::endl;
+		return false;
 	}
-
-	program.Detach(vertexShader);
-	program.Detach(fragmentShader);
-	std::cout << gl.GetErrors().ToString() << std::endl;
-
-	gl.DeleteShader(vertexShader);
-	gl.DeleteShader(fragmentShader);
-	std::cout << gl.GetErrors().ToString() << std::endl;
 
 	const opengl::AttributeVariable& position = program.GetAttributeVariable("position");
 	const opengl::AttributeVariable& color = program.GetAttributeVariable("color");
-	const opengl::UniformVariable& ucolor = program.GetUniformVariable("ucolor");
+	ucolor = program.GetUniformVariable("ucolor");
 
 	opengl::MeshDescriptor meshDesc;
 	meshDesc.Vertices = std::vector<glm::vec3>(vertices, std::end(vertices));
@@ -144,7 +110,6 @@ void Setup(opengl::GL& gl) {
 
 void Render() {
 	program.Use();
-	const opengl::UniformVariable& ucolor = program.GetUniformVariable("ucolor");
 
 	if (color.x < 0.25f || color.x > 1.0f) {
 		dColor *= -1;
@@ -164,7 +129,9 @@ int main() {
 	gfx::render::Window w(hInstance, "fli-app-1", glm::uvec2(100, 100), glm::uvec2(300, 300));
 
 	opengl::OpenGlContext* c = w.GetOpenGlContext();
-	Setup(gl);
+	if (!Setup()) {
+		return (-1);
+	}
 
 	gfx::core::Clock clock;
 	gfx::core::Clock::Timepoint t = clock.Now();
