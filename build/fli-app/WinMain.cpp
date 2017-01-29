@@ -18,6 +18,7 @@
 #include <fli-opengl\vertex_attribute_descriptor.hpp>
 #include <fli-opengl\program_factory.hpp>
 #include <glm\glm.hpp>
+#include <glm\gtc\matrix_transform.hpp>
 
 opengl::GL gl;
 opengl::OpenGlContext context;
@@ -32,10 +33,10 @@ std::string vertexSourceString =
 "layout(location = 0) in vec3 position;\n"\
 "layout(location = 3) in vec4 color;\n"\
 "layout(location = 4) uniform vec4 ucolor;\n"\
+"layout(location = 5) uniform mat4 projection;\n"\
 "out vec4 vColor;\n"\
 "void main() {\n"\
-"gl_Position.xyz = position;\n"\
-"gl_Position.w = 1.0;\n"\
+"gl_Position = projection * vec4(position, 1);\n"\
 "vColor = color + ucolor;\n"\
 "}\n";
 
@@ -63,6 +64,7 @@ glm::vec4 colors[3] = {
 glm::vec4 color = glm::vec4(0.99f, 0.99f, 0.99f, 0.99f);
 float dColor = 0.00005f;
 opengl::UniformVariable& ucolor = opengl::UniformVariable();
+opengl::UniformVariable& projection = opengl::UniformVariable();
 
 bool Setup() {
 	wglSwapIntervalEXT(0);
@@ -90,6 +92,7 @@ bool Setup() {
 	const opengl::AttributeVariable& position = program.GetAttributeVariable("position");
 	const opengl::AttributeVariable& color = program.GetAttributeVariable("color");
 	ucolor = program.GetUniformVariable("ucolor");
+	projection = program.GetUniformVariable("projection");
 
 	opengl::MeshDescriptor meshDesc;
 	meshDesc.Vertices = std::vector<glm::vec3>(vertices, std::end(vertices));
@@ -102,10 +105,6 @@ bool Setup() {
 	meshDesc.AttributeDescriptors.push_back(colorDesc);
 
 	mesh = meshFactory.CreateStaticMesh(meshDesc);
-	
-	for (const opengl::AttributeVariable& var : program.AttributeVariables()) {
-		std::cout << var.Name() << std::endl;
-	}
 }
 
 void Render() {
@@ -119,7 +118,10 @@ void Render() {
 	color.y = color.y - dColor;
 	color.z = color.z - dColor;
 
+	glm::mat4 proj = glm::ortho(-5.0, 5.0, 0.0, 5.0);
+
 	program.SetUniform(ucolor, color);
+	program.SetUniform(projection, { proj });
 	mesh.Render();
 }
 
