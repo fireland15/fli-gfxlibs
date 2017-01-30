@@ -35,6 +35,7 @@ namespace opengl {
 	}
 
 	void Buffer::SetData(const Descriptor& desc) {
+		m_description = desc;
 		glBufferData(desc.Target, desc.Size, desc.pData, desc.Usage);
 	}
 

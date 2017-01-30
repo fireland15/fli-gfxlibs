@@ -21,4 +21,13 @@ namespace opengl {
 	private:
 		std::string m_message;
 	};
+
+	struct invalid_buffer_usage_exception : public std::exception {
+		invalid_buffer_usage_exception(std::string message);
+
+		const char* what() const noexcept;
+
+	private:
+		std::string m_message;
+	};
 }

@@ -104,7 +104,13 @@ namespace opengl {
 
 		void Unbind();
 
+		// Use when first setting the buffer data
+		// Will set the usage and target
 		void SetData(const Descriptor& desc);
+
+		// Use when needing to update a buffers contents.
+		// Binds to the target and usage specified by set data.
+		void UpdateData(void* pData, unsigned int size);
 
 		bool IsBound();
 

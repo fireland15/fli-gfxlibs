@@ -155,4 +155,8 @@ namespace opengl {
 		return StaticMesh(numVertices, vao, vertexBuffers);
 	}
 
+	StaticInstancedMesh MeshFactory::CreateStaticInstancedMesh(const MeshDescriptor& desc, std::vector<VertexAttributeDescriptor>& instancedAttributeDescriptor) {
+		unsigned int numVertices = (unsigned int)desc.Vertices.size();
+	}
+
 }

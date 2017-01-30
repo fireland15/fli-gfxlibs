@@ -1,6 +1,7 @@
 #include <iostream>
 #include <functional>
 #include <sstream>
+#include <fstream>
 
 #define _WIN32_LEAN_AND_MEAN
 
@@ -28,26 +29,9 @@ opengl::Shader fragmentShader;
 opengl::MeshFactory meshFactory;
 opengl::StaticMesh mesh;
 
-std::string vertexSourceString =
-"#version 430\n"\
-"layout(location = 0) in vec3 position;\n"\
-"layout(location = 3) in vec4 color;\n"\
-"layout(location = 4) uniform vec4 ucolor;\n"\
-"layout(location = 5) uniform mat4 projection;\n"\
-"out vec4 vColor;\n"\
-"void main() {\n"\
-"gl_Position = projection * vec4(position, 1);\n"\
-"vColor = color + ucolor;\n"\
-"}\n";
+std::string vshader = "../../src/glsl/vs.glsl";
 
-std::string fragmentSourceString =
-"#version 430\n"\
-"in vec4 vColor;\n"\
-"out vec4 fColor;\n"\
-"layout(location = 4) uniform vec4 ucolor;\n"\
-"void main() {\n"\
-"fColor = vColor;\n"\
-"}\n";
+std::string fshader = "../../src/glsl/fs.glsl";
 
 glm::vec3 vertices[3] = {
 	glm::vec3(-1.0f, -1.0f, 0.0f),
@@ -69,11 +53,16 @@ opengl::UniformVariable& projection = opengl::UniformVariable();
 bool Setup() {
 	wglSwapIntervalEXT(0);
 
-	opengl::ShaderSource vertexSource;
-	vertexSource.AddSource(vertexSourceString);
+	std::ifstream vsStream = std::ifstream(vshader);
+	vsStream.open(vshader);
+	std::ifstream fsStream = std::ifstream(fshader);
+	fsStream.open(fshader);
 
-	opengl::ShaderSource fragmentSource;
-	fragmentSource.AddSource(fragmentSourceString);
+	opengl::ShaderSource vertexSource = opengl::ShaderSource(std::ifstream(vshader));
+	opengl::ShaderSource fragmentSource = opengl::ShaderSource(std::ifstream(fshader));
+
+	fsStream.close();
+	vsStream.close();
 
 	try {
 		vertexShader = opengl::ProgramFactory::CreateVertexShader(vertexSource);

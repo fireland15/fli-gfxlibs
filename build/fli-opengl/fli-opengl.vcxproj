@@ -173,6 +173,7 @@
     <ClInclude Include="..\..\include\fli-opengl\mesh_descriptor.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\mesh_factory.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\program_factory.hpp" />
+    <ClInclude Include="..\..\include\fli-opengl\static_instanced_mesh.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\static_mesh.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\opengl.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\opengl_error.hpp" />
@@ -183,6 +184,9 @@
     <ClInclude Include="..\..\include\fli-opengl\uniform_variable.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\vertex_array.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\vertex_attribute_descriptor.hpp" />
+    <ClCompile Include="..\..\src\fli-opengl\static_instanced_mesh.cpp">
+      <FileType>CppHeader</FileType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\fli-opengl\attribute_location.cpp" />

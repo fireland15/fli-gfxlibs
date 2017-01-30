@@ -30,6 +30,10 @@ namespace opengl {
 		glVertexAttribPointer(loc.Value(), desc.AttributeSize, desc.Type, desc.Normalize, desc.Stride, desc.Offset);
 	}
 
+	void VertexArray::SetVertexAttributeDivisor(const AttributeVariable & attrib, unsigned int divisor) {
+		glVertexAttribDivisor(attrib.Location().Value(), divisor);
+	}
+
 	void VertexArray::Bind() {
 		if (!m_isBound) {
 			glBindVertexArray(m_vao);

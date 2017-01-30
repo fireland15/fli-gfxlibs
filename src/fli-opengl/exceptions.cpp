@@ -15,4 +15,11 @@ namespace opengl {
 	const char* program_link_exception::what() const noexcept {
 		return m_message.c_str();
 	}
+
+	invalid_buffer_usage_exception::invalid_buffer_usage_exception(std::string message)
+		: m_message(message) { }
+
+	const char* invalid_buffer_usage_exception::what() const noexcept {
+		return m_message.c_str();
+	}
 }

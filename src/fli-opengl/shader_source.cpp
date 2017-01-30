@@ -9,8 +9,10 @@ namespace opengl {
 	}
 
 	ShaderSource::ShaderSource(std::ifstream& stream) {
-		std::string line;
-		while (std::getline(stream, line)) {
+		while (!stream.eof()) {
+			std::string line;
+			std::getline(stream, line);
+			line.append("\n");
 			m_source.push_back(line);
 		}
 	}

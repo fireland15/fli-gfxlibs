@@ -23,6 +23,9 @@ namespace opengl {
 
 		void SetVertexAttributePointer(const AttributeVariable& attrib, const Buffer::DataDescriptor& desc);
 
+		// divisor is the number of instances that will be rendered before the attrib is updated.
+		void SetVertexAttributeDivisor(const AttributeVariable& attrib, unsigned int divisor);
+
 		void Bind();
 
 		void Unbind();
