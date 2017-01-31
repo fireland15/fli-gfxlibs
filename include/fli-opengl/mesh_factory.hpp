@@ -22,6 +22,7 @@ namespace opengl {
 		StaticMesh CreateStaticMesh(const MeshDescriptor& desc);
 
 		StaticInstancedMesh CreateStaticInstancedMesh(const MeshDescriptor& desc, std::vector<VertexAttributeDescriptor>& instancedAttributeDescriptor);
+	
 	private:
 
 		

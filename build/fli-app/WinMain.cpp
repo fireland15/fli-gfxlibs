@@ -20,6 +20,7 @@
 #include <fli-opengl\program_factory.hpp>
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtc\type_ptr.hpp>
 
 opengl::GL gl;
 opengl::OpenGlContext context;
@@ -28,6 +29,7 @@ opengl::Shader vertexShader;
 opengl::Shader fragmentShader;
 opengl::MeshFactory meshFactory;
 opengl::StaticMesh mesh;
+opengl::StaticInstancedMesh inMesh;
 
 std::string vshader = "../../src/glsl/vs.glsl";
 
@@ -44,6 +46,8 @@ glm::vec4 colors[3] = {
 	glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),
 	glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)
 };
+
+opengl::AttributeVariable instPosition;
 
 glm::vec4 color = glm::vec4(0.99f, 0.99f, 0.99f, 0.99f);
 float dColor = 0.00005f;
@@ -80,6 +84,8 @@ bool Setup() {
 
 	const opengl::AttributeVariable& position = program.GetAttributeVariable("position");
 	const opengl::AttributeVariable& color = program.GetAttributeVariable("color");
+	instPosition = program.GetAttributeVariable("inst_position");
+
 	ucolor = program.GetUniformVariable("ucolor");
 	projection = program.GetUniformVariable("projection");
 
@@ -94,6 +100,13 @@ bool Setup() {
 	meshDesc.AttributeDescriptors.push_back(colorDesc);
 
 	mesh = meshFactory.CreateStaticMesh(meshDesc);
+
+	opengl::VertexAttributeDescriptor instancePositionDesc;
+	instancePositionDesc.AttributeVariable = instPosition;
+	instancePositionDesc.pAttributes = 0;
+	instancePositionDesc.Size = 0;
+
+	inMesh = meshFactory.CreateStaticInstancedMesh(meshDesc, { instancePositionDesc });
 }
 
 void Render() {
@@ -112,6 +125,24 @@ void Render() {
 	program.SetUniform(ucolor, color);
 	program.SetUniform(projection, { proj });
 	mesh.Render();
+
+	std::vector<glm::vec3> instancePositions;
+	instancePositions.push_back(glm::vec3(0.0f, 4.0f, 0.0f));
+	instancePositions.push_back(glm::vec3(-2.0f, 2.0f, 0.0f));
+	instancePositions.push_back(glm::vec3(1.0f, 3.0f, 0.0f));
+
+	opengl::InstanceUpdateData instanceData;
+	instanceData.Attribute = instPosition;
+	instanceData.pData = glm::value_ptr(instancePositions[0]);
+	instanceData.dataSize = sizeof(glm::vec3) * instancePositions.size();
+
+	inMesh.SetInstancedData({ instanceData });
+	inMesh.Render(instancePositions.size());
+	opengl::OpenGlError error = opengl::GL::GetErrors();
+	if (error.IsError()) {
+		std::cout << error.ToString() << std::endl;
+		exit(-1);
+	}
 }
 
 int main() {
