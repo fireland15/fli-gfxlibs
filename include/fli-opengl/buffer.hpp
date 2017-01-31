@@ -110,6 +110,7 @@ namespace opengl {
 
 		// Use when needing to update a buffers contents.
 		// Binds to the target and usage specified by set data.
+		// size is the size of the array pointed by pData in bytes
 		void UpdateData(void* pData, unsigned int size);
 
 		bool IsBound();

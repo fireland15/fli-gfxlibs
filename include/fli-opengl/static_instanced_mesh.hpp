@@ -12,6 +12,13 @@
 
 namespace opengl {
 
+	struct InstanceUpdateData {
+		AttributeVariable Attribute;
+		void* pData;
+		// the size of pData in bytes
+		unsigned int dataSize;
+	};
+
 	class StaticInstancedMesh {
 	public:
 		StaticInstancedMesh() = default;
@@ -21,10 +28,10 @@ namespace opengl {
 			unsigned int numVertices,
 			VertexArray vertexArray, 
 			std::vector<Buffer> vertexBuffer, 
-			std::vector<Buffer> instancedBuffers);
+			std::map<AttributeVariable, Buffer> instancedBuffers);
 
 		// Each buffer will need to copy the void* array of size unsigned int. Only buffers that require updating get updated.
-		void SetInstancedData(std::map<Buffer, std::pair<void*, unsigned int>> instanceData);
+		void SetInstancedData(std::vector<InstanceUpdateData> instanceData);
 
 		void Render(unsigned int numInstances);
 
@@ -33,7 +40,7 @@ namespace opengl {
 
 		std::vector<Buffer> m_vertexBuffers;
 
-		std::vector<Buffer> m_instancedBuffers;
+		std::map<AttributeVariable, Buffer> m_instancedBuffers;
 
 		unsigned int m_numVertices;
 

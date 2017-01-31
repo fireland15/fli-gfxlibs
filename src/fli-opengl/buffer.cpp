@@ -36,7 +36,21 @@ namespace opengl {
 
 	void Buffer::SetData(const Descriptor& desc) {
 		m_description = desc;
-		glBufferData(desc.Target, desc.Size, desc.pData, desc.Usage);
+		if (m_description.pData != nullptr) {
+			glBufferData(desc.Target, desc.Size, desc.pData, desc.Usage);
+		}
+	}
+
+	void Buffer::UpdateData(void* pData, unsigned int size) {
+		if (pData == nullptr) {
+			throw std::exception("nullptr");
+		}
+
+		if (size == 0) {
+			throw std::exception("array cannot be empty");
+		}
+
+		glBufferData(m_description.Target, size, pData, m_description.Usage);
 	}
 
 	bool Buffer::IsBound() {
