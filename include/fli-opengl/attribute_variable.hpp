@@ -68,6 +68,14 @@ namespace opengl {
 		AttribType m_type;
 
 		friend class Program;
+
+		friend struct AttributeComparator;
+	};
+
+	struct AttributeComparator {
+		bool operator()(const AttributeVariable& lhs, const AttributeVariable& rhs) const {
+			return lhs.m_location.Value() < rhs.m_location.Value();
+		}
 	};
 
 }

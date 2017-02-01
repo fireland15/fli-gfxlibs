@@ -101,12 +101,16 @@ bool Setup() {
 
 	mesh = meshFactory.CreateStaticMesh(meshDesc);
 
+	std::vector<opengl::VertexAttributeDescriptor> descriptors;
+
 	opengl::VertexAttributeDescriptor instancePositionDesc;
 	instancePositionDesc.AttributeVariable = instPosition;
-	instancePositionDesc.pAttributes = 0;
+	instancePositionDesc.pAttributes = (void*)1;
 	instancePositionDesc.Size = 0;
 
-	inMesh = meshFactory.CreateStaticInstancedMesh(meshDesc, { instancePositionDesc });
+	descriptors.push_back(instancePositionDesc);
+
+	inMesh = meshFactory.CreateStaticInstancedMesh(meshDesc, descriptors);
 }
 
 void Render() {
@@ -120,16 +124,17 @@ void Render() {
 	color.y = color.y - dColor;
 	color.z = color.z - dColor;
 
-	glm::mat4 proj = glm::ortho(-5.0, 5.0, 0.0, 5.0);
+	glm::mat4 proj = glm::ortho(-10.0, 10.0, -10.0, 10.0);
 
 	program.SetUniform(ucolor, color);
 	program.SetUniform(projection, { proj });
 	mesh.Render();
 
 	std::vector<glm::vec3> instancePositions;
-	instancePositions.push_back(glm::vec3(0.0f, 4.0f, 0.0f));
-	instancePositions.push_back(glm::vec3(-2.0f, 2.0f, 0.0f));
-	instancePositions.push_back(glm::vec3(1.0f, 3.0f, 0.0f));
+	instancePositions.push_back(glm::vec3(0.0f + std::sinf(color.x*90), 4.0f, 0.0f));
+	instancePositions.push_back(glm::vec3(-2.0f, 2.0f + std::cosf(color.x * 90), 0.0f));
+	instancePositions.push_back(glm::vec3(1.0f, 3.0f - std::sinf(color.x * 90), 0.0f));
+	instancePositions.push_back(glm::vec3(4.0f + std::sinf(color.x * 90), -2.0f - 3 * std::cosf(color.x * 90) + 2 * std::sinf(color.x * 90), 0.0f));
 
 	opengl::InstanceUpdateData instanceData;
 	instanceData.Attribute = instPosition;
@@ -161,7 +166,7 @@ int main() {
 
 	int i = 0;
 
-	glClearColor(0.0f, 1.0f, 1.0f, 0.5f);
+	glClearColor(0.390f, 0.582f, 0.926f, 1.0f);
 
 	while (i++, !w.ShouldClose()) {
 		w.ProcessMessages();

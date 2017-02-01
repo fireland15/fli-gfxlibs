@@ -164,7 +164,7 @@ namespace opengl {
 		unsigned int numVertices = (unsigned int)desc.Vertices.size();
 
 		std::vector<Buffer> vertexBuffers;
-		std::map<AttributeVariable, Buffer> instanceBuffers;
+		std::map<AttributeVariable, Buffer, AttributeComparator> instanceBuffers;
 
 		VertexArray vao = GL::CreateVertexArray();
 		vao.Bind();

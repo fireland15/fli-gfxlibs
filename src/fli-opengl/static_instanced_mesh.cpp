@@ -2,7 +2,11 @@
 
 namespace opengl {
 
-	StaticInstancedMesh::StaticInstancedMesh(unsigned int numVertices, VertexArray vertexArray, std::vector<Buffer> vertexBuffers, std::map<AttributeVariable, Buffer> instancedBuffers)
+	StaticInstancedMesh::StaticInstancedMesh(
+		unsigned int numVertices, 
+		VertexArray vertexArray, 
+		std::vector<Buffer> vertexBuffers, 
+		std::map<AttributeVariable, Buffer, AttributeComparator> instancedBuffers)
 		: m_vertexArray(vertexArray)
 		, m_vertexBuffers(vertexBuffers)
 		, m_numVertices(numVertices)
@@ -18,7 +22,9 @@ namespace opengl {
 		for (InstanceUpdateData attribDataPair : instanceData) {
 			if (m_instancedBuffers.count(attribDataPair.Attribute) > 0) {
 				Buffer buffer = m_instancedBuffers[attribDataPair.Attribute];
+				buffer.Bind();
 				buffer.UpdateData(attribDataPair.pData, attribDataPair.dataSize);
+				buffer.Unbind();
 			}
 		}
 	}

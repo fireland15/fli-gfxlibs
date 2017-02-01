@@ -28,7 +28,7 @@ namespace opengl {
 			unsigned int numVertices,
 			VertexArray vertexArray, 
 			std::vector<Buffer> vertexBuffer, 
-			std::map<AttributeVariable, Buffer> instancedBuffers);
+			std::map<AttributeVariable, Buffer, AttributeComparator> instancedBuffers);
 
 		// Each buffer will need to copy the void* array of size unsigned int. Only buffers that require updating get updated.
 		void SetInstancedData(std::vector<InstanceUpdateData> instanceData);
@@ -40,7 +40,7 @@ namespace opengl {
 
 		std::vector<Buffer> m_vertexBuffers;
 
-		std::map<AttributeVariable, Buffer> m_instancedBuffers;
+		std::map<AttributeVariable, Buffer, AttributeComparator> m_instancedBuffers;
 
 		unsigned int m_numVertices;
 
