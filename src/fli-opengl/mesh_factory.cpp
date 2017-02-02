@@ -93,22 +93,16 @@ namespace opengl {
 			}
 		}
 
-		StaticMesh CreateStaticMesh(const MeshDescriptor& desc) {
+		StaticMesh* CreateStaticMesh(const MeshDescriptor& desc) {
 			unsigned int numVertices = (unsigned int)desc.Vertices.size();
 
-			std::vector<Buffer> vertexBuffers;
+			std::vector<up_Buffer> vertexBuffers;
 
-			VertexArray vao;
-			if (!vao.IsValid()) {
+			up_VertexArray vao(new VertexArray());
+			if (!vao->IsValid()) {
 				throw objection_creation_exception("Failed to create a valid VertexArray.");
 			}
-			vao.Bind();
-
-			Buffer vbo;
-			if (!vbo.IsValid()) {
-				throw objection_creation_exception("Failed to create a valid Buffer.");
-			}
-			vbo.Bind();
+			vao->Bind();
 
 			Buffer::DataDescriptor positionDesc;
 			positionDesc.Type = gl::BufferDataType::Float;
@@ -124,22 +118,22 @@ namespace opengl {
 			vboDesc.Target = gl::BufferTarget::ArrayBuffer;
 			vboDesc.Usage = gl::BufferUsage::StaticDraw;
 
-			vbo.SetData(vboDesc);
+			up_Buffer vbo(new Buffer(vboDesc));
+			if (!vbo->IsValid()) {
+				throw objection_creation_exception("Failed to create a valid Buffer.");
+			}
+			vbo->Bind();
 
-			vao.EnableVertexAttribute(desc.PositionVariable);
-			vao.SetVertexAttributePointer(desc.PositionVariable, positionDesc);
+			vbo->SetData(vboDesc);
 
-			vbo.Unbind();
+			vao->EnableVertexAttribute(desc.PositionVariable);
+			vao->SetVertexAttributePointer(desc.PositionVariable, positionDesc);
 
-			vertexBuffers.push_back(vbo);
+			vbo->Unbind();
+
+			vertexBuffers.push_back(std::move(vbo));
 
 			for (VertexAttributeDescriptor attribDesc : desc.AttributeDescriptors) {
-				Buffer buffer;
-				if (!buffer.IsValid()) {
-					throw objection_creation_exception("Failed to create a valid Buffer.");
-				}
-				buffer.Bind();
-
 				Buffer::DataDescriptor dataDesc;
 				ConvertAttributeType(attribDesc.AttributeVariable.Type(), &dataDesc.Type, &dataDesc.AttributeSize);
 				dataDesc.Normalize = gl::Normalize::No;
@@ -153,40 +147,46 @@ namespace opengl {
 				buffDesc.Target = gl::BufferTarget::ArrayBuffer;
 				buffDesc.Usage = gl::BufferUsage::StaticDraw;
 
-				buffer.SetData(buffDesc);
+				up_Buffer buffer(new Buffer(buffDesc));
+				if (!buffer->IsValid()) {
+					throw objection_creation_exception("Failed to create a valid Buffer.");
+				}
+				buffer->Bind();
 
-				vao.EnableVertexAttribute(attribDesc.AttributeVariable);
-				vao.SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
+				buffer->SetData(buffDesc);
 
-				buffer.Unbind();
+				vao->EnableVertexAttribute(attribDesc.AttributeVariable);
+				vao->SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
 
-				vertexBuffers.push_back(buffer);
+				buffer->Unbind();
+
+				vertexBuffers.push_back(std::move(buffer));
 			}
 
-			vao.Unbind();
+			vao->Unbind();
 
-			return StaticMesh(numVertices, vao, vertexBuffers);
+			return new StaticMesh(numVertices, std::move(vao), std::move(vertexBuffers));
 		}
 
-		StaticInstancedMesh CreateStaticInstancedMesh(
+		StaticInstancedMesh* CreateStaticInstancedMesh(
 			const MeshDescriptor& desc,
 			std::vector<VertexAttributeDescriptor>& instancedAttributeDescriptors) {
 
 			unsigned int numVertices = (unsigned int)desc.Vertices.size();
 
-			std::vector<Buffer> vertexBuffers;
-			std::map<AttributeVariable, Buffer, AttributeComparator> instanceBuffers;
+			std::vector<up_Buffer> vertexBuffers;
+			std::map<AttributeVariable, up_Buffer, AttributeComparator> instanceBuffers;
 
-			VertexArray vao = GL::CreateVertexArray();
-			vao.Bind();
-
-			Buffer vbo = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
-			vbo.Bind();
+			up_VertexArray vao(new VertexArray());
+			if (!vao->IsValid()) {
+				throw objection_creation_exception("Failed to create a valid VertexArray.");
+			}
+			vao->Bind();
 
 			Buffer::DataDescriptor positionDesc;
-			positionDesc.Type = Buffer::DataType::Float;
-			positionDesc.Normalize = Buffer::Normalize::No;
-			positionDesc.AttributeSize = Buffer::AttribSize::Three;
+			positionDesc.Type = gl::BufferDataType::Float;
+			positionDesc.Normalize = gl::Normalize::No;
+			positionDesc.AttributeSize = gl::BufferAttribSize::Three;
 			positionDesc.Stride = 0;
 			positionDesc.Offset = 0;
 
@@ -194,23 +194,28 @@ namespace opengl {
 			vboDesc.DataDescriptions.push_back(positionDesc);
 			vboDesc.pData = (void*)&(desc.Vertices[0]);
 			vboDesc.Size = sizeof(glm::vec3) * desc.Vertices.size();
-			vboDesc.Target = Buffer::Targets::ArrayBuffer;
-			vboDesc.Usage = Buffer::Usages::StaticDraw;
+			vboDesc.Target = gl::BufferTarget::ArrayBuffer;
+			vboDesc.Usage = gl::BufferUsage::StaticDraw;
 
-			vbo.SetData(vboDesc);
+			up_Buffer vbo(new Buffer(vboDesc));
+			if (!vbo->IsValid()) {
+				throw objection_creation_exception("Failed to create a valid Buffer.");
+			}
+			vbo->Bind();
 
-			vao.EnableVertexAttribute(desc.PositionVariable);
-			vao.SetVertexAttributePointer(desc.PositionVariable, positionDesc);
+			vbo->SetData(vboDesc);
 
-			vbo.Unbind();
+			vao->EnableVertexAttribute(desc.PositionVariable);
+			vao->SetVertexAttributePointer(desc.PositionVariable, positionDesc);
+
+			vbo->Unbind();
+
+			vertexBuffers.push_back(std::move(vbo));
 
 			for (VertexAttributeDescriptor attribDesc : desc.AttributeDescriptors) {
-				Buffer buffer = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
-				buffer.Bind();
-
 				Buffer::DataDescriptor dataDesc;
 				ConvertAttributeType(attribDesc.AttributeVariable.Type(), &dataDesc.Type, &dataDesc.AttributeSize);
-				dataDesc.Normalize = Buffer::Normalize::No;
+				dataDesc.Normalize = gl::Normalize::No;
 				dataDesc.Offset = 0;
 				dataDesc.Stride = 0;
 
@@ -218,26 +223,29 @@ namespace opengl {
 				buffDesc.DataDescriptions.push_back(dataDesc);
 				buffDesc.pData = attribDesc.pAttributes;
 				buffDesc.Size = attribDesc.Size;
-				buffDesc.Target = Buffer::Targets::ArrayBuffer;
-				buffDesc.Usage = Buffer::Usages::StaticDraw;
+				buffDesc.Target = gl::BufferTarget::ArrayBuffer;
+				buffDesc.Usage = gl::BufferUsage::StaticDraw;
 
-				buffer.SetData(buffDesc);
+				up_Buffer buffer(new Buffer(buffDesc));
+				if (!buffer->IsValid()) {
+					throw objection_creation_exception("Failed to create a valid Buffer.");
+				}
+				buffer->Bind();
 
-				vao.EnableVertexAttribute(attribDesc.AttributeVariable);
-				vao.SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
+				buffer->SetData(buffDesc);
 
-				buffer.Unbind();
+				vao->EnableVertexAttribute(attribDesc.AttributeVariable);
+				vao->SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
 
-				vertexBuffers.push_back(buffer);
+				buffer->Unbind();
+
+				vertexBuffers.push_back(std::move(buffer));
 			}
 
 			for (VertexAttributeDescriptor attribDesc : instancedAttributeDescriptors) {
-				Buffer buffer = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
-				buffer.Bind();
-
 				Buffer::DataDescriptor dataDesc;
 				ConvertAttributeType(attribDesc.AttributeVariable.Type(), &dataDesc.Type, &dataDesc.AttributeSize);
-				dataDesc.Normalize = Buffer::Normalize::No;
+				dataDesc.Normalize = gl::Normalize::No;
 				dataDesc.Offset = 0;
 				dataDesc.Stride = 0;
 
@@ -245,23 +253,29 @@ namespace opengl {
 				buffDesc.DataDescriptions.push_back(dataDesc);
 				buffDesc.pData = nullptr;
 				buffDesc.Size = 0;
-				buffDesc.Target = Buffer::Targets::ArrayBuffer;
-				buffDesc.Usage = Buffer::Usages::DynamicDraw;
+				buffDesc.Target = gl::BufferTarget::ArrayBuffer;
+				buffDesc.Usage = gl::BufferUsage::DynamicDraw;
 
-				buffer.SetData(buffDesc);
+				up_Buffer buffer(new Buffer(buffDesc));
+				if (!buffer->IsValid()) {
+					throw objection_creation_exception("Failed to create a valid Buffer.");
+				}
+				buffer->Bind();
 
-				vao.EnableVertexAttribute(attribDesc.AttributeVariable);
-				vao.SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
-				vao.SetVertexAttributeDivisor(attribDesc.AttributeVariable, 1);
+				buffer->SetData(buffDesc);
 
-				buffer.Unbind();
+				vao->EnableVertexAttribute(attribDesc.AttributeVariable);
+				vao->SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
+				vao->SetVertexAttributeDivisor(attribDesc.AttributeVariable, 1);
 
-				instanceBuffers.insert(std::make_pair(attribDesc.AttributeVariable, buffer));
+				buffer->Unbind();
+
+				instanceBuffers.insert(std::move(std::make_pair(attribDesc.AttributeVariable, std::move(buffer))));
 			}
 
-			vao.Unbind();
+			vao->Unbind();
 
-			return StaticInstancedMesh(numVertices, vao, vertexBuffers, instanceBuffers);
+			return new StaticInstancedMesh(numVertices, std::move(vao), std::move(vertexBuffers), std::move(instanceBuffers));
 		}
 
 	}

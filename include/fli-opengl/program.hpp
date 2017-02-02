@@ -2,9 +2,10 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 #include <glew\glew.h>
-#include <GL\GL.h>
+#include <gl\GL.h>
 
 #include <glm\glm.hpp>
 
@@ -16,22 +17,39 @@ namespace opengl {
 
 	class Program {
 	private:
-		Program(GLuint obj);
-
-		GLuint Obj();
-
-		void Obj(GLuint obj);
-
 		void QueryForAttributeVariables();
 
 		void QueryForUniformVariables();
 
 	public:
+
+		/*************************************************************
+		* Constructors
+		**************************************************************/
+
 		Program();
 
-		void Attach(Shader& shader);
+		Program(const Program& other) = delete;
 
-		void Detach(Shader& shader);
+		Program& operator=(const Program& other) = delete;
+
+		Program(Program&& other);
+
+		Program& operator=(Program&& other);
+
+		/*************************************************************
+		* Destructor
+		**************************************************************/
+
+		~Program();
+
+		/*************************************************************
+		* OpenGL Program Methods
+		**************************************************************/
+
+		void Attach(up_Shader shader);
+
+		void DetachAndDeleteAllShaders();
 
 		void Use();
 
@@ -115,8 +133,6 @@ namespace opengl {
 
 		void SetUniform(UniformVariable uniform, std::vector<glm::mat4x3> values);
 
-		friend class GL;
-
 	private:
 		GLuint m_obj;
 
@@ -127,6 +143,10 @@ namespace opengl {
 		std::vector<AttributeVariable> m_attributeVariables;
 
 		std::vector<UniformVariable> m_uniformVariables;
+
+		std::vector<up_Shader> m_attachedShaders;
 	};
+
+	typedef std::unique_ptr<Program> up_Program;
 
 }

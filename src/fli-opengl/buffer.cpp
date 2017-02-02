@@ -6,10 +6,11 @@ namespace opengl {
 	* Constructors
 	**************************************************************/
 
-	Buffer::Buffer()
+	Buffer::Buffer(const Descriptor& desc)
 		: m_obj(0)
-		, m_isBound(false) {
-		glGenBuffers(1, &m_obj);
+		, m_isBound(false)
+		, m_description(desc) {
+		glGenBuffers(m_description.Target, &m_obj);
 	}
 
 	Buffer::Buffer(Buffer&& other)
@@ -31,6 +32,7 @@ namespace opengl {
 		if (this != &other) {
 			if (m_obj != 0) {
 				glDeleteBuffers(1, &m_obj);
+				GLint err = glGetError();
 			}
 
 			// copy to new object
@@ -53,6 +55,7 @@ namespace opengl {
 	Buffer::~Buffer() {
 		if (m_obj != 0) {
 			glDeleteBuffers(1, &m_obj);
+			GLint err = glGetError();
 		}
 	}
 
@@ -63,6 +66,7 @@ namespace opengl {
 	void Buffer::Bind() {
 		if (!m_isBound) {
 			glBindBuffer(m_description.Target, m_obj);
+			GLint err = glGetError();
 			m_isBound = true;
 		}
 	}
@@ -70,6 +74,7 @@ namespace opengl {
 	void Buffer::Unbind() {
 		if (m_isBound) {
 			glBindBuffer(m_description.Target, 0);
+			GLint err = glGetError();
 			m_isBound = false;
 		}
 	}
@@ -78,6 +83,7 @@ namespace opengl {
 		m_description = desc;
 		if (m_description.pData != nullptr) {
 			glBufferData(desc.Target, desc.Size, desc.pData, desc.Usage);
+			GLint err = glGetError();
 		}
 	}
 

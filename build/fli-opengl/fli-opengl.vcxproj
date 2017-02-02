@@ -184,6 +184,7 @@
     <ClInclude Include="..\..\include\fli-opengl\uniform_variable.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\vertex_array.hpp" />
     <ClInclude Include="..\..\include\fli-opengl\vertex_attribute_descriptor.hpp" />
+    <ClCompile Include="..\..\src\fli-opengl\opengl.cpp" />
     <ClCompile Include="..\..\src\fli-opengl\static_instanced_mesh.cpp">
       <FileType>CppHeader</FileType>
     </ClCompile>

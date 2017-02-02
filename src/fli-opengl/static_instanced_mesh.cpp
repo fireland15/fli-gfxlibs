@@ -4,15 +4,15 @@ namespace opengl {
 
 	StaticInstancedMesh::StaticInstancedMesh(
 		unsigned int numVertices, 
-		VertexArray vertexArray, 
-		std::vector<Buffer> vertexBuffers, 
-		std::map<AttributeVariable, Buffer, AttributeComparator> instancedBuffers)
-		: m_vertexArray(vertexArray)
-		, m_vertexBuffers(vertexBuffers)
+		up_VertexArray vertexArray, 
+		std::vector<up_Buffer> vertexBuffers, 
+		std::map<AttributeVariable, up_Buffer, AttributeComparator> instancedBuffers)
+		: m_vertexArray(std::move(vertexArray))
+		, m_vertexBuffers(std::move(vertexBuffers))
 		, m_numVertices(numVertices)
-		, m_instancedBuffers(instancedBuffers) { 
-		for (std::pair<AttributeVariable, Buffer> attribBufferPair : m_instancedBuffers) {
-			if (attribBufferPair.second.Description().Usage != Buffer::Usages::DynamicDraw) {
+		, m_instancedBuffers(std::move(instancedBuffers)) { 
+		for (std::pair<const AttributeVariable, up_Buffer> & attribBufferPair : m_instancedBuffers) {
+			if (attribBufferPair.second->Description().Usage != gl::BufferUsage::DynamicDraw) {
 				throw invalid_buffer_usage_exception("Instanced meshes require the instanced buffers to have a usage of DynamicDraw");
 			}
 		}
@@ -21,7 +21,7 @@ namespace opengl {
 	void StaticInstancedMesh::SetInstancedData(std::vector<InstanceUpdateData> instanceData) {
 		for (InstanceUpdateData attribDataPair : instanceData) {
 			if (m_instancedBuffers.count(attribDataPair.Attribute) > 0) {
-				Buffer buffer = m_instancedBuffers[attribDataPair.Attribute];
+				Buffer& buffer = *(m_instancedBuffers[attribDataPair.Attribute]);
 				buffer.Bind();
 				buffer.UpdateData(attribDataPair.pData, attribDataPair.dataSize);
 				buffer.Unbind();
@@ -30,9 +30,9 @@ namespace opengl {
 	}
 
 	void StaticInstancedMesh::Render(unsigned int numInstances) {
-		m_vertexArray.Bind();
+		m_vertexArray->Bind();
 		glDrawArraysInstanced(GL_TRIANGLES, 0, m_numVertices, numInstances);
-		m_vertexArray.Unbind();
+		m_vertexArray->Unbind();
 	}
 
 }

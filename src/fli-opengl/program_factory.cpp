@@ -2,77 +2,55 @@
 
 namespace opengl {
 
-	inline void CompileShader(Shader& shader, ShaderSource& source);
+	namespace program_factory {
 
-	inline void CleanShaders(Program& program, const std::vector<Shader>& shaders);
+		inline void CompileShader(Shader* shader, ShaderSource& source);
 
-	inline void DetachShaders(Program& program, const std::vector<Shader>& shaders);
-
-	inline void DeleteShaders(const std::vector<Shader>& shaders);
-
-	// Throws opengl::shader_compilation_exception when compilation fails.
-	void CompileShader(Shader& shader, ShaderSource& source) {
-		shader.SetSource(source);
-		if (!shader.Compile()) {
-			std::stringstream ss; 
-			ss << "Compilation of shader failed." << std::endl;
-			ss << "\t" << shader.GetErrors() << std::endl;
-			GL::DeleteShader(shader);
-			throw shader_compilation_exception(ss.str());
-		}
-	}
-
-	void CleanShaders(Program& program, const std::vector<Shader>& shaders) {
-		DetachShaders(program, shaders);
-		DeleteShaders(shaders);
-	}
-
-	void DetachShaders(Program& program, const std::vector<Shader>& shaders) {
-		for (Shader shader : shaders) {
-			program.Detach(shader);
-		}
-	}
-
-	void DeleteShaders(const std::vector<Shader>& shaders) {
-		for (Shader shader : shaders) {
-			GL::DeleteShader(shader);
-		}
-	}
-
-	Shader ProgramFactory::CreateVertexShader(ShaderSource source) {
-		Shader shader = GL::CreateShader(Shader::Type::Vertex);
-		CompileShader(shader, source);
-		return shader;
-	}
-
-	Shader ProgramFactory::CreateFragmentShader(ShaderSource source) {
-		Shader shader = GL::CreateShader(Shader::Type::Fragment);
-		CompileShader(shader, source);
-		return shader;
-	}
-
-	Program ProgramFactory::CreateProgram(const std::vector<Shader>& shaders) {
-		Program program = GL::CreateProgram();
-
-		for (Shader shader : shaders) {
-			program.Attach(shader);
+		// Throws opengl::shader_compilation_exception when compilation fails.
+		void CompileShader(Shader* shader, ShaderSource& source) {
+			shader->SetSource(source);
+			if (!shader->Compile()) {
+				std::stringstream ss;
+				ss << "Compilation of shader failed." << std::endl;
+				ss << "\t" << shader->GetErrors() << std::endl;
+				throw shader_compilation_exception(ss.str());
+			}
 		}
 
-		if (!program.Link()) {
-			std::stringstream ss;
-			ss << "Program linking failed." << std::endl;
-			ss << "\t" << program.GetErrors() << std::endl;
-
-			CleanShaders(program, shaders);
-
-			GL::DeleteProgram(program);
-
-			throw program_link_exception(ss.str());
+		up_Shader CreateVertexShader(ShaderSource source) {
+			up_Shader shader(new Shader(gl::ShaderType::Vertex));
+			CompileShader(shader.get(), source);
+			return shader;
 		}
 
-		CleanShaders(program, shaders);
+		up_Shader CreateFragmentShader(ShaderSource source) {
+			up_Shader shader(new Shader(gl::ShaderType::Fragment));
+			CompileShader(shader.get(), source);
+			return shader;
+		}
 
-		return program;
+		up_Program CreateProgram(std::vector<up_Shader>& shaders) {
+			up_Program program(new Program());
+
+			for (up_Shader& shader : shaders) {
+				program->Attach(std::move(shader));
+			}
+
+			if (!program->Link()) {
+				std::stringstream ss;
+				ss << "Program linking failed." << std::endl;
+				ss << "\t" << program->GetErrors() << std::endl;
+
+				program->DetachAndDeleteAllShaders();
+
+				throw program_link_exception(ss.str());
+			}
+
+			program->DetachAndDeleteAllShaders();
+
+			return program;
+		}
+
 	}
 
 }

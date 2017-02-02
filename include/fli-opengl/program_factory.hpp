@@ -12,16 +12,15 @@
 
 namespace opengl {
 
-	class ProgramFactory {
-	public:
+	namespace program_factory { 
 		// Throws opengl::shader_compilation_error when compilation fails.
-		static Shader CreateVertexShader(ShaderSource source);
+		up_Shader CreateVertexShader(ShaderSource source);
 		
 		// Throws opengl::shader_compilation_error when compilation fails.
-		static Shader CreateFragmentShader(ShaderSource source);
+		up_Shader CreateFragmentShader(ShaderSource source);
 
 		// Throws opengl::program_link_error when program linking fails.
-		static Program CreateProgram(const std::vector<Shader>& shaders);
-	};
+		up_Program CreateProgram(std::vector<up_Shader>& shaders);
+	}
 
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "opengl.hpp"
 #include "attribute_variable.hpp"
 #include "buffer.hpp"
@@ -108,5 +110,7 @@ namespace opengl {
 
 		GLuint m_obj;
 	};
+
+	typedef std::unique_ptr<VertexArray> up_VertexArray;
 
 }

@@ -2,19 +2,6 @@
 
 namespace opengl {
 
-	Shader::Shader(GLuint obj) 
-		: m_obj(obj)
-		, m_errors("No errors")
-		, m_hasErrors(false) { }
-
-	GLuint Shader::Obj() {
-		return m_obj;
-	}
-
-	void Shader::Obj(GLuint obj) {
-		m_obj = obj;
-	}
-
 	void Shader::SetSource() {
 		std::string src = m_source.Code();
 		GLsizei count = 1;
@@ -24,10 +11,67 @@ namespace opengl {
 		glShaderSource(m_obj, count, &string, &length);
 	}
 
-	Shader::Shader() 
+	/*************************************************************
+	* Constructors
+	**************************************************************/
+
+	Shader::Shader(gl::ShaderType type)
 		: m_obj(0)
+		, m_type(type)
 		, m_errors("No errors")
-		, m_hasErrors(false) { }
+		, m_hasErrors(false) {
+		m_obj = glCreateShader(m_type);
+	}
+
+	Shader::Shader(Shader&& other) {
+		m_obj = other.m_obj;
+		m_type = other.m_type;
+		m_source = other.m_source;
+		m_hasErrors = other.m_hasErrors;
+		m_errors = other.m_errors;
+
+		other.m_obj = 0;
+		other.m_type;
+		other.m_source = ShaderSource();
+		other.m_hasErrors = false;
+		other.m_errors = "";
+	}
+
+	Shader& Shader::operator=(Shader&& other) {
+		if (this != &other) {
+			if (m_obj != 0) {
+				// Todo: May need to do some other checks before deleting.
+				glDeleteShader(m_obj);
+			}
+
+			m_obj = other.m_obj;
+			m_type = other.m_type;
+			m_source = other.m_source;
+			m_hasErrors = other.m_hasErrors;
+			m_errors = other.m_errors;
+
+			other.m_obj = 0;
+			other.m_type;
+			other.m_source = ShaderSource();
+			other.m_hasErrors = false;
+			other.m_errors = "";
+		}
+		return *this;
+	}
+
+	/*************************************************************
+	* Destructor
+	**************************************************************/
+
+	Shader::~Shader() {
+		if (m_obj != 0) {
+			glDeleteShader(m_obj);
+		}
+	}
+
+	/*************************************************************
+	* OpenGL Shader Methods
+	**************************************************************/
 
 	void Shader::SetSource(ShaderSource source) {
 		m_source = source;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
 #include "opengl.hpp"
@@ -44,7 +45,7 @@ namespace opengl {
 			/// <summary>
 			/// The binding target for the buffer.
 			/// </summary>
-			gl::BufferTarget Target = gl::BufferTarget::NoTarget;
+			gl::BufferTarget Target;
 
 			/// <summary>
 			/// A pointer to the beginning of the data to be stored in the buffer.
@@ -59,7 +60,7 @@ namespace opengl {
 			/// <summary>
 			/// The buffers usage.
 			/// </summary>
-			gl::BufferUsage Usage = gl::BufferUsage::NoUsage;
+			gl::BufferUsage Usage;
 
 			/// <summary>
 			/// An array of DataDescriptors for each type of data in the buffer.
@@ -74,7 +75,7 @@ namespace opengl {
 		/// <summary>
 		/// Creates a new OpenGL buffer object.
 		/// </summary>
-		Buffer();
+		Buffer(const Descriptor& desc);
 		
 		/// <summary>
 		/// Copy Constructor is deleted.
@@ -181,4 +182,5 @@ namespace opengl {
 
 	};
 
+	typedef std::unique_ptr<Buffer> up_Buffer;
 }

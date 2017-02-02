@@ -1,36 +1,43 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
-#include <glew\glew.h>
-#include <GL\GL.h>
-
+#include "opengl.hpp"
 #include "shader_source.hpp"
 
 namespace opengl {
 
 	class Shader {
-	public:
-		enum Type : GLenum {
-			Vertex					= GL_VERTEX_SHADER,
-			TesselationControl		= GL_TESS_CONTROL_SHADER,
-			TesselationEvaluation	= GL_TESS_EVALUATION_SHADER,
-			Geometry				= GL_GEOMETRY_SHADER,
-			Fragment				= GL_FRAGMENT_SHADER,
-			Compute					= GL_COMPUTE_SHADER
-		};
-
 	private:
-		Shader(GLuint obj);
-
-		GLuint Obj();
-
-		void Obj(GLuint);
 
 		void SetSource();
 
 	public:
-		Shader();
+
+		/*************************************************************
+		* Constructors
+		**************************************************************/
+
+		Shader(gl::ShaderType type);
+
+		Shader(const Shader& other) = delete;
+
+		Shader& operator=(const Shader& other) = delete;
+
+		Shader(Shader&& other);
+
+		Shader& operator=(Shader&& other);
+
+		/*************************************************************
+		* Destructor
+		**************************************************************/
+
+		~Shader();
+
+		/*************************************************************
+		* OpenGL Shader Methods
+		**************************************************************/
 
 		void SetSource(ShaderSource source);
 
@@ -40,14 +47,20 @@ namespace opengl {
 
 		std::string GetErrors();
 
-		friend class GL;
 		friend class Program;
 
 	private:
 		GLuint m_obj;
+
+		gl::ShaderType m_type;
+
 		ShaderSource m_source;
+
 		bool m_hasErrors;
+
 		std::string m_errors;
 	};
+
+	typedef std::unique_ptr<Shader> up_Shader;
 
 }

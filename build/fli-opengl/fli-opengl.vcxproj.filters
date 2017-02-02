@@ -125,5 +125,8 @@
     <ClCompile Include="..\..\src\fli-opengl\static_instanced_mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\fli-opengl\opengl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

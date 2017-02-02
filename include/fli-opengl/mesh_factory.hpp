@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <iostream>
 
 #include "static_mesh.hpp"
 #include "static_instanced_mesh.hpp"
@@ -14,9 +15,9 @@ namespace opengl {
 
 	namespace mesh_factory {
 
-		StaticMesh CreateStaticMesh(const MeshDescriptor& desc);
+		StaticMesh* CreateStaticMesh(const MeshDescriptor& desc);
 
-		StaticInstancedMesh CreateStaticInstancedMesh(
+		StaticInstancedMesh* CreateStaticInstancedMesh(
 			const MeshDescriptor& desc, 
 			std::vector<VertexAttributeDescriptor>& instancedAttributeDescriptor);
 

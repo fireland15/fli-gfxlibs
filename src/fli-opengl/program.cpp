@@ -2,82 +2,76 @@
 
 namespace opengl {
 
-	Program::Program(GLuint obj)
-		: m_obj(obj)
-		, m_hasErrors(false)
-		, m_errors("No errors") { }
-
-	GLuint Program::Obj() {
-		return m_obj;
-	}
-
-	void Program::Obj(GLuint obj) {
-		m_obj = obj;
-	}
-
-	void Program::QueryForAttributeVariables() {
-		GLint numActiveAttribs = 0;
-
-		glGetProgramInterfaceiv(m_obj, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numActiveAttribs);
-
-		std::vector<GLchar> nameData(256);
-		std::vector<GLenum> props;
-		props.push_back(GL_NAME_LENGTH);
-		props.push_back(GL_TYPE);
-		props.push_back(GL_ARRAY_SIZE);
-		std::vector<GLint> values(props.size());
-
-		for (GLint i = 0; i < numActiveAttribs; i++) {
-			glGetProgramResourceiv(m_obj, GL_PROGRAM_INPUT, i, (GLsizei)props.size(), &props[0], (GLsizei)values.size(), 0, &values[0]);
-
-			nameData.resize(values[0]);
-			glGetProgramResourceName(m_obj, GL_PROGRAM_INPUT, i, (GLsizei)nameData.size(), 0, &nameData[0]);
-			std::string name((char*)&nameData[0], nameData.size() - 1);
-
-			GLint location = glGetProgramResourceLocation(m_obj, GL_PROGRAM_INPUT, name.c_str());
-
-			AttributeVariable var(AttributeLocation(location), name, (AttributeVariable::AttribType)values[1]);
-			m_attributeVariables.push_back(var);
-		}
-	}
-
-	void Program::QueryForUniformVariables() {
-		GLint numActiveUniforms = 0;
-
-		glGetProgramInterfaceiv(m_obj, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numActiveUniforms);
-
-		std::vector<GLchar> nameData(256);
-		std::vector<GLenum> props;
-		props.push_back(GL_NAME_LENGTH);
-		props.push_back(GL_TYPE);
-		props.push_back(GL_ARRAY_SIZE);
-		std::vector<GLint> values(props.size());
-
-		for (GLint i = 0; i < numActiveUniforms; i++) {
-			glGetProgramResourceiv(m_obj, GL_UNIFORM, i, (GLsizei)props.size(), &props[0], (GLsizei)values.size(), 0, &values[0]);
-
-			nameData.resize(values[0]);
-			glGetProgramResourceName(m_obj, GL_UNIFORM, i, (GLsizei)nameData.size(), 0, &nameData[0]);
-			std::string name((char*)&nameData[0], nameData.size() - 1);
-
-			GLint location = glGetProgramResourceLocation(m_obj, GL_UNIFORM, name.c_str());
-
-			UniformVariable var(UniformLocation(location), name, (UniformVariable::UniformType)values[1]);
-			m_uniformVariables.push_back(var);
-		}
-	}
+	/*************************************************************
+	* Constructors
+	**************************************************************/
 
 	Program::Program()
 		: m_obj(0)
 		, m_hasErrors(false)
-		, m_errors("No errors") { }
-
-	void Program::Attach(Shader& shader) {
-		glAttachShader(m_obj, shader.Obj());
+		, m_errors("No errors") { 
+		m_obj = glCreateProgram();
 	}
 
-	void Program::Detach(Shader& shader) {
-		glDetachShader(m_obj, shader.Obj());
+	Program::Program(Program&& other) {
+		m_obj = other.m_obj;
+		m_hasErrors = other.m_hasErrors;
+		m_errors = other.m_errors;
+		m_attributeVariables.swap(other.m_attributeVariables);
+		m_uniformVariables.swap(other.m_uniformVariables);
+
+		other.m_obj = 0;
+		other.m_hasErrors = false;
+		other.m_errors = "";
+		other.m_attributeVariables.clear();
+		other.m_uniformVariables.clear();
+	}
+
+	Program& Program::operator=(Program&& other) {
+		if (this != &other) {
+			if (m_obj != 0) {
+				// TODO: May need to do something about attached shaders?
+				glDeleteProgram(m_obj);
+			}
+
+			// Copy from other
+			m_obj = other.m_obj;
+			m_hasErrors = other.m_hasErrors;
+			m_errors = other.m_errors;
+			m_attributeVariables.swap(other.m_attributeVariables);
+			m_uniformVariables.swap(other.m_uniformVariables);
+
+			// Reset other to defaults
+			other.m_obj = 0;
+			other.m_hasErrors = false;
+			other.m_errors = "";
+			other.m_attributeVariables.clear();
+			other.m_uniformVariables.clear();
+		}
+		return *this;
+	}
+
+	/*************************************************************
+	* Destructor
+	**************************************************************/
+
+	Program::~Program() {
+		if (m_obj != 0) {
+			glDeleteProgram(m_obj);
+		}
+	}
+
+	/*************************************************************
+	* OpenGL Program Methods
+	**************************************************************/
+
+	void Program::Attach(up_Shader shader) {
+		glAttachShader(m_obj, shader->m_obj);
+		m_attachedShaders.push_back(std::move(shader));
+	}
+
+	void Program::DetachAndDeleteAllShaders() {
+		m_attachedShaders.clear();
 	}
 
 	void Program::Use() {
@@ -439,6 +433,62 @@ namespace opengl {
 		}
 		else {
 			throw std::exception("Uniform variable is not the correct type");
+		}
+	}
+
+	/*************************************************************
+	* Private Methods
+	**************************************************************/
+
+	void Program::QueryForAttributeVariables() {
+		GLint numActiveAttribs = 0;
+
+		glGetProgramInterfaceiv(m_obj, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numActiveAttribs);
+
+		std::vector<GLchar> nameData(256);
+		std::vector<GLenum> props;
+		props.push_back(GL_NAME_LENGTH);
+		props.push_back(GL_TYPE);
+		props.push_back(GL_ARRAY_SIZE);
+		std::vector<GLint> values(props.size());
+
+		for (GLint i = 0; i < numActiveAttribs; i++) {
+			glGetProgramResourceiv(m_obj, GL_PROGRAM_INPUT, i, (GLsizei)props.size(), &props[0], (GLsizei)values.size(), 0, &values[0]);
+
+			nameData.resize(values[0]);
+			glGetProgramResourceName(m_obj, GL_PROGRAM_INPUT, i, (GLsizei)nameData.size(), 0, &nameData[0]);
+			std::string name((char*)&nameData[0], nameData.size() - 1);
+
+			GLint location = glGetProgramResourceLocation(m_obj, GL_PROGRAM_INPUT, name.c_str());
+
+			AttributeVariable var(AttributeLocation(location), name, (AttributeVariable::AttribType)values[1]);
+			m_attributeVariables.push_back(var);
+		}
+	}
+
+	void Program::QueryForUniformVariables() {
+		GLint numActiveUniforms = 0;
+
+		glGetProgramInterfaceiv(m_obj, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numActiveUniforms);
+
+		std::vector<GLchar> nameData(256);
+		std::vector<GLenum> props;
+		props.push_back(GL_NAME_LENGTH);
+		props.push_back(GL_TYPE);
+		props.push_back(GL_ARRAY_SIZE);
+		std::vector<GLint> values(props.size());
+
+		for (GLint i = 0; i < numActiveUniforms; i++) {
+			glGetProgramResourceiv(m_obj, GL_UNIFORM, i, (GLsizei)props.size(), &props[0], (GLsizei)values.size(), 0, &values[0]);
+
+			nameData.resize(values[0]);
+			glGetProgramResourceName(m_obj, GL_UNIFORM, i, (GLsizei)nameData.size(), 0, &nameData[0]);
+			std::string name((char*)&nameData[0], nameData.size() - 1);
+
+			GLint location = glGetProgramResourceLocation(m_obj, GL_UNIFORM, name.c_str());
+
+			UniformVariable var(UniformLocation(location), name, (UniformVariable::UniformType)values[1]);
+			m_uniformVariables.push_back(var);
 		}
 	}
 

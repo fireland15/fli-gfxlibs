@@ -7,9 +7,14 @@
 
 #include <Windows.h>
 
+#include <glew\glew.h>
+#include <gl/GL.h>
+
 #include <fli-core\clock.hpp>
 #include <fli-core\scene.hpp>
 #include <fli-render\window.hpp>
+#include <fli-opengl\shader.hpp>
+#include <fli-opengl\program.hpp>
 #include <fli-opengl\context.hpp>
 #include <fli-opengl\opengl.hpp>
 #include <fli-opengl\buffer.hpp>
@@ -22,13 +27,12 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
 
-opengl::GL gl;
 opengl::OpenGlContext context;
-opengl::Program program;
-opengl::Shader vertexShader;
-opengl::Shader fragmentShader;
-opengl::StaticMesh mesh;
-opengl::StaticInstancedMesh inMesh;
+opengl::up_Program program;
+opengl::up_Shader vertexShader;
+opengl::up_Shader fragmentShader;
+opengl::StaticMesh* mesh;
+opengl::StaticInstancedMesh* inMesh;
 
 std::string vshader = "../../src/glsl/vs.glsl";
 
@@ -53,6 +57,14 @@ float dColor = 0.00005f;
 opengl::UniformVariable& ucolor = opengl::UniformVariable();
 opengl::UniformVariable& projection = opengl::UniformVariable();
 
+void CheckErrors() {
+	opengl::OpenGlError err = opengl::gl::GetErrors();
+	if (err.IsError()) {
+		std::cout << err.ToString() << std::endl;
+		throw std::exception();
+	}
+}
+
 bool Setup() {
 	wglSwapIntervalEXT(0);
 
@@ -68,9 +80,12 @@ bool Setup() {
 	vsStream.close();
 
 	try {
-		vertexShader = opengl::ProgramFactory::CreateVertexShader(vertexSource);
-		fragmentShader = opengl::ProgramFactory::CreateFragmentShader(fragmentSource);
-		program = opengl::ProgramFactory::CreateProgram({ vertexShader, fragmentShader });
+		vertexShader = opengl::program_factory::CreateVertexShader(vertexSource);
+		fragmentShader = opengl::program_factory::CreateFragmentShader(fragmentSource);
+		std::vector<opengl::up_Shader> shaders;
+		shaders.push_back(std::move(vertexShader));
+		shaders.push_back(std::move(fragmentShader));
+		program = opengl::program_factory::CreateProgram(std::move(shaders));
 	}
 	catch (opengl::shader_compilation_exception ex) {
 		std::cout << ex.what() << std::endl;
@@ -81,12 +96,14 @@ bool Setup() {
 		return false;
 	}
 
-	const opengl::AttributeVariable& position = program.GetAttributeVariable("position");
-	const opengl::AttributeVariable& color = program.GetAttributeVariable("color");
-	instPosition = program.GetAttributeVariable("inst_position");
+	CheckErrors();
 
-	ucolor = program.GetUniformVariable("ucolor");
-	projection = program.GetUniformVariable("projection");
+	const opengl::AttributeVariable& position = program->GetAttributeVariable("position");
+	const opengl::AttributeVariable& color = program->GetAttributeVariable("color");
+	instPosition = program->GetAttributeVariable("inst_position");
+
+	ucolor = program->GetUniformVariable("ucolor");
+	projection = program->GetUniformVariable("projection");
 
 	opengl::MeshDescriptor meshDesc;
 	meshDesc.Vertices = std::vector<glm::vec3>(vertices, std::end(vertices));
@@ -99,6 +116,8 @@ bool Setup() {
 	meshDesc.AttributeDescriptors.push_back(colorDesc);
 
 	mesh = opengl::mesh_factory::CreateStaticMesh(meshDesc);
+
+	CheckErrors();
 
 	std::vector<opengl::VertexAttributeDescriptor> descriptors;
 
@@ -115,7 +134,7 @@ bool Setup() {
 }
 
 void Render() {
-	program.Use();
+	program->Use();
 
 	if (color.x < 0.25f || color.x > 1.0f) {
 		dColor *= -1;
@@ -127,9 +146,9 @@ void Render() {
 
 	glm::mat4 proj = glm::ortho(-10.0, 10.0, -10.0, 10.0);
 
-	program.SetUniform(ucolor, color);
-	program.SetUniform(projection, { proj });
-	mesh.Render();
+	program->SetUniform(ucolor, color);
+	program->SetUniform(projection, { proj });
+	mesh->Render();
 
 	std::vector<glm::vec3> instancePositions;
 	instancePositions.push_back(glm::vec3(0.0f + std::sinf(color.x*90), 4.0f, 0.0f));
@@ -142,8 +161,8 @@ void Render() {
 	instanceData.pData = glm::value_ptr(instancePositions[0]);
 	instanceData.dataSize = (unsigned int)(sizeof(glm::vec3) * instancePositions.size());
 
-	inMesh.SetInstancedData({ instanceData });
-	inMesh.Render((unsigned int)instancePositions.size());
+	inMesh->SetInstancedData({ instanceData });
+	inMesh->Render((unsigned int)instancePositions.size());
 }
 
 int main() {
@@ -167,7 +186,7 @@ int main() {
 	while (i++, !w.ShouldClose()) {
 		w.ProcessMessages();
 
-		gl.Clear(opengl::GL::Buffers::Color | opengl::GL::Buffers::Depth);
+		opengl::gl::Clear(opengl::gl::Buffers::Color | opengl::gl::Buffers::Depth);
 
 		Render();
 		c->SwapBuffer();

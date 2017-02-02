@@ -1,20 +1,24 @@
 #pragma once
 
-#include <map>
-
 #include <glew\glew.h>
 #include <GL\GL.h>
 
-#include "context.hpp"
-#include "vertex_array.hpp"
-#include "buffer.hpp"
-#include "shader.hpp"
-#include "program.hpp"
+#include <glm\glm.hpp>
+
 #include "opengl_error.hpp"
 
 namespace opengl {
 
 	namespace gl {
+
+		enum ShaderType : GLenum {
+			Vertex = GL_VERTEX_SHADER,
+			TesselationControl = GL_TESS_CONTROL_SHADER,
+			TesselationEvaluation = GL_TESS_EVALUATION_SHADER,
+			Geometry = GL_GEOMETRY_SHADER,
+			Fragment = GL_FRAGMENT_SHADER,
+			Compute = GL_COMPUTE_SHADER
+		};
 
 		enum Buffers : GLbitfield {
 			Color			= GL_COLOR_BUFFER_BIT,
@@ -37,8 +41,7 @@ namespace opengl {
 			ShaderStorageBuffer = GL_SHADER_STORAGE_BUFFER,
 			TextureBuffer = GL_TEXTURE_BUFFER,
 			TransformFeedbackBuffer = GL_TRANSFORM_FEEDBACK_BUFFER,
-			UniformBuffer = GL_UNIFORM_BUFFER,
-			NoTarget
+			UniformBuffer = GL_UNIFORM_BUFFER
 		};
 
 		enum BufferUsage : GLenum {
@@ -50,8 +53,7 @@ namespace opengl {
 			StaticCopy = GL_STATIC_COPY,
 			DynamicDraw = GL_DYNAMIC_DRAW,
 			DynamicRead = GL_DYNAMIC_READ,
-			DynamicCopy = GL_DYNAMIC_COPY,
-			NoUsage
+			DynamicCopy = GL_DYNAMIC_COPY
 		};
 
 		enum BufferDataType : GLenum {
@@ -79,17 +81,11 @@ namespace opengl {
 			Four = 4
 		};
 		
-		OpenGlError GetErrors() {
-			return OpenGlError((OpenGlError::Error)glGetError());
-		}
+		OpenGlError GetErrors();
 
-		void ClearColor(glm::vec4 color) {
-			glClearColor(color.r, color.g, color.b, color.a);
-		}
+		void ClearColor(glm::vec4 color);
 
-		void Clear(GLbitfield buffers) {
-			glClear(buffers);
-		}
+		void Clear(GLbitfield buffers);
 		
 	}
 
