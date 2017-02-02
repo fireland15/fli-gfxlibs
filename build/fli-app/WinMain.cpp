@@ -27,7 +27,6 @@ opengl::OpenGlContext context;
 opengl::Program program;
 opengl::Shader vertexShader;
 opengl::Shader fragmentShader;
-opengl::MeshFactory meshFactory;
 opengl::StaticMesh mesh;
 opengl::StaticInstancedMesh inMesh;
 
@@ -99,7 +98,7 @@ bool Setup() {
 	colorDesc.AttributeVariable = color;
 	meshDesc.AttributeDescriptors.push_back(colorDesc);
 
-	mesh = meshFactory.CreateStaticMesh(meshDesc);
+	mesh = opengl::mesh_factory::CreateStaticMesh(meshDesc);
 
 	std::vector<opengl::VertexAttributeDescriptor> descriptors;
 
@@ -110,7 +109,7 @@ bool Setup() {
 
 	descriptors.push_back(instancePositionDesc);
 
-	inMesh = meshFactory.CreateStaticInstancedMesh(meshDesc, descriptors);
+	inMesh = opengl::mesh_factory::CreateStaticInstancedMesh(meshDesc, descriptors);
 
 	return true;
 }

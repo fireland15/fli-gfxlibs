@@ -2,9 +2,7 @@
 
 #include <vector>
 
-#include <glew\glew.h>
-#include <gl\GL.h>
-
+#include "opengl.hpp"
 #include "attribute_variable.hpp"
 
 namespace opengl {

@@ -23,7 +23,6 @@ namespace opengl {
 		std::vector<Buffer> m_vertexBuffers;
 
 		unsigned int m_numVertices;
-
 	};
 
 }

@@ -2,263 +2,258 @@
 
 namespace opengl {
 
-	void ConvertAttributeType(AttributeVariable::AttribType attribType, Buffer::DataType* type, Buffer::AttribSize* size) {
-		switch (attribType) {
-		case AttributeVariable::AttribType::Float:
-			*type = Buffer::DataType::Float;
-			*size = Buffer::AttribSize::One;
-			break;
-		case AttributeVariable::AttribType::Vec2f:
-			*type = Buffer::DataType::Float;
-			*size = Buffer::AttribSize::Two;
-			break;
-		case AttributeVariable::AttribType::Vec3f:
-			*type = Buffer::DataType::Float;
-			*size = Buffer::AttribSize::Three;
-			break;
-		case AttributeVariable::AttribType::Vec4f:
-			*type = Buffer::DataType::Float;
-			*size = Buffer::AttribSize::Four;
-			break;
-		case AttributeVariable::AttribType::Int:
-			*type = Buffer::DataType::Int;
-			*size = Buffer::AttribSize::One;
-			break;
-		case AttributeVariable::AttribType::Vec2i:
-			*type = Buffer::DataType::Int;
-			*size = Buffer::AttribSize::Two;
-			break;
-		case AttributeVariable::AttribType::Vec3i:
-			*type = Buffer::DataType::Int;
-			*size = Buffer::AttribSize::Three;
-			break;
-		case AttributeVariable::AttribType::Vec4i:
-			*type = Buffer::DataType::Int;
-			*size = Buffer::AttribSize::Four;
-			break;
-		case AttributeVariable::AttribType::UnsignedInt:
-			*type = Buffer::DataType::UnsignedInt;
-			*size = Buffer::AttribSize::One;
-			break;
-		case AttributeVariable::AttribType::Vec2u:
-			*type = Buffer::DataType::UnsignedInt;
-			*size = Buffer::AttribSize::Two;
-			break;
-		case AttributeVariable::AttribType::Vec3u:
-			*type = Buffer::DataType::UnsignedInt;
-			*size = Buffer::AttribSize::Three;
-			break;
-		case AttributeVariable::AttribType::Vec4u:
-			*type = Buffer::DataType::UnsignedInt;
-			*size = Buffer::AttribSize::Four;
-			break;
-		case AttributeVariable::AttribType::Double:
-			*type = Buffer::DataType::Double;
-			*size = Buffer::AttribSize::One;
-			break;
-		case AttributeVariable::AttribType::Vec2d:
-			*type = Buffer::DataType::Double;
-			*size = Buffer::AttribSize::Two;
-			break;
-		case AttributeVariable::AttribType::Vec3d:
-			*type = Buffer::DataType::Double;
-			*size = Buffer::AttribSize::Three;
-			break;
-		case AttributeVariable::AttribType::Vec4d:
-			*type = Buffer::DataType::Double;
-			*size = Buffer::AttribSize::Four;
-			break;
-		case AttributeVariable::AttribType::Mat2f:
-		case AttributeVariable::AttribType::Mat3f:
-		case AttributeVariable::AttribType::Mat4f:
-		case AttributeVariable::AttribType::Mat2x3f:
-		case AttributeVariable::AttribType::Mat2x4f:
-		case AttributeVariable::AttribType::Mat3x2f:
-		case AttributeVariable::AttribType::Mat3x4f:
-		case AttributeVariable::AttribType::Mat4x2f:
-		case AttributeVariable::AttribType::Mat4x3f:
-		case AttributeVariable::AttribType::Mat2d:
-		case AttributeVariable::AttribType::Mat3d:
-		case AttributeVariable::AttribType::Mat4d:
-		case AttributeVariable::AttribType::Mat2x3d:
-		case AttributeVariable::AttribType::Mat2x4d:
-		case AttributeVariable::AttribType::Mat3x2d:
-		case AttributeVariable::AttribType::Mat3x4d:
-		case AttributeVariable::AttribType::Mat4x2d:
-		case AttributeVariable::AttribType::Mat4x3d:
-			throw std::exception("Matrix vertex attributes are not supported");
-			break;
-		}
-	}
+	namespace mesh_factory {
 
-	StaticMesh MeshFactory::CreateStaticMesh(const MeshDescriptor& desc) {
-		unsigned int numVertices = (unsigned int)desc.Vertices.size();
-
-		std::vector<Buffer> vertexBuffers;
-
-		VertexArray vao = GL::CreateVertexArray();
-		vao.Bind();
-
-		Buffer vbo = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
-		vbo.Bind();
-
-		Buffer::DataDescriptor positionDesc;
-		positionDesc.Type = Buffer::DataType::Float;
-		positionDesc.Normalize = Buffer::Normalize::No;
-		positionDesc.AttributeSize = Buffer::AttribSize::Three;
-		positionDesc.Stride = 0;
-		positionDesc.Offset = 0;
-
-		Buffer::Descriptor vboDesc;
-		vboDesc.DataDescriptions.push_back(positionDesc);
-		vboDesc.pData = (void*)&(desc.Vertices[0]);
-		vboDesc.Size = sizeof(glm::vec3) * desc.Vertices.size();
-		vboDesc.Target = Buffer::Targets::ArrayBuffer;
-		vboDesc.Usage = Buffer::Usages::StaticDraw;
-
-		vbo.SetData(vboDesc);
-
-		vao.EnableVertexAttribute(desc.PositionVariable);
-		vao.SetVertexAttributePointer(desc.PositionVariable, positionDesc);
-
-		vbo.Unbind();
-
-		vertexBuffers.push_back(vbo);
-
-		for (VertexAttributeDescriptor attribDesc : desc.AttributeDescriptors) {
-			Buffer buffer = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
-			buffer.Bind();
-
-			Buffer::DataDescriptor dataDesc;
-			ConvertAttributeType(attribDesc.AttributeVariable.Type(), &dataDesc.Type, &dataDesc.AttributeSize);
-			dataDesc.Normalize = Buffer::Normalize::No;
-			dataDesc.Offset = 0;
-			dataDesc.Stride = 0;
-
-			Buffer::Descriptor buffDesc;
-			buffDesc.DataDescriptions.push_back(dataDesc);
-			buffDesc.pData = attribDesc.pAttributes;
-			buffDesc.Size = attribDesc.Size;
-			buffDesc.Target = Buffer::Targets::ArrayBuffer;
-			buffDesc.Usage = Buffer::Usages::StaticDraw;
-
-			buffer.SetData(buffDesc);
-
-			vao.EnableVertexAttribute(attribDesc.AttributeVariable);
-			vao.SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
-
-			buffer.Unbind();
-
-			vertexBuffers.push_back(buffer);
+		void ConvertAttributeType(AttributeVariable::AttribType attribType, Buffer::DataType* type, Buffer::AttribSize* size) {
+			switch (attribType) {
+			case AttributeVariable::AttribType::Float:
+				*type = Buffer::DataType::Float;
+				*size = Buffer::AttribSize::One;
+				break;
+			case AttributeVariable::AttribType::Vec2f:
+				*type = Buffer::DataType::Float;
+				*size = Buffer::AttribSize::Two;
+				break;
+			case AttributeVariable::AttribType::Vec3f:
+				*type = Buffer::DataType::Float;
+				*size = Buffer::AttribSize::Three;
+				break;
+			case AttributeVariable::AttribType::Vec4f:
+				*type = Buffer::DataType::Float;
+				*size = Buffer::AttribSize::Four;
+				break;
+			case AttributeVariable::AttribType::Int:
+				*type = Buffer::DataType::Int;
+				*size = Buffer::AttribSize::One;
+				break;
+			case AttributeVariable::AttribType::Vec2i:
+				*type = Buffer::DataType::Int;
+				*size = Buffer::AttribSize::Two;
+				break;
+			case AttributeVariable::AttribType::Vec3i:
+				*type = Buffer::DataType::Int;
+				*size = Buffer::AttribSize::Three;
+				break;
+			case AttributeVariable::AttribType::Vec4i:
+				*type = Buffer::DataType::Int;
+				*size = Buffer::AttribSize::Four;
+				break;
+			case AttributeVariable::AttribType::UnsignedInt:
+				*type = Buffer::DataType::UnsignedInt;
+				*size = Buffer::AttribSize::One;
+				break;
+			case AttributeVariable::AttribType::Vec2u:
+				*type = Buffer::DataType::UnsignedInt;
+				*size = Buffer::AttribSize::Two;
+				break;
+			case AttributeVariable::AttribType::Vec3u:
+				*type = Buffer::DataType::UnsignedInt;
+				*size = Buffer::AttribSize::Three;
+				break;
+			case AttributeVariable::AttribType::Vec4u:
+				*type = Buffer::DataType::UnsignedInt;
+				*size = Buffer::AttribSize::Four;
+				break;
+			case AttributeVariable::AttribType::Double:
+				*type = Buffer::DataType::Double;
+				*size = Buffer::AttribSize::One;
+				break;
+			case AttributeVariable::AttribType::Vec2d:
+				*type = Buffer::DataType::Double;
+				*size = Buffer::AttribSize::Two;
+				break;
+			case AttributeVariable::AttribType::Vec3d:
+				*type = Buffer::DataType::Double;
+				*size = Buffer::AttribSize::Three;
+				break;
+			case AttributeVariable::AttribType::Vec4d:
+				*type = Buffer::DataType::Double;
+				*size = Buffer::AttribSize::Four;
+				break;
+			case AttributeVariable::AttribType::Mat2f:
+			case AttributeVariable::AttribType::Mat3f:
+			case AttributeVariable::AttribType::Mat4f:
+			case AttributeVariable::AttribType::Mat2x3f:
+			case AttributeVariable::AttribType::Mat2x4f:
+			case AttributeVariable::AttribType::Mat3x2f:
+			case AttributeVariable::AttribType::Mat3x4f:
+			case AttributeVariable::AttribType::Mat4x2f:
+			case AttributeVariable::AttribType::Mat4x3f:
+			case AttributeVariable::AttribType::Mat2d:
+			case AttributeVariable::AttribType::Mat3d:
+			case AttributeVariable::AttribType::Mat4d:
+			case AttributeVariable::AttribType::Mat2x3d:
+			case AttributeVariable::AttribType::Mat2x4d:
+			case AttributeVariable::AttribType::Mat3x2d:
+			case AttributeVariable::AttribType::Mat3x4d:
+			case AttributeVariable::AttribType::Mat4x2d:
+			case AttributeVariable::AttribType::Mat4x3d:
+				throw std::exception("Matrix vertex attributes are not supported");
+				break;
+			}
 		}
 
-		vao.Unbind();
+		StaticMesh CreateStaticMesh(const MeshDescriptor& desc) {
+			unsigned int numVertices = (unsigned int)desc.Vertices.size();
 
-		return StaticMesh(numVertices, vao, vertexBuffers);
-	}
+			std::vector<Buffer> vertexBuffers;
 
-	StaticInstancedMesh MeshFactory::CreateStaticInstancedMesh(
-		const MeshDescriptor& desc, 
-		std::vector<VertexAttributeDescriptor>& instancedAttributeDescriptors) {
+			VertexArray vao = GL::CreateVertexArray();
+			vao.Bind();
 
-		unsigned int numVertices = (unsigned int)desc.Vertices.size();
+			Buffer vbo = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
+			vbo.Bind();
 
-		std::vector<Buffer> vertexBuffers;
-		std::map<AttributeVariable, Buffer, AttributeComparator> instanceBuffers;
+			Buffer::DataDescriptor positionDesc;
+			positionDesc.Type = Buffer::DataType::Float;
+			positionDesc.Normalize = Buffer::Normalize::No;
+			positionDesc.AttributeSize = Buffer::AttribSize::Three;
+			positionDesc.Stride = 0;
+			positionDesc.Offset = 0;
 
-		VertexArray vao = GL::CreateVertexArray();
-		vao.Bind();
+			Buffer::Descriptor vboDesc;
+			vboDesc.DataDescriptions.push_back(positionDesc);
+			vboDesc.pData = (void*)&(desc.Vertices[0]);
+			vboDesc.Size = sizeof(glm::vec3) * desc.Vertices.size();
+			vboDesc.Target = Buffer::Targets::ArrayBuffer;
+			vboDesc.Usage = Buffer::Usages::StaticDraw;
 
-		Buffer vbo = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
-		vbo.Bind();
+			vbo.SetData(vboDesc);
 
-		Buffer::DataDescriptor positionDesc;
-		positionDesc.Type = Buffer::DataType::Float;
-		positionDesc.Normalize = Buffer::Normalize::No;
-		positionDesc.AttributeSize = Buffer::AttribSize::Three;
-		positionDesc.Stride = 0;
-		positionDesc.Offset = 0;
+			vao.EnableVertexAttribute(desc.PositionVariable);
+			vao.SetVertexAttributePointer(desc.PositionVariable, positionDesc);
 
-		Buffer::Descriptor vboDesc;
-		vboDesc.DataDescriptions.push_back(positionDesc);
-		vboDesc.pData = (void*)&(desc.Vertices[0]);
-		vboDesc.Size = sizeof(glm::vec3) * desc.Vertices.size();
-		vboDesc.Target = Buffer::Targets::ArrayBuffer;
-		vboDesc.Usage = Buffer::Usages::StaticDraw;
+			vbo.Unbind();
 
-		vbo.SetData(vboDesc);
+			vertexBuffers.push_back(vbo);
 
-		vao.EnableVertexAttribute(desc.PositionVariable);
-		vao.SetVertexAttributePointer(desc.PositionVariable, positionDesc);
+			for (VertexAttributeDescriptor attribDesc : desc.AttributeDescriptors) {
+				Buffer buffer = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
+				buffer.Bind();
 
-		vbo.Unbind();
+				Buffer::DataDescriptor dataDesc;
+				ConvertAttributeType(attribDesc.AttributeVariable.Type(), &dataDesc.Type, &dataDesc.AttributeSize);
+				dataDesc.Normalize = Buffer::Normalize::No;
+				dataDesc.Offset = 0;
+				dataDesc.Stride = 0;
 
-		for (VertexAttributeDescriptor attribDesc : desc.AttributeDescriptors) {
-			Buffer buffer = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
-			buffer.Bind();
+				Buffer::Descriptor buffDesc;
+				buffDesc.DataDescriptions.push_back(dataDesc);
+				buffDesc.pData = attribDesc.pAttributes;
+				buffDesc.Size = attribDesc.Size;
+				buffDesc.Target = Buffer::Targets::ArrayBuffer;
+				buffDesc.Usage = Buffer::Usages::StaticDraw;
 
-			Buffer::DataDescriptor dataDesc;
-			ConvertAttributeType(attribDesc.AttributeVariable.Type(), &dataDesc.Type, &dataDesc.AttributeSize);
-			dataDesc.Normalize = Buffer::Normalize::No;
-			dataDesc.Offset = 0;
-			dataDesc.Stride = 0;
+				buffer.SetData(buffDesc);
 
-			Buffer::Descriptor buffDesc;
-			buffDesc.DataDescriptions.push_back(dataDesc);
-			buffDesc.pData = attribDesc.pAttributes;
-			buffDesc.Size = attribDesc.Size;
-			buffDesc.Target = Buffer::Targets::ArrayBuffer;
-			buffDesc.Usage = Buffer::Usages::StaticDraw;
+				vao.EnableVertexAttribute(attribDesc.AttributeVariable);
+				vao.SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
 
-			buffer.SetData(buffDesc);
+				buffer.Unbind();
 
-			vao.EnableVertexAttribute(attribDesc.AttributeVariable);
-			vao.SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
+				vertexBuffers.push_back(buffer);
+			}
 
-			buffer.Unbind();
+			vao.Unbind();
 
-			vertexBuffers.push_back(buffer);
+			return StaticMesh(numVertices, vao, vertexBuffers);
 		}
 
-		for (VertexAttributeDescriptor attribDesc : instancedAttributeDescriptors) {
-			Buffer buffer = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
-			buffer.Bind();
+		StaticInstancedMesh CreateStaticInstancedMesh(
+			const MeshDescriptor& desc,
+			std::vector<VertexAttributeDescriptor>& instancedAttributeDescriptors) {
 
-			Buffer::DataDescriptor dataDesc;
-			ConvertAttributeType(attribDesc.AttributeVariable.Type(), &dataDesc.Type, &dataDesc.AttributeSize);
-			dataDesc.Normalize = Buffer::Normalize::No;
-			dataDesc.Offset = 0;
-			dataDesc.Stride = 0;
+			unsigned int numVertices = (unsigned int)desc.Vertices.size();
 
-			Buffer::Descriptor buffDesc;
-			buffDesc.DataDescriptions.push_back(dataDesc);
-			buffDesc.pData = nullptr;
-			buffDesc.Size = 0;
-			buffDesc.Target = Buffer::Targets::ArrayBuffer;
-			buffDesc.Usage = Buffer::Usages::DynamicDraw;
+			std::vector<Buffer> vertexBuffers;
+			std::map<AttributeVariable, Buffer, AttributeComparator> instanceBuffers;
 
-			buffer.SetData(buffDesc);
+			VertexArray vao = GL::CreateVertexArray();
+			vao.Bind();
 
-			vao.EnableVertexAttribute(attribDesc.AttributeVariable);
-			vao.SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
-			vao.SetVertexAttributeDivisor(attribDesc.AttributeVariable, 1);
+			Buffer vbo = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
+			vbo.Bind();
 
-			buffer.Unbind();
+			Buffer::DataDescriptor positionDesc;
+			positionDesc.Type = Buffer::DataType::Float;
+			positionDesc.Normalize = Buffer::Normalize::No;
+			positionDesc.AttributeSize = Buffer::AttribSize::Three;
+			positionDesc.Stride = 0;
+			positionDesc.Offset = 0;
 
-			instanceBuffers.insert(std::make_pair(attribDesc.AttributeVariable, buffer));
+			Buffer::Descriptor vboDesc;
+			vboDesc.DataDescriptions.push_back(positionDesc);
+			vboDesc.pData = (void*)&(desc.Vertices[0]);
+			vboDesc.Size = sizeof(glm::vec3) * desc.Vertices.size();
+			vboDesc.Target = Buffer::Targets::ArrayBuffer;
+			vboDesc.Usage = Buffer::Usages::StaticDraw;
+
+			vbo.SetData(vboDesc);
+
+			vao.EnableVertexAttribute(desc.PositionVariable);
+			vao.SetVertexAttributePointer(desc.PositionVariable, positionDesc);
+
+			vbo.Unbind();
+
+			for (VertexAttributeDescriptor attribDesc : desc.AttributeDescriptors) {
+				Buffer buffer = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
+				buffer.Bind();
+
+				Buffer::DataDescriptor dataDesc;
+				ConvertAttributeType(attribDesc.AttributeVariable.Type(), &dataDesc.Type, &dataDesc.AttributeSize);
+				dataDesc.Normalize = Buffer::Normalize::No;
+				dataDesc.Offset = 0;
+				dataDesc.Stride = 0;
+
+				Buffer::Descriptor buffDesc;
+				buffDesc.DataDescriptions.push_back(dataDesc);
+				buffDesc.pData = attribDesc.pAttributes;
+				buffDesc.Size = attribDesc.Size;
+				buffDesc.Target = Buffer::Targets::ArrayBuffer;
+				buffDesc.Usage = Buffer::Usages::StaticDraw;
+
+				buffer.SetData(buffDesc);
+
+				vao.EnableVertexAttribute(attribDesc.AttributeVariable);
+				vao.SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
+
+				buffer.Unbind();
+
+				vertexBuffers.push_back(buffer);
+			}
+
+			for (VertexAttributeDescriptor attribDesc : instancedAttributeDescriptors) {
+				Buffer buffer = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
+				buffer.Bind();
+
+				Buffer::DataDescriptor dataDesc;
+				ConvertAttributeType(attribDesc.AttributeVariable.Type(), &dataDesc.Type, &dataDesc.AttributeSize);
+				dataDesc.Normalize = Buffer::Normalize::No;
+				dataDesc.Offset = 0;
+				dataDesc.Stride = 0;
+
+				Buffer::Descriptor buffDesc;
+				buffDesc.DataDescriptions.push_back(dataDesc);
+				buffDesc.pData = nullptr;
+				buffDesc.Size = 0;
+				buffDesc.Target = Buffer::Targets::ArrayBuffer;
+				buffDesc.Usage = Buffer::Usages::DynamicDraw;
+
+				buffer.SetData(buffDesc);
+
+				vao.EnableVertexAttribute(attribDesc.AttributeVariable);
+				vao.SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
+				vao.SetVertexAttributeDivisor(attribDesc.AttributeVariable, 1);
+
+				buffer.Unbind();
+
+				instanceBuffers.insert(std::make_pair(attribDesc.AttributeVariable, buffer));
+			}
+
+			vao.Unbind();
+
+			return StaticInstancedMesh(numVertices, vao, vertexBuffers, instanceBuffers);
 		}
 
-		vao.Unbind();
-
-		return StaticInstancedMesh(numVertices, vao, vertexBuffers, instanceBuffers);
 	}
-
-	void MeshFactory::ReleaseMesh(StaticMesh& mesh) {
-
-	}
-
-	void MeshFactory::ReleaseMesh(StaticInstancedMesh& mesh) {
-
-	}
-
 }
