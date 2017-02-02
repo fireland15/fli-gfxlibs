@@ -10,125 +10,174 @@ namespace opengl {
 	class Buffer {
 	public:
 
-		enum Targets : GLenum {
-			ArrayBuffer				= GL_ARRAY_BUFFER,
-			AtomicCounterBuffer		= GL_ATOMIC_COUNTER_BUFFER,
-			CopyReadBuffer			= GL_COPY_READ_BUFFER,
-			CopyWriteBuffer			= GL_COPY_WRITE_BUFFER,
-			DispatchIndirectBuffer	= GL_DISPATCH_INDIRECT_BUFFER,
-			DrawIndirectBuffer		= GL_DRAW_INDIRECT_BUFFER,
-			ElementArrayBuffer		= GL_ELEMENT_ARRAY_BUFFER,
-			PixelPackBuffer			= GL_PIXEL_PACK_BUFFER,
-			PixelUnpackBuffer		= GL_PIXEL_UNPACK_BUFFER,
-			QueryBuffer				= GL_QUERY_BUFFER,
-			ShaderStorageBuffer		= GL_SHADER_STORAGE_BUFFER,
-			TextureBuffer			= GL_TEXTURE_BUFFER,
-			TransformFeedbackBuffer = GL_TRANSFORM_FEEDBACK_BUFFER,
-			UniformBuffer			= GL_UNIFORM_BUFFER
-		};
-
-		enum Usages : GLenum {
-			StreamDraw	= GL_STREAM_DRAW,
-			StreamRead	= GL_STREAM_READ,
-			StreamCopy	= GL_STREAM_COPY,
-			StaticDraw	= GL_STATIC_DRAW,
-			StaticRead	= GL_STATIC_READ,
-			StaticCopy	= GL_STATIC_COPY,
-			DynamicDraw = GL_DYNAMIC_DRAW,
-			DynamicRead = GL_DYNAMIC_READ,
-			DynamicCopy = GL_DYNAMIC_COPY
-		};
-
-		enum DataType : GLenum {
-			Byte			= GL_BYTE,
-			UnsignedByte	= GL_UNSIGNED_BYTE,
-			Short			= GL_SHORT,
-			UnsignedShort	= GL_UNSIGNED_SHORT,
-			Int				= GL_INT,
-			UnsignedInt		= GL_UNSIGNED_INT,
-			HalfFloat		= GL_HALF_FLOAT,
-			Float			= GL_FLOAT,
-			Double			= GL_DOUBLE,
-			Fixed			= GL_FIXED
-		};
-
-		enum Normalize : GLboolean {
-			Yes	= GL_TRUE,
-			No	= GL_FALSE
-		};
-
-		enum AttribSize : GLint {
-			One		= 1,
-			Two		= 2,
-			Three	= 3,
-			Four	= 4
-		};
-
 		struct DataDescriptor {
-		public:
-			// Size of each attribute value
-			AttribSize AttributeSize;
-			// The data type of the attribute
-			DataType Type;
-			// Should the gfx card normalize the values
-			Normalize Normalize;
-			GLsizei Stride;
-			GLvoid* Offset;
+			/// <summary>
+			/// The number of elements in the attribute. Can be 1, 2, 3 or 4.
+			/// </summary>
+			gl::BufferAttribSize AttributeSize = gl::BufferAttribSize::Four;
+
+			/// <summary>
+			/// Tells OpenGL the type of the data in the buffer.
+			/// </summary>
+			gl::BufferDataType Type = gl::BufferDataType::Float;
+
+			/// <summary>
+			/// Tells OpenGL whether normalize the data in the buffer.
+			/// </summary>
+			gl::Normalize Normalize = gl::Normalize::No;
+
+			/// <summary>
+			/// The stride, or width, of the vertex attributes.
+			/// </summary>
+			GLsizei Stride = 0;
+
+			/// <summary>
+			/// The offset of a vertex attribute from the beginning of the data.
+			/// </summary>
+			GLvoid* Offset = 0;
 		};
 
+		/// <summary>
+		/// A struct for storing information about a buffer and its data.
+		/// </summary>
 		struct Descriptor {
-		public:
-			Targets Target;
-			void* pData;
-			// size of data in bytes
-			GLsizeiptr Size;
-			Usages Usage;
+			/// <summary>
+			/// The binding target for the buffer.
+			/// </summary>
+			gl::BufferTarget Target = gl::BufferTarget::NoTarget;
+
+			/// <summary>
+			/// A pointer to the beginning of the data to be stored in the buffer.
+			/// </summary>
+			void* pData = nullptr;
+			
+			/// <summary>
+			/// The size of pData in bytes.
+			/// </summary>
+			GLsizeiptr Size = 0;
+
+			/// <summary>
+			/// The buffers usage.
+			/// </summary>
+			gl::BufferUsage Usage = gl::BufferUsage::NoUsage;
+
+			/// <summary>
+			/// An array of DataDescriptors for each type of data in the buffer.
+			/// </summary>
 			std::vector<DataDescriptor> DataDescriptions;
 		};
 
-	private:
+		/*************************************************************
+		* Constructors
+		**************************************************************/
 
-		Buffer(GLuint obj, Targets target);
-
-		GLuint Obj();
-
-		void Obj(GLuint obj);
-		
-	public:
-
+		/// <summary>
+		/// Creates a new OpenGL buffer object.
+		/// </summary>
 		Buffer();
+		
+		/// <summary>
+		/// Copy Constructor is deleted.
+		/// </summary>
+		/// <param name="other"></param>
+		Buffer(const Buffer& other) = delete;
 
+		/// <summary>
+		/// Copy Assignment Constructor is deleted.
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
+		Buffer& operator=(const Buffer& other) = delete;
+
+		/// <summary>
+		/// Move Constructor.
+		/// </summary>
+		/// <param name="other">The buffer object to move into the new instance.</param>
+		Buffer(Buffer&& other);
+
+		/// <summary>
+		/// Move Assignment Constructor.
+		/// </summary>
+		/// <param name="other">The buffer object to move into the lhs of the operator.</param>
+		/// <returns>Reference to a Buffer object.</returns>
+		Buffer& operator=(Buffer&& other);
+
+		/*************************************************************
+		* Destructor
+		**************************************************************/
+
+		/// <summary>
+		/// Destructor. Releases the OpenGL buffer object.
+		/// </summary>
+		~Buffer();
+
+		/*************************************************************
+		* OpenGL Buffer Functions
+		**************************************************************/
+
+		/// <summary>
+		/// Binds the buffer to the current OpenGL context. Usually must be called before performing any operations on the buffer.
+		/// </summary>
 		void Bind();
 
+		/// <summary>
+		/// Unbinds the buffer from the current OpenGL context. Sets current buffer to 0.
+		/// </summary>
 		void Unbind();
 
-		// Use when first setting the buffer data
-		// Will set the usage and target
+		/// <summary>
+		/// Sets the data stored in the buffer as well as any target and usage flags. Buffer must be bound before calling.
+		/// </summary>
+		/// <param name="desc">A Descriptor object describing the buffer usage, binding targets, data, and data structure.</param>
 		void SetData(const Descriptor& desc);
 
-		// Use when needing to update a buffers contents.
-		// Binds to the target and usage specified by set data.
-		// size is the size of the array pointed by pData in bytes
+		/// <summary>
+		/// Updates the data stored in the buffer on the GPU. The buffer target and usage remain unchanged. Data format must match that used in the original call to <code>SetData()</code>. Buffer must be bound before calling.
+		/// </summary>
+		/// <param name="pData">Pointer to the beginning of the array of data.</param>
+		/// <param name="size">The size of the data to be uploaded in bytes.</param>
 		void UpdateData(void* pData, unsigned int size);
 
+		/*************************************************************
+		* Getter Methods
+		**************************************************************/
+
+		/// <summary>
+		/// Checks if the buffer is currently bound
+		/// </summary>
+		/// <returns>True is the buffer is bound. False if the buffer is not bound.</returns>
 		bool IsBound();
 
-		Targets Target();
+		/// <summary>
+		/// Returns the binding target of the buffer.
+		/// </summary>
+		/// <returns>The binding target.</returns>
+		gl::BufferTarget Target();
 
-		Usages Usage();
+		/// <summary>
+		/// Returns the usage of the buffer.
+		/// </summary>
+		/// <returns>The buffer usage.</returns>
+		gl::BufferUsage Usage();
 
+		/// <summary>
+		/// Returns a const reference to the Descriptor object of the buffer.
+		/// </summary>
+		/// <returns>Const Reference to the buffers descriptor.</returns>
 		const Descriptor& Description();
+
+		/// <summary>
+		/// Checks if the current internal OpenGL Buffer object is valid for use.
+		/// </summary>
+		/// <returns>True if the internal Buffer is usable; false otherwise.</returns>
+		bool IsValid();
 
 	private:
 		GLuint m_obj;
 
-		Targets m_target;
-
 		bool m_isBound;
 
 		Descriptor m_description;
-
-		friend class GL;
 
 	};
 

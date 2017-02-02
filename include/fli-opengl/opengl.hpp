@@ -14,10 +14,8 @@
 
 namespace opengl {
 
-	class GL {
-	private:
+	namespace gl {
 
-	public:
 		enum Buffers : GLbitfield {
 			Color			= GL_COLOR_BUFFER_BIT,
 			Depth			= GL_DEPTH_BUFFER_BIT,
@@ -25,64 +23,74 @@ namespace opengl {
 			Stencil			= GL_STENCIL_BUFFER_BIT
 		};
 
-		static VertexArray CreateVertexArray() {
-			GLuint obj;
-			glGenVertexArrays(1, &obj);
-			return VertexArray(obj);
-		}
+		enum BufferTarget : GLenum {
+			ArrayBuffer = GL_ARRAY_BUFFER,
+			AtomicCounterBuffer = GL_ATOMIC_COUNTER_BUFFER,
+			CopyReadBuffer = GL_COPY_READ_BUFFER,
+			CopyWriteBuffer = GL_COPY_WRITE_BUFFER,
+			DispatchIndirectBuffer = GL_DISPATCH_INDIRECT_BUFFER,
+			DrawIndirectBuffer = GL_DRAW_INDIRECT_BUFFER,
+			ElementArrayBuffer = GL_ELEMENT_ARRAY_BUFFER,
+			PixelPackBuffer = GL_PIXEL_PACK_BUFFER,
+			PixelUnpackBuffer = GL_PIXEL_UNPACK_BUFFER,
+			QueryBuffer = GL_QUERY_BUFFER,
+			ShaderStorageBuffer = GL_SHADER_STORAGE_BUFFER,
+			TextureBuffer = GL_TEXTURE_BUFFER,
+			TransformFeedbackBuffer = GL_TRANSFORM_FEEDBACK_BUFFER,
+			UniformBuffer = GL_UNIFORM_BUFFER,
+			NoTarget
+		};
 
-		static void DeleteVertexArray(VertexArray& vao) {
-			GLuint obj = vao.Obj();
-			glDeleteVertexArrays(1, &obj);
-			vao.Obj(0);
-		}
+		enum BufferUsage : GLenum {
+			StreamDraw = GL_STREAM_DRAW,
+			StreamRead = GL_STREAM_READ,
+			StreamCopy = GL_STREAM_COPY,
+			StaticDraw = GL_STATIC_DRAW,
+			StaticRead = GL_STATIC_READ,
+			StaticCopy = GL_STATIC_COPY,
+			DynamicDraw = GL_DYNAMIC_DRAW,
+			DynamicRead = GL_DYNAMIC_READ,
+			DynamicCopy = GL_DYNAMIC_COPY,
+			NoUsage
+		};
 
-		static Buffer CreateBuffer(Buffer::Targets target) {
-			GLuint obj;
-			glGenBuffers(1, &obj);
-			return Buffer(obj, target);
-		}
+		enum BufferDataType : GLenum {
+			Byte = GL_BYTE,
+			UnsignedByte = GL_UNSIGNED_BYTE,
+			Short = GL_SHORT,
+			UnsignedShort = GL_UNSIGNED_SHORT,
+			Int = GL_INT,
+			UnsignedInt = GL_UNSIGNED_INT,
+			HalfFloat = GL_HALF_FLOAT,
+			Float = GL_FLOAT,
+			Double = GL_DOUBLE,
+			Fixed = GL_FIXED
+		};
 
-		static void DeleteBuffer(Buffer& buffer) {
-			GLuint obj = buffer.Obj();
-			glDeleteBuffers(1, &obj);
-			buffer.Obj(0);
-		}
+		enum Normalize : GLboolean {
+			Yes = GL_TRUE,
+			No = GL_FALSE
+		};
 
-		static Shader CreateShader(Shader::Type type) {
-			GLuint obj = glCreateShader(type);
-			return Shader(obj);
-		}
-
-		static void DeleteShader(Shader& shader) {
-			GLuint obj = shader.Obj();
-			glDeleteShader(obj);
-			shader.Obj(0);
-		}
-
-		static Program CreateProgram() {
-			GLuint obj = glCreateProgram();
-			return Program(obj);
-		}
-
-		static void DeleteProgram(Program& program) {
-			GLuint obj = program.Obj();
-			glDeleteProgram(obj);
-			program.Obj(0);
-		}
-
-		static OpenGlError GetErrors() {
+		enum BufferAttribSize : GLint {
+			One = 1,
+			Two = 2,
+			Three = 3,
+			Four = 4
+		};
+		
+		OpenGlError GetErrors() {
 			return OpenGlError((OpenGlError::Error)glGetError());
 		}
 
-		static void ClearColor(glm::vec4 color) {
+		void ClearColor(glm::vec4 color) {
 			glClearColor(color.r, color.g, color.b, color.a);
 		}
 
-		static void Clear(GLbitfield buffers) {
+		void Clear(GLbitfield buffers) {
 			glClear(buffers);
 		}
 		
-	};
+	}
 
 }

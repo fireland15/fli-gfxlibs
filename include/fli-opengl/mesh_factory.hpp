@@ -8,6 +8,7 @@
 #include "opengl.hpp"
 #include "vertex_array.hpp"
 #include "buffer.hpp"
+#include "exceptions.hpp"
 
 namespace opengl {
 
@@ -15,11 +16,9 @@ namespace opengl {
 
 		StaticMesh CreateStaticMesh(const MeshDescriptor& desc);
 
-		StaticInstancedMesh CreateStaticInstancedMesh(const MeshDescriptor& desc, std::vector<VertexAttributeDescriptor>& instancedAttributeDescriptor);
-
-		void ReleaseMesh(StaticMesh& mesh);
-
-		void ReleaseMesh(StaticInstancedMesh& mesh);
+		StaticInstancedMesh CreateStaticInstancedMesh(
+			const MeshDescriptor& desc, 
+			std::vector<VertexAttributeDescriptor>& instancedAttributeDescriptor);
 
 	}
 

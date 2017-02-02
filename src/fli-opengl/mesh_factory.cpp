@@ -4,71 +4,71 @@ namespace opengl {
 
 	namespace mesh_factory {
 
-		void ConvertAttributeType(AttributeVariable::AttribType attribType, Buffer::DataType* type, Buffer::AttribSize* size) {
+		void ConvertAttributeType(AttributeVariable::AttribType attribType, gl::BufferDataType* type, gl::BufferAttribSize* size) {
 			switch (attribType) {
 			case AttributeVariable::AttribType::Float:
-				*type = Buffer::DataType::Float;
-				*size = Buffer::AttribSize::One;
+				*type = gl::BufferDataType::Float;
+				*size = gl::BufferAttribSize::One;
 				break;
 			case AttributeVariable::AttribType::Vec2f:
-				*type = Buffer::DataType::Float;
-				*size = Buffer::AttribSize::Two;
+				*type = gl::BufferDataType::Float;
+				*size = gl::BufferAttribSize::Two;
 				break;
 			case AttributeVariable::AttribType::Vec3f:
-				*type = Buffer::DataType::Float;
-				*size = Buffer::AttribSize::Three;
+				*type = gl::BufferDataType::Float;
+				*size = gl::BufferAttribSize::Three;
 				break;
 			case AttributeVariable::AttribType::Vec4f:
-				*type = Buffer::DataType::Float;
-				*size = Buffer::AttribSize::Four;
+				*type = gl::BufferDataType::Float;
+				*size = gl::BufferAttribSize::Four;
 				break;
 			case AttributeVariable::AttribType::Int:
-				*type = Buffer::DataType::Int;
-				*size = Buffer::AttribSize::One;
+				*type = gl::BufferDataType::Int;
+				*size = gl::BufferAttribSize::One;
 				break;
 			case AttributeVariable::AttribType::Vec2i:
-				*type = Buffer::DataType::Int;
-				*size = Buffer::AttribSize::Two;
+				*type = gl::BufferDataType::Int;
+				*size = gl::BufferAttribSize::Two;
 				break;
 			case AttributeVariable::AttribType::Vec3i:
-				*type = Buffer::DataType::Int;
-				*size = Buffer::AttribSize::Three;
+				*type = gl::BufferDataType::Int;
+				*size = gl::BufferAttribSize::Three;
 				break;
 			case AttributeVariable::AttribType::Vec4i:
-				*type = Buffer::DataType::Int;
-				*size = Buffer::AttribSize::Four;
+				*type = gl::BufferDataType::Int;
+				*size = gl::BufferAttribSize::Four;
 				break;
 			case AttributeVariable::AttribType::UnsignedInt:
-				*type = Buffer::DataType::UnsignedInt;
-				*size = Buffer::AttribSize::One;
+				*type = gl::BufferDataType::UnsignedInt;
+				*size = gl::BufferAttribSize::One;
 				break;
 			case AttributeVariable::AttribType::Vec2u:
-				*type = Buffer::DataType::UnsignedInt;
-				*size = Buffer::AttribSize::Two;
+				*type = gl::BufferDataType::UnsignedInt;
+				*size = gl::BufferAttribSize::Two;
 				break;
 			case AttributeVariable::AttribType::Vec3u:
-				*type = Buffer::DataType::UnsignedInt;
-				*size = Buffer::AttribSize::Three;
+				*type = gl::BufferDataType::UnsignedInt;
+				*size = gl::BufferAttribSize::Three;
 				break;
 			case AttributeVariable::AttribType::Vec4u:
-				*type = Buffer::DataType::UnsignedInt;
-				*size = Buffer::AttribSize::Four;
+				*type = gl::BufferDataType::UnsignedInt;
+				*size = gl::BufferAttribSize::Four;
 				break;
 			case AttributeVariable::AttribType::Double:
-				*type = Buffer::DataType::Double;
-				*size = Buffer::AttribSize::One;
+				*type = gl::BufferDataType::Double;
+				*size = gl::BufferAttribSize::One;
 				break;
 			case AttributeVariable::AttribType::Vec2d:
-				*type = Buffer::DataType::Double;
-				*size = Buffer::AttribSize::Two;
+				*type = gl::BufferDataType::Double;
+				*size = gl::BufferAttribSize::Two;
 				break;
 			case AttributeVariable::AttribType::Vec3d:
-				*type = Buffer::DataType::Double;
-				*size = Buffer::AttribSize::Three;
+				*type = gl::BufferDataType::Double;
+				*size = gl::BufferAttribSize::Three;
 				break;
 			case AttributeVariable::AttribType::Vec4d:
-				*type = Buffer::DataType::Double;
-				*size = Buffer::AttribSize::Four;
+				*type = gl::BufferDataType::Double;
+				*size = gl::BufferAttribSize::Four;
 				break;
 			case AttributeVariable::AttribType::Mat2f:
 			case AttributeVariable::AttribType::Mat3f:
@@ -98,16 +98,22 @@ namespace opengl {
 
 			std::vector<Buffer> vertexBuffers;
 
-			VertexArray vao = GL::CreateVertexArray();
+			VertexArray vao;
+			if (!vao.IsValid()) {
+				throw objection_creation_exception("Failed to create a valid VertexArray.");
+			}
 			vao.Bind();
 
-			Buffer vbo = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
+			Buffer vbo;
+			if (!vbo.IsValid()) {
+				throw objection_creation_exception("Failed to create a valid Buffer.");
+			}
 			vbo.Bind();
 
 			Buffer::DataDescriptor positionDesc;
-			positionDesc.Type = Buffer::DataType::Float;
-			positionDesc.Normalize = Buffer::Normalize::No;
-			positionDesc.AttributeSize = Buffer::AttribSize::Three;
+			positionDesc.Type = gl::BufferDataType::Float;
+			positionDesc.Normalize = gl::Normalize::No;
+			positionDesc.AttributeSize = gl::BufferAttribSize::Three;
 			positionDesc.Stride = 0;
 			positionDesc.Offset = 0;
 
@@ -115,8 +121,8 @@ namespace opengl {
 			vboDesc.DataDescriptions.push_back(positionDesc);
 			vboDesc.pData = (void*)&(desc.Vertices[0]);
 			vboDesc.Size = sizeof(glm::vec3) * desc.Vertices.size();
-			vboDesc.Target = Buffer::Targets::ArrayBuffer;
-			vboDesc.Usage = Buffer::Usages::StaticDraw;
+			vboDesc.Target = gl::BufferTarget::ArrayBuffer;
+			vboDesc.Usage = gl::BufferUsage::StaticDraw;
 
 			vbo.SetData(vboDesc);
 
@@ -128,12 +134,15 @@ namespace opengl {
 			vertexBuffers.push_back(vbo);
 
 			for (VertexAttributeDescriptor attribDesc : desc.AttributeDescriptors) {
-				Buffer buffer = GL::CreateBuffer(Buffer::Targets::ArrayBuffer);
+				Buffer buffer;
+				if (!buffer.IsValid()) {
+					throw objection_creation_exception("Failed to create a valid Buffer.");
+				}
 				buffer.Bind();
 
 				Buffer::DataDescriptor dataDesc;
 				ConvertAttributeType(attribDesc.AttributeVariable.Type(), &dataDesc.Type, &dataDesc.AttributeSize);
-				dataDesc.Normalize = Buffer::Normalize::No;
+				dataDesc.Normalize = gl::Normalize::No;
 				dataDesc.Offset = 0;
 				dataDesc.Stride = 0;
 
@@ -141,8 +150,8 @@ namespace opengl {
 				buffDesc.DataDescriptions.push_back(dataDesc);
 				buffDesc.pData = attribDesc.pAttributes;
 				buffDesc.Size = attribDesc.Size;
-				buffDesc.Target = Buffer::Targets::ArrayBuffer;
-				buffDesc.Usage = Buffer::Usages::StaticDraw;
+				buffDesc.Target = gl::BufferTarget::ArrayBuffer;
+				buffDesc.Usage = gl::BufferUsage::StaticDraw;
 
 				buffer.SetData(buffDesc);
 

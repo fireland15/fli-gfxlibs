@@ -22,4 +22,11 @@ namespace opengl {
 	const char* invalid_buffer_usage_exception::what() const noexcept {
 		return m_message.c_str();
 	}
+
+	objection_creation_exception::objection_creation_exception(std::string message)
+		: m_message(message) { }
+
+	const char* objection_creation_exception::what() const noexcept {
+		return m_message.c_str();
+	}
 }

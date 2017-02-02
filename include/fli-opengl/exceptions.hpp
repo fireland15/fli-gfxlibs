@@ -30,4 +30,13 @@ namespace opengl {
 	private:
 		std::string m_message;
 	};
+
+	struct objection_creation_exception : public std::exception {
+		objection_creation_exception(std::string message);
+
+		const char* what() const noexcept;
+
+	private:
+		std::string m_message;
+	};
 }
