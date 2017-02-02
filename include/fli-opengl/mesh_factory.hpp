@@ -19,9 +19,13 @@ namespace opengl {
 		MeshFactory operator=(const MeshFactory& other) = delete;
 		MeshFactory operator=(MeshFactory&& other) = delete;
 
-		StaticMesh CreateStaticMesh(const MeshDescriptor& desc);
+		static StaticMesh CreateStaticMesh(const MeshDescriptor& desc);
 
-		StaticInstancedMesh CreateStaticInstancedMesh(const MeshDescriptor& desc, std::vector<VertexAttributeDescriptor>& instancedAttributeDescriptor);
+		static StaticInstancedMesh CreateStaticInstancedMesh(const MeshDescriptor& desc, std::vector<VertexAttributeDescriptor>& instancedAttributeDescriptor);
+
+		static void ReleaseMesh(StaticMesh& mesh);
+
+		static void ReleaseMesh(StaticInstancedMesh& mesh);
 	
 	private:
 

@@ -253,4 +253,12 @@ namespace opengl {
 		return StaticInstancedMesh(numVertices, vao, vertexBuffers, instanceBuffers);
 	}
 
+	void MeshFactory::ReleaseMesh(StaticMesh& mesh) {
+
+	}
+
+	void MeshFactory::ReleaseMesh(StaticInstancedMesh& mesh) {
+
+	}
+
 }

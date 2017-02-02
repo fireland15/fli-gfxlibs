@@ -111,6 +111,8 @@ bool Setup() {
 	descriptors.push_back(instancePositionDesc);
 
 	inMesh = meshFactory.CreateStaticInstancedMesh(meshDesc, descriptors);
+
+	return true;
 }
 
 void Render() {
@@ -139,15 +141,10 @@ void Render() {
 	opengl::InstanceUpdateData instanceData;
 	instanceData.Attribute = instPosition;
 	instanceData.pData = glm::value_ptr(instancePositions[0]);
-	instanceData.dataSize = sizeof(glm::vec3) * instancePositions.size();
+	instanceData.dataSize = (unsigned int)(sizeof(glm::vec3) * instancePositions.size());
 
 	inMesh.SetInstancedData({ instanceData });
-	inMesh.Render(instancePositions.size());
-	opengl::OpenGlError error = opengl::GL::GetErrors();
-	if (error.IsError()) {
-		std::cout << error.ToString() << std::endl;
-		exit(-1);
-	}
+	inMesh.Render((unsigned int)instancePositions.size());
 }
 
 int main() {
