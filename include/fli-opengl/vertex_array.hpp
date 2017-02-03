@@ -70,7 +70,7 @@ namespace opengl {
 		/// </summary>
 		/// <param name="attrib">The attribute the pointer should reference.</param>
 		/// <param name="desc">A description of the data the pointer references.</param>
-		void SetVertexAttributePointer(const AttributeVariable& attrib, const Buffer::DataDescriptor& desc);
+		void SetVertexAttributePointer(const AttributeVariable& attrib, const BufferDataDescriptor& desc);
 
 		/// <summary>
 		/// For use when using instanced rendering. The divisor tells OpenGL how many instances to render before switching to the next attribute value.

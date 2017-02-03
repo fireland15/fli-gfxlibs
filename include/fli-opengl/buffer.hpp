@@ -8,65 +8,55 @@
 
 namespace opengl {
 
-	class Buffer {
-	public:
-
-		struct DataDescriptor {
-			/// <summary>
-			/// The number of elements in the attribute. Can be 1, 2, 3 or 4.
-			/// </summary>
-			gl::BufferAttribSize AttributeSize = gl::BufferAttribSize::Four;
-
-			/// <summary>
-			/// Tells OpenGL the type of the data in the buffer.
-			/// </summary>
-			gl::BufferDataType Type = gl::BufferDataType::Float;
-
-			/// <summary>
-			/// Tells OpenGL whether normalize the data in the buffer.
-			/// </summary>
-			gl::Normalize Normalize = gl::Normalize::No;
-
-			/// <summary>
-			/// The stride, or width, of the vertex attributes.
-			/// </summary>
-			GLsizei Stride = 0;
-
-			/// <summary>
-			/// The offset of a vertex attribute from the beginning of the data.
-			/// </summary>
-			GLvoid* Offset = 0;
-		};
+	struct BufferDataDescriptor {
+		/// <summary>
+		/// The number of elements in the attribute. Can be 1, 2, 3 or 4.
+		/// </summary>
+		gl::BufferAttribSize AttributeSize = gl::BufferAttribSize::Four;
 
 		/// <summary>
-		/// A struct for storing information about a buffer and its data.
+		/// Tells OpenGL the type of the data in the buffer.
 		/// </summary>
-		struct Descriptor {
-			/// <summary>
-			/// The binding target for the buffer.
-			/// </summary>
-			gl::BufferTarget Target;
+		gl::BufferDataType Type = gl::BufferDataType::Float;
 
-			/// <summary>
-			/// A pointer to the beginning of the data to be stored in the buffer.
-			/// </summary>
-			void* pData = nullptr;
-			
-			/// <summary>
-			/// The size of pData in bytes.
-			/// </summary>
-			GLsizeiptr Size = 0;
+		/// <summary>
+		/// Tells OpenGL whether normalize the data in the buffer.
+		/// </summary>
+		gl::Normalize Normalize = gl::Normalize::No;
 
-			/// <summary>
-			/// The buffers usage.
-			/// </summary>
-			gl::BufferUsage Usage;
+		/// <summary>
+		/// The stride, or width, of the vertex attributes.
+		/// </summary>
+		GLsizei Stride = 0;
 
-			/// <summary>
-			/// An array of DataDescriptors for each type of data in the buffer.
-			/// </summary>
-			std::vector<DataDescriptor> DataDescriptions;
-		};
+		/// <summary>
+		/// The offset of a vertex attribute from the beginning of the data.
+		/// </summary>
+		GLvoid* Offset = 0;
+	};
+
+	/// <summary>
+	/// A struct for storing information about a buffer and its data.
+	/// </summary>
+	struct BufferDescriptor {
+		/// <summary>
+		/// The binding target for the buffer.
+		/// </summary>
+		gl::BufferTarget Target;
+
+		/// <summary>
+		/// The buffers usage.
+		/// </summary>
+		gl::BufferUsage Usage;
+
+		/// <summary>
+		/// An array of DataDescriptors for each type of data in the buffer.
+		/// </summary>
+		std::vector<BufferDataDescriptor> DataDescriptions;
+	};
+
+	class Buffer {
+	public:
 
 		/*************************************************************
 		* Constructors
@@ -75,7 +65,7 @@ namespace opengl {
 		/// <summary>
 		/// Creates a new OpenGL buffer object.
 		/// </summary>
-		Buffer(const Descriptor& desc);
+		Buffer(BufferDescriptor desc);
 		
 		/// <summary>
 		/// Copy Constructor is deleted.
@@ -130,7 +120,7 @@ namespace opengl {
 		/// Sets the data stored in the buffer as well as any target and usage flags. Buffer must be bound before calling.
 		/// </summary>
 		/// <param name="desc">A Descriptor object describing the buffer usage, binding targets, data, and data structure.</param>
-		void SetData(const Descriptor& desc);
+		void SetData(void* pData, unsigned int size);
 
 		/// <summary>
 		/// Updates the data stored in the buffer on the GPU. The buffer target and usage remain unchanged. Data format must match that used in the original call to <code>SetData()</code>. Buffer must be bound before calling.
@@ -165,7 +155,7 @@ namespace opengl {
 		/// Returns a const reference to the Descriptor object of the buffer.
 		/// </summary>
 		/// <returns>Const Reference to the buffers descriptor.</returns>
-		const Descriptor& Description();
+		const BufferDescriptor& Description();
 
 		/// <summary>
 		/// Checks if the current internal OpenGL Buffer object is valid for use.
@@ -178,7 +168,7 @@ namespace opengl {
 
 		bool m_isBound;
 
-		Descriptor m_description;
+		BufferDescriptor m_description;
 
 	};
 

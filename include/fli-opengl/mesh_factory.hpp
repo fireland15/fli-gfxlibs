@@ -3,6 +3,8 @@
 #include <map>
 #include <iostream>
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include "static_mesh.hpp"
 #include "static_instanced_mesh.hpp"
 #include "mesh_descriptor.hpp"

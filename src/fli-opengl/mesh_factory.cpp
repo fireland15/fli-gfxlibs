@@ -104,17 +104,15 @@ namespace opengl {
 			}
 			vao->Bind();
 
-			Buffer::DataDescriptor positionDesc;
+			BufferDataDescriptor positionDesc;
 			positionDesc.Type = gl::BufferDataType::Float;
 			positionDesc.Normalize = gl::Normalize::No;
 			positionDesc.AttributeSize = gl::BufferAttribSize::Three;
 			positionDesc.Stride = 0;
 			positionDesc.Offset = 0;
 
-			Buffer::Descriptor vboDesc;
+			BufferDescriptor vboDesc;
 			vboDesc.DataDescriptions.push_back(positionDesc);
-			vboDesc.pData = (void*)&(desc.Vertices[0]);
-			vboDesc.Size = sizeof(glm::vec3) * desc.Vertices.size();
 			vboDesc.Target = gl::BufferTarget::ArrayBuffer;
 			vboDesc.Usage = gl::BufferUsage::StaticDraw;
 
@@ -124,7 +122,7 @@ namespace opengl {
 			}
 			vbo->Bind();
 
-			vbo->SetData(vboDesc);
+			vbo->SetData((void*)glm::value_ptr(desc.Vertices[0]), sizeof(glm::vec3) * desc.Vertices.size());
 
 			vao->EnableVertexAttribute(desc.PositionVariable);
 			vao->SetVertexAttributePointer(desc.PositionVariable, positionDesc);
@@ -134,16 +132,14 @@ namespace opengl {
 			vertexBuffers.push_back(std::move(vbo));
 
 			for (VertexAttributeDescriptor attribDesc : desc.AttributeDescriptors) {
-				Buffer::DataDescriptor dataDesc;
+				BufferDataDescriptor dataDesc;
 				ConvertAttributeType(attribDesc.AttributeVariable.Type(), &dataDesc.Type, &dataDesc.AttributeSize);
 				dataDesc.Normalize = gl::Normalize::No;
 				dataDesc.Offset = 0;
 				dataDesc.Stride = 0;
 
-				Buffer::Descriptor buffDesc;
+				BufferDescriptor buffDesc;
 				buffDesc.DataDescriptions.push_back(dataDesc);
-				buffDesc.pData = attribDesc.pAttributes;
-				buffDesc.Size = attribDesc.Size;
 				buffDesc.Target = gl::BufferTarget::ArrayBuffer;
 				buffDesc.Usage = gl::BufferUsage::StaticDraw;
 
@@ -153,7 +149,7 @@ namespace opengl {
 				}
 				buffer->Bind();
 
-				buffer->SetData(buffDesc);
+				buffer->SetData(attribDesc.pAttributes, attribDesc.Size);
 
 				vao->EnableVertexAttribute(attribDesc.AttributeVariable);
 				vao->SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
@@ -183,17 +179,15 @@ namespace opengl {
 			}
 			vao->Bind();
 
-			Buffer::DataDescriptor positionDesc;
+			BufferDataDescriptor positionDesc;
 			positionDesc.Type = gl::BufferDataType::Float;
 			positionDesc.Normalize = gl::Normalize::No;
 			positionDesc.AttributeSize = gl::BufferAttribSize::Three;
 			positionDesc.Stride = 0;
 			positionDesc.Offset = 0;
 
-			Buffer::Descriptor vboDesc;
+			BufferDescriptor vboDesc;
 			vboDesc.DataDescriptions.push_back(positionDesc);
-			vboDesc.pData = (void*)&(desc.Vertices[0]);
-			vboDesc.Size = sizeof(glm::vec3) * desc.Vertices.size();
 			vboDesc.Target = gl::BufferTarget::ArrayBuffer;
 			vboDesc.Usage = gl::BufferUsage::StaticDraw;
 
@@ -203,7 +197,7 @@ namespace opengl {
 			}
 			vbo->Bind();
 
-			vbo->SetData(vboDesc);
+			vbo->SetData((void*)glm::value_ptr(desc.Vertices[0]), sizeof(glm::vec3) * desc.Vertices.size());
 
 			vao->EnableVertexAttribute(desc.PositionVariable);
 			vao->SetVertexAttributePointer(desc.PositionVariable, positionDesc);
@@ -213,16 +207,14 @@ namespace opengl {
 			vertexBuffers.push_back(std::move(vbo));
 
 			for (VertexAttributeDescriptor attribDesc : desc.AttributeDescriptors) {
-				Buffer::DataDescriptor dataDesc;
+				BufferDataDescriptor dataDesc;
 				ConvertAttributeType(attribDesc.AttributeVariable.Type(), &dataDesc.Type, &dataDesc.AttributeSize);
 				dataDesc.Normalize = gl::Normalize::No;
 				dataDesc.Offset = 0;
 				dataDesc.Stride = 0;
 
-				Buffer::Descriptor buffDesc;
+				BufferDescriptor buffDesc;
 				buffDesc.DataDescriptions.push_back(dataDesc);
-				buffDesc.pData = attribDesc.pAttributes;
-				buffDesc.Size = attribDesc.Size;
 				buffDesc.Target = gl::BufferTarget::ArrayBuffer;
 				buffDesc.Usage = gl::BufferUsage::StaticDraw;
 
@@ -232,7 +224,7 @@ namespace opengl {
 				}
 				buffer->Bind();
 
-				buffer->SetData(buffDesc);
+				buffer->SetData(attribDesc.pAttributes, attribDesc.Size);
 
 				vao->EnableVertexAttribute(attribDesc.AttributeVariable);
 				vao->SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
@@ -243,16 +235,14 @@ namespace opengl {
 			}
 
 			for (VertexAttributeDescriptor attribDesc : instancedAttributeDescriptors) {
-				Buffer::DataDescriptor dataDesc;
+				BufferDataDescriptor dataDesc;
 				ConvertAttributeType(attribDesc.AttributeVariable.Type(), &dataDesc.Type, &dataDesc.AttributeSize);
 				dataDesc.Normalize = gl::Normalize::No;
 				dataDesc.Offset = 0;
 				dataDesc.Stride = 0;
 
-				Buffer::Descriptor buffDesc;
+				BufferDescriptor buffDesc;
 				buffDesc.DataDescriptions.push_back(dataDesc);
-				buffDesc.pData = nullptr;
-				buffDesc.Size = 0;
 				buffDesc.Target = gl::BufferTarget::ArrayBuffer;
 				buffDesc.Usage = gl::BufferUsage::DynamicDraw;
 
@@ -261,9 +251,7 @@ namespace opengl {
 					throw objection_creation_exception("Failed to create a valid Buffer.");
 				}
 				buffer->Bind();
-
-				buffer->SetData(buffDesc);
-
+				
 				vao->EnableVertexAttribute(attribDesc.AttributeVariable);
 				vao->SetVertexAttributePointer(attribDesc.AttributeVariable, dataDesc);
 				vao->SetVertexAttributeDivisor(attribDesc.AttributeVariable, 1);

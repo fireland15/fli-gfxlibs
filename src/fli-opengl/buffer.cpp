@@ -6,11 +6,11 @@ namespace opengl {
 	* Constructors
 	**************************************************************/
 
-	Buffer::Buffer(const Descriptor& desc)
+	Buffer::Buffer(BufferDescriptor desc)
 		: m_obj(0)
 		, m_isBound(false)
 		, m_description(desc) {
-		glGenBuffers(m_description.Target, &m_obj);
+		glGenBuffers(1, &m_obj);
 	}
 
 	Buffer::Buffer(Buffer&& other)
@@ -25,7 +25,7 @@ namespace opengl {
 		// set current object to default values
 		other.m_obj = 0;
 		other.m_isBound = false;
-		other.m_description = Descriptor();
+		other.m_description = BufferDescriptor();
 	}
 
 	Buffer& Buffer::operator=(Buffer&& other) {
@@ -43,7 +43,7 @@ namespace opengl {
 			// set current object to default values
 			other.m_obj = 0;
 			other.m_isBound = false;
-			other.m_description = Descriptor();
+			other.m_description = BufferDescriptor();
 		}
 		return *this;
 	}
@@ -79,10 +79,9 @@ namespace opengl {
 		}
 	}
 
-	void Buffer::SetData(const Descriptor& desc) {
-		m_description = desc;
-		if (m_description.pData != nullptr) {
-			glBufferData(desc.Target, desc.Size, desc.pData, desc.Usage);
+	void Buffer::SetData(void* pData, unsigned int size) {
+		if (pData != nullptr) {
+			glBufferData(m_description.Target, size, pData, m_description.Usage);
 			GLint err = glGetError();
 		}
 	}
@@ -115,7 +114,7 @@ namespace opengl {
 		return m_description.Usage;
 	}
 
-	const Buffer::Descriptor& Buffer::Description() {
+	const BufferDescriptor& Buffer::Description() {
 		return m_description;
 	}
 

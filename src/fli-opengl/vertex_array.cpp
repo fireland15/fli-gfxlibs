@@ -59,7 +59,7 @@ namespace opengl {
 		glEnableVertexAttribArray(attrib.Location().Value());
 	}
 
-	void VertexArray::SetVertexAttributePointer(const AttributeVariable& attrib, const Buffer::DataDescriptor& desc) {
+	void VertexArray::SetVertexAttributePointer(const AttributeVariable& attrib, const BufferDataDescriptor& desc) {
 		const AttributeLocation& loc = attrib.Location();
 		glVertexAttribPointer(loc.Value(), desc.AttributeSize, desc.Type, desc.Normalize, desc.Stride, desc.Offset);
 	}
