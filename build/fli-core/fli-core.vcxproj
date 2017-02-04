@@ -155,8 +155,14 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\fli-core\clock.hpp" />
     <ClInclude Include="..\..\include\fli-core\entity.hpp" />
+    <ClInclude Include="..\..\include\fli-core\event.hpp" />
+    <ClInclude Include="..\..\include\fli-core\event_delegate.hpp" />
+    <ClInclude Include="..\..\include\fli-core\event_handler.hpp" />
+    <ClInclude Include="..\..\include\fli-core\event_router.hpp" />
+    <ClInclude Include="..\..\include\fli-core\event_sender.hpp" />
     <ClInclude Include="..\..\include\fli-core\irenderer.hpp" />
     <ClInclude Include="..\..\include\fli-core\isystem.hpp" />
+    <ClInclude Include="..\..\include\fli-core\i_event_arguments.hpp" />
     <ClInclude Include="..\..\include\fli-core\scene.hpp" />
     <ClInclude Include="..\..\include\fli-core\system_base.hpp" />
     <ClInclude Include="..\..\include\fli-core\transform_component.hpp" />
