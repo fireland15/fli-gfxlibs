@@ -1,13 +1,18 @@
 #pragma once
 
 #include <list>
+#include <type_traits>
 
 #include "event_delegate.hpp"
 
 namespace core {
 
-	template<typename TEventArgs>
-	class EventHandler {
+	class IEventHandler {
+
+	};
+
+	template<class TEventArgs>
+	class EventHandler : public IEventHandler {
 	public:
 
 		/*************************************************************

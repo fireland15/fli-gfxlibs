@@ -8,31 +8,38 @@
 
 #include "scene.hpp"
 #include "isystem.hpp"
+#include "event_router.hpp"
 
-namespace gfx {
-	namespace core {
+namespace core {
 		
-		class SystemBase : public ISystem {
-		protected:
-			std::string m_systemName;
+	class SystemBase : public ISystem {
+	protected:
+		std::string m_systemName;
 
-			logging::LoggerBase* m_pLogger;
+		std::shared_ptr<logging::LoggerBase> m_pLogger;
 
-		public:
-			SystemBase();
+		std::shared_ptr<EventRouter> m_pEventRouter;
 
-			void SetLogger(logging::LoggerBase* pLogger);
+	public:
+		SystemBase(
+			std::string systemName, 
+			std::shared_ptr<logging::LoggerBase> pLogger, 
+			std::shared_ptr<EventRouter> pEventRouter);
 
-			virtual void Setup(Scene& scene) = 0;
-			virtual void Initialize() = 0;
-			virtual void Update(Scene& scene, double time) = 0;
-			virtual void Stop() = 0;
+		virtual void Setup(Scene& scene) = 0;
 
-		protected:
-			void Log(const std::string& msg, logging::LogLvl lvl = logging::LogLvl::all);
+		virtual void Initialize() = 0;
 
-			void Log(const std::string& msg, const std::string& details, logging::LogLvl lvl = logging::LogLvl::all);
-		};
+		virtual void Update(Scene& scene, double time) = 0;
 
-	}
+		virtual void Stop() = 0;
+
+	protected:
+		void Log(const std::string& msg, logging::LogLvl lvl = logging::LogLvl::all);
+
+		void Log(const std::string& msg, const std::string& details, logging::LogLvl lvl = logging::LogLvl::all);
+
+		virtual void RegisterForEvents() = 0;
+	};
+
 }

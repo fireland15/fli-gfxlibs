@@ -4,17 +4,18 @@
 
 #include "scene.hpp"
 
-namespace gfx {
-	namespace core {
+namespace core {
 
-		class ISystem {
+	class ISystem {
+	public:
+		virtual void Setup(Scene& scene) = 0;
 
-		public:
-			virtual void Setup(Scene& scene) = 0;
-			virtual void Initialize() = 0;
-			virtual void Update(Scene& scene, double time) = 0;
-			virtual void Stop() = 0;
-		};
+		virtual void Initialize() = 0;
 
-	}
+		virtual void Update(Scene& scene, double time) = 0;
+
+		virtual void Stop() = 0;
+
+	};
+
 }

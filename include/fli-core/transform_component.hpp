@@ -12,37 +12,35 @@ typedef glm::mat4 TranslationMatrix;
 typedef glm::mat4 RotationMatrix;
 typedef glm::mat4 ScaleMatrix;
 
-namespace gfx {
-	namespace core {
+namespace core {
 
-		class TransformComponent {
+	class TransformComponent {
 
-		private:
-			Position m_position;
-			Orientation m_orientation;
-			Scale m_scale;
-			ModelMatrix m_modelMatrix;
+	private:
+		Position m_position;
+		Orientation m_orientation;
+		Scale m_scale;
+		ModelMatrix m_modelMatrix;
 
-		public:
-			TransformComponent();
+	public:
+		TransformComponent();
 
-			Position GetPosition();
+		Position GetPosition();
 
-			Orientation GetOrientation();
+		Orientation GetOrientation();
 
-			Scale GetScale();
+		Scale GetScale();
 
-			void SetPosition(const Position& p);
+		void SetPosition(const Position& p);
 
-			void SetOrientation(const Orientation& o);
+		void SetOrientation(const Orientation& o);
 
-			void SetOrientation(const Scale& s);
+		void SetOrientation(const Scale& s);
 
-			ModelMatrix GetModelMatrix();
+		ModelMatrix GetModelMatrix();
 
-		private:
-			void UpdateModelMatrix();
+	private:
+		void UpdateModelMatrix();
 
-		};
-	}
+	};
 }

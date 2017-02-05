@@ -15,39 +15,37 @@
 typedef logging::LoggerBase LoggerBase;
 typedef config::Configuration Configuration;
 
-namespace gfx {
-	namespace render {
+namespace render {
 
-		class SimpleRenderSystem : public core::IRenderer, public core::SystemBase {
+	class SimpleRenderSystem : public core::IRenderer, public core::SystemBase {
 
-		private:
-			Configuration* m_pConfig;
+	private:
+		Configuration* m_pConfig;
 
-			opengl::OpenGlContext* m_pContext;
+		opengl::OpenGlContext* m_pContext;
 
-			bool m_shouldRender = true;
+		bool m_shouldRender = true;
 
-		public:
-			SimpleRenderSystem(opengl::OpenGlContext* context);
+	public:
+		SimpleRenderSystem(opengl::OpenGlContext* context);
 
-			void SetConfig(Configuration* pConfig);
+		void SetConfig(Configuration* pConfig);
 
-			virtual void Setup(core::Scene& scene) override;
+		virtual void Setup(core::Scene& scene) override;
 
-			virtual void Initialize() override;
-			virtual void Update(core::Scene& scene, double time) override;
-			virtual void Render(core::Scene& scene, double time) override;
-			virtual void Stop() override;
+		virtual void Initialize() override;
+		virtual void Update(core::Scene& scene, double time) override;
+		virtual void Render(core::Scene& scene, double time) override;
+		virtual void Stop() override;
 
-			/*************************************************************
-			* Configuration Methods
-			**************************************************************/
+		/*************************************************************
+		* Configuration Methods
+		**************************************************************/
 
-		private:
+	private:
 
-			void Configure();
+		void Configure();
 
-		};
+	};
 
-	}
 }
