@@ -7,13 +7,18 @@
 
 namespace core {
 
-	class Event {
+	template <typename TEventArgs>
+	struct Event {
 	public:
-		Event(Sender sender, std::shared_ptr<IEventArguments> args);
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="sender">A sender object representing the object that raised the event.</param>
+		/// <param name="args">The arguments of the event. Must inherit from IEventArguments.</param>
+		Event(Sender sender, TEventArgs args);
 
-	private:
-		Sender m_sender;
-		std::shared_ptr<IEventArguments> m_eventArgs;
+		Sender Sender;
+		TEventArgs Args;
 	};
 
 }
