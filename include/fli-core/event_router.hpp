@@ -2,6 +2,7 @@
 
 #include <map>
 #include <list>
+#include <memory>
 #include <typeindex>
 
 #include "event.hpp"
@@ -14,7 +15,7 @@ namespace core {
 	class EventRouter {
 	public:
 
-		EventRouter() { }
+		EventRouter() = default;
 
 		EventRouter(const EventRouter& other) = delete;
 
@@ -24,37 +25,36 @@ namespace core {
 
 		EventRouter& operator=(EventRouter&& other) = delete;
 
-		~EventRouter() {
-			for (std::pair<size_t, IEventHandler*> pair : m_eventHandlers) {
-				delete pair.second;
-			}
-		}
+		~EventRouter() = default;
 
 		template<typename TEventArgs>
 		void RegisterForEvent(EventDelegate<TEventArgs> delegate) {
-			if (m_eventHandlers.count(typeid(TEventArgs).hash_code()) == 0) {
-				m_eventHandlers.insert(std::make_pair(typeid(TEventArgs).hash_code(), new EventHandler<TEventArgs>));
+			size_t typeHash = typeid(TEventArgs).hash_code();
+			if (m_eventHandlers.count(typeHash) == 0) {
+				std::unique_ptr<IEventHandler> pEventHandler = std::unique_ptr<IEventHandler>(new EventHandler<TEventArgs>);
+				m_eventHandlers.insert(std::move(std::make_pair(typeHash, std::move(pEventHandler))));
 			}
 
-			EventHandler<TEventArgs>* pEventHandler = m_eventHandlers[typeid(TEventArgs).hash_code()];
+			EventHandler<TEventArgs>* pEventHandler = m_eventHandlers[typeHash];
 			pEventHandler->AddDelegate(delegate);
 		}
 
 		template<typename TEventArgs>
 		void RaiseEvent(Sender sender, TEventArgs args) {
-			if (m_eventHandlers.count(typeid(TEventArgs).hash_code()) == 0) {
+			size_t typeHash = typeid(TEventArgs).hash_code();
+			if (m_eventHandlers.count(typeHash) == 0) {
 				return;
 			}
 
 			Event<TEventArgs> e(sender, args);
 
-			EventHandler<TEventArgs>* pEventHandler = m_eventHandlers[typeid(TEventArgs).hash_code()];
+			EventHandler<TEventArgs>* pEventHandler = m_eventHandlers[typeHash];
 
 			pEventHandler->DispatchEventToDelegates(e);
 		}
 
 	private:
-		std::map<size_t, IEventHandler*> m_eventHandlers;
+		std::map<size_t, std::unique_ptr<IEventHandler>> m_eventHandlers;
 
 	};
 
