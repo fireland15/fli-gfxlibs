@@ -1,5 +1,7 @@
 #include "gtest.h"
 
-TEST(testMath, myCubeTest) {
+#include "event_router.hpp"
+
+TEST(testMath, EventRouterTest) {
 	EXPECT_EQ(1000, 1000);
 }

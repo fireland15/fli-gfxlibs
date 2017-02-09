@@ -2,7 +2,9 @@
 
 #include <map>
 #include <list>
+#include <set>
 #include <memory>
+#include <exception>
 #include <typeindex>
 
 #include "event.hpp"
@@ -13,6 +15,9 @@
 namespace core {
 
 	class EventRouter {
+	private:
+		bool IsRegisteredForEvent(size_t typeHash, void* pSubscriber);
+
 	public:
 
 		EventRouter() = default;
@@ -28,15 +33,30 @@ namespace core {
 		~EventRouter() = default;
 
 		template<typename TEventArgs>
-		void RegisterForEvent(EventDelegate<TEventArgs> delegate) {
+		void RegisterForEvent(void* pSubscriber, EventDelegate<TEventArgs> delegate) {
 			size_t typeHash = typeid(TEventArgs).hash_code();
+
+			// Check if subscriber is already subscribed to event.
+			if (IsRegisteredForEvent(typeHash, pSubscriber)) {
+				throw std::exception("Already subscriber to event");
+			}
+			
+			// Create new event handler if it doesn't exist.
 			if (m_eventHandlers.count(typeHash) == 0) {
 				std::unique_ptr<IEventHandler> pEventHandler = std::unique_ptr<IEventHandler>(new EventHandler<TEventArgs>);
 				m_eventHandlers.insert(std::move(std::make_pair(typeHash, std::move(pEventHandler))));
 			}
 
+			// Add delegate to event handler
 			EventHandler<TEventArgs>* pEventHandler = m_eventHandlers[typeHash];
 			pEventHandler->AddDelegate(delegate);
+		}
+
+		template<typename TEventArgs>
+		bool IsRegisteredForEvent(void* pSubscriber) {
+			size_t typeHash = typeid(TEventArgs).hash_code();
+
+
 		}
 
 		template<typename TEventArgs>
@@ -55,6 +75,8 @@ namespace core {
 
 	private:
 		std::map<size_t, std::unique_ptr<IEventHandler>> m_eventHandlers;
+
+		std::map<size_t, std::set<void*>> m_eventSubscribers;
 
 	};
 

@@ -18,66 +18,60 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\fli-core\clock.hpp">
+    <ClInclude Include="..\..\include\gmock\gmock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\entity.hpp">
+    <ClInclude Include="..\..\include\gmock\gmock-actions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\isystem.hpp">
+    <ClInclude Include="..\..\include\gmock\gmock-cardinalities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\scene.hpp">
+    <ClInclude Include="..\..\include\gmock\gmock-generated-actions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\irenderer.hpp">
+    <ClInclude Include="..\..\include\gmock\gmock-generated-function-mockers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\transform_component.hpp">
+    <ClInclude Include="..\..\include\gmock\gmock-generated-matchers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\system_base.hpp">
+    <ClInclude Include="..\..\include\gmock\gmock-generated-nice-strict.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\event_sender.hpp">
+    <ClInclude Include="..\..\include\gmock\gmock-matchers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\event.hpp">
+    <ClInclude Include="..\..\include\gmock\gmock-more-actions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\i_event_arguments.hpp">
+    <ClInclude Include="..\..\include\gmock\gmock-more-matchers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\event_router.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\event_delegate.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\event_handler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\i_event_delegate.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\i_event_router.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\fli-core\i_event.hpp">
+    <ClInclude Include="..\..\include\gmock\gmock-spec-builders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\fli-core\clock.cpp">
+    <ClCompile Include="..\..\src\gmock\gmock.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\fli-core\scene.cpp">
+    <ClCompile Include="..\..\src\gmock\gmock_main.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\fli-core\transform_component.cpp">
+    <ClCompile Include="..\..\src\gmock\gmock-all.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\fli-core\system_base.cpp">
+    <ClCompile Include="..\..\src\gmock\gmock-cardinalities.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gmock\gmock-internal-utils.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gmock\gmock-matchers.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gmock\gmock-spec-builders.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
