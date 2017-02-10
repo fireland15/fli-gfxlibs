@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{9824D399-52F3-4CD4-88DE-1CD7AF55BBDE}</ProjectGuid>
+    <ProjectGuid>{4F95DF41-2967-413E-AC4B-2F565532F9D9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>flicore</RootNamespace>
+    <RootNamespace>flievent</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -69,29 +69,21 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)lib\$(Platform)\$(Configuration)\</OutDir>
-    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
-    <IntDir>$(SolutionDir)\temp\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include\;$(SolutionDir)include\$(ProjectName)\</IncludePath>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)lib\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)\lib\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)\temp\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include\;$(SolutionDir)include\$(ProjectName)\</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include\$(ProjectName)\</IncludePath>
+    <SourcePath>$(VC_SourcePath);$(SolutionDir)src\$(ProjectName)\</SourcePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)lib\;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)lib\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)\lib\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)\temp\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include\;$(SolutionDir)include\$(ProjectName)\</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)lib\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)\temp\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include\;$(SolutionDir)include\$(ProjectName)\</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include\$(ProjectName)\</IncludePath>
+    <SourcePath>$(VC_SourcePath);$(SolutionDir)src\$(ProjectName)\</SourcePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)lib\;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -153,21 +145,15 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\fli-core\clock.hpp" />
-    <ClInclude Include="..\..\include\fli-core\entity.hpp" />
-    <ClInclude Include="..\..\include\fli-core\irenderer.hpp" />
-    <ClInclude Include="..\..\include\fli-core\isystem.hpp" />
-    <ClInclude Include="..\..\include\fli-core\scene.hpp" />
-    <ClInclude Include="..\..\include\fli-core\system_base.hpp" />
-    <ClInclude Include="..\..\include\fli-core\transform_component.hpp" />
-    <ClCompile Include="..\..\src\fli-core\system_base.cpp">
-      <FileType>CppHeader</FileType>
-    </ClCompile>
+    <ClInclude Include="..\..\include\fli-event\event.hpp" />
+    <ClInclude Include="..\..\include\fli-event\event_broadcaster.hpp" />
+    <ClInclude Include="..\..\include\fli-event\event_handler.hpp" />
+    <ClInclude Include="..\..\include\fli-event\event_queue.hpp" />
+    <ClInclude Include="..\..\include\fli-event\sender.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\fli-core\clock.cpp" />
-    <ClCompile Include="..\..\src\fli-core\scene.cpp" />
-    <ClCompile Include="..\..\src\fli-core\transform_component.cpp" />
+    <ClCompile Include="..\..\src\fli-event\event_handler.cpp" />
+    <ClCompile Include="..\..\src\fli-event\sender.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
