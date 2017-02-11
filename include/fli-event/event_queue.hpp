@@ -48,7 +48,7 @@ namespace events {
 				m_events.pop();
 
 				for (EventHandler<TEvent>* handler : m_handlers) {
-					handler->operator()(e);
+					handler->invoke(e);
 				}
 			}
 		}
@@ -59,6 +59,10 @@ namespace events {
 
 		virtual size_t connected_count() const {
 			return m_handlers.size();
+		}
+
+		size_t get_event_count() const {
+			return m_events.size();
 		}
 
 	private:
