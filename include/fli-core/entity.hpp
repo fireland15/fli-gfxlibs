@@ -5,32 +5,32 @@
 
 #include <fli-utility\handle.hpp>
 
-namespace gfx {
-	namespace core {
-		class Entity {
-		private:
-			std::unordered_map<std::type_index, containers::Handle> m_componentHandles;
+namespace core {
 
-		public:
-			template<typename T>
-			bool HasComponent() {
-				return m_componentHandles.count(typeid(T)) > 0;
-			}
+	class Entity {
+	private:
+		std::unordered_map<std::type_index, containers::Handle> m_componentHandles;
 
-			template<typename T>
-			containers::Handle& GetComponent() {
-				return m_componentHandles[typeid(T)];
-			}
+	public:
+		template<typename T>
+		bool HasComponent() {
+			return m_componentHandles.count(typeid(T)) > 0;
+		}
 
-			template<typename T>
-			void AddComponent(containers::Handle h) {
-				m_componentHandles[typeid(T)] = h;
-			}
+		template<typename T>
+		containers::Handle& GetComponent() {
+			return m_componentHandles[typeid(T)];
+		}
 
-			template<typename T>
-			void DeleteComponent() {
-				m_componentHandles.erase(typeid(T));
-			}
-		};
-	}
+		template<typename T>
+		void AddComponent(containers::Handle h) {
+			m_componentHandles[typeid(T)] = h;
+		}
+
+		template<typename T>
+		void DeleteComponent() {
+			m_componentHandles.erase(typeid(T));
+		}
+	};
+
 }

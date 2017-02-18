@@ -173,6 +173,7 @@ glm::vec2 CalculateAccelerationToPoint(
 }
 
 glm::vec2 center = glm::vec2(428.0f, 500.0f);
+bool alreadyLoaded = false;
 
 void Render() {
 	program->Use();
@@ -181,7 +182,7 @@ void Render() {
 	program->SetUniform(projection, { proj });
 	mesh->Render();
 
-	for (unsigned int i = 0; i < instancePositions.size(); i++) {
+	/*for (unsigned int i = 0; i < instancePositions.size(); i++) {
 		instancePositions[i].x += instanceVelocity[i].x;
 		instancePositions[i].y += instanceVelocity[i].y;
 
@@ -189,14 +190,18 @@ void Render() {
 		glm::vec2 accel = CalculateAccelerationToPoint(0.01f, 100.0f, 1.0f, center, pos);
 
 		instanceVelocity[i] += accel;
+	}*/
+
+	if (!alreadyLoaded) {
+		opengl::InstanceUpdateData instanceData;
+		instanceData.Attribute = instPosition;
+		instanceData.pData = &instancePositions[0][0];
+		instanceData.dataSize = (unsigned int)(sizeof(glm::vec3) * instancePositions.size());
+
+		inMesh->SetInstancedData({ instanceData });
+		alreadyLoaded = true;
 	}
 
-	opengl::InstanceUpdateData instanceData;
-	instanceData.Attribute = instPosition;
-	instanceData.pData = &instancePositions[0][0];
-	instanceData.dataSize = (unsigned int)(sizeof(glm::vec3) * instancePositions.size());
-
-	inMesh->SetInstancedData({ instanceData });
 	inMesh->Render((unsigned int)instancePositions.size());
 }
 

@@ -1,10 +1,11 @@
 #pragma once
 
 #include <list>
-#include <queue>
+#include <deque>
 #include <mutex>
 #include <atomic>
 #include <future>
+#include <memory>
 #include <condition_variable>
 
 #include "task.hpp"
@@ -17,14 +18,22 @@ namespace threading {
 		template <typename T>
 		struct PromisedFunction {
 		public:
-			PromisedFunction(std::promise<T> p, std::function<T()> f)
-				: Promise(p), Function(f) { }
+			PromisedFunction<T>(std::promise<T> p, std::function<T()> f)
+				: Promise(std::move(p)), Function(std::move(f)) { }
 			std::promise<T> Promise;
 			std::function<T()> Function;
 		};
 
 	public:
 		class ThreadPoolBuilder;
+
+		~ThreadPool();
+
+		void Abort();
+
+		void Stop();
+
+		void StopOnceComplete();
 
 		template <typename TReturn>
 		auto Submit(std::function<TReturn()>&& function) -> std::future<decltype(function())> {
@@ -33,17 +42,13 @@ namespace threading {
 				throw std::exception();
 			}
 
-			PromisedFunction<TReturn>* pf = new PromisedFunction<TReturn>;
-			pf->Promise = std::promise<TReturn>();
-			pf->Function = function;
-
-			std::shared_ptr<PromisedFunction<TReturn>> data = std::make_shared(std::promise<TReturn>(), std::move(function));
+			std::shared_ptr<PromisedFunction<TReturn>> data = std::shared_ptr<PromisedFunction<TReturn>>(new PromisedFunction<TReturn>(std::promise<TReturn>(), std::move(function)));
 
 			std::future<TReturn> future = data->Promise.get_future();
 
 			{
 				std::lock_guard<std::mutex> lg(m_taskLock);
-				m_taskQueue.emplace([data]() {
+				m_taskQueue.emplace_back([data]() {
 					try {
 						data->Promise.set_value(data->Function());
 					}
@@ -60,20 +65,20 @@ namespace threading {
 
 		unsigned int ThreadCount();
 
-		void AddThreads(unsigned int numNewThreads = -1);
-
-		void ReleaseThreads(unsigned int numThreadsToKill);
+		void AddThreads(unsigned int numNewThreads = 0);
 
 	private:
 		ThreadPool(unsigned int numThreads);
 
 		void Do();
 
+		void JoinAllThreads();
+
 		unsigned int m_numThreads;
 
-		std::list<std::thread> m_threads;
+		std::deque<std::thread> m_threads;
 
-		std::queue<Task> m_taskQueue;
+		std::deque<std::function<void()>> m_taskQueue;
 
 		std::mutex m_taskLock;
 
@@ -82,6 +87,10 @@ namespace threading {
 		std::atomic<bool> m_exit = false;
 
 		std::atomic<bool> m_stopWorking = false;
+
+		void operator=(const ThreadPool&) = delete;
+
+		ThreadPool(const ThreadPool&) = delete;
 
 		friend class ThreadPoolBuilder;
 	};
@@ -92,10 +101,12 @@ namespace threading {
 
 		ThreadPoolBuilder& WithNumThreads(unsigned int threadCount);
 
-		ThreadPool Build();
+		std::unique_ptr<ThreadPool> Build();
 
 	private:
-		static const constexpr unsigned int m_defaultThreadCount = 1;
+		unsigned int m_threadCount;
+
+		static const constexpr unsigned int s_defaultThreadCount = 1;
 
 	};
 

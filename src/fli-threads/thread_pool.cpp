@@ -11,13 +11,58 @@ namespace threading {
 		}
 	}
 
+	ThreadPool::~ThreadPool() {
+		Abort();
+	}
+
+	void ThreadPool::Abort() {
+		m_exit = true;
+		m_stopWorking = true;
+		m_signal.notify_all();
+		JoinAllThreads();
+
+		{
+			std::lock_guard<std::mutex> lg(m_taskLock);
+			m_taskQueue.clear();
+		}
+	}
+
+	void ThreadPool::Stop() {
+		m_exit = true;
+		m_stopWorking = true;
+		m_signal.notify_all();
+	}
+
+	void ThreadPool::StopOnceComplete() {
+		Stop();
+		JoinAllThreads();
+		if (!m_taskQueue.empty()) {
+			throw std::exception("Error");
+		}
+	}
+
 	void ThreadPool::Do() {
 		std::unique_lock<std::mutex> ul(m_taskLock);
 		while (!m_exit || (!m_stopWorking && !m_taskQueue.empty())) {
 			if (!m_taskQueue.empty()) {
-
+				std::function<void()> work(std::move(m_taskQueue.front()));
+				m_taskQueue.pop_front();
+				ul.unlock();
+				work();
+				ul.lock();
+			}
+			else {
+				m_signal.wait(ul);
 			}
 		}
+	}
+
+	void ThreadPool::JoinAllThreads() {
+		for (auto& thread : m_threads) {
+			thread.join();
+		}
+
+		m_threads.clear();
 	}
 
 	unsigned int ThreadPool::ThreadCount() {
@@ -25,23 +70,30 @@ namespace threading {
 	}
 
 	void ThreadPool::AddThreads(unsigned int numNewThreads) {
-		throw std::exception("Attempted to add more threads to pool, but functionality is disabled.");
-	}
-
-	void ThreadPool::ReleaseThreads(unsigned int numThreadsToKill) {
-		throw std::exception("Attempted to remove threads frompool, but functionality is disabled.");
+		while (numNewThreads--) {
+			m_threads.push_back(std::thread(&ThreadPool::Do, this));
+		}
 	}
 
 	ThreadPool::ThreadPoolBuilder::ThreadPoolBuilder() {
-
+		m_threadCount = s_defaultThreadCount;
 	}
 
 	ThreadPool::ThreadPoolBuilder& ThreadPool::ThreadPoolBuilder::WithNumThreads(unsigned int threadCount) {
+		if (threadCount <= 0) {
+			threadCount = 1;
+		}
 
+		m_threadCount = threadCount;
+
+		return *this;
 	}
 
-	ThreadPool ThreadPool::ThreadPoolBuilder::Build() {
+	std::unique_ptr<ThreadPool> ThreadPool::ThreadPoolBuilder::Build() {
+		unsigned int threadCount = m_threadCount;
+		m_threadCount = s_defaultThreadCount;
 
+		return std::unique_ptr<ThreadPool>(new ThreadPool(threadCount));
 	}
 
 }
