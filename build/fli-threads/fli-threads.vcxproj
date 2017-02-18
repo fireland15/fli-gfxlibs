@@ -143,8 +143,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\fli-threads\task.hpp" />
-    <ClInclude Include="..\..\include\fli-threads\thread.hpp" />
     <ClInclude Include="..\..\include\fli-threads\thread_pool.hpp" />
   </ItemGroup>
   <ItemGroup>

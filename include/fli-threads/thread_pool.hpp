@@ -8,9 +8,6 @@
 #include <memory>
 #include <condition_variable>
 
-#include "task.hpp"
-#include "thread.hpp"
-
 namespace threading {
 
 	class ThreadPool {
