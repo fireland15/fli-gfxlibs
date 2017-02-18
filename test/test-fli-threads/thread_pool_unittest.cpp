@@ -14,14 +14,19 @@ namespace {
 		builder.WithNumThreads(3);
 		auto pool = builder.Build();
 
+		int i = 45;
+
 		std::future<int> f1 = pool->Submit(std::function<int()>(&CreateNumber));
 		std::future<int> f2 = pool->Submit<int>([]() { 
 			std::this_thread::sleep_for(std::chrono::milliseconds(100)); 
 			return 34;
 		});
+		std::future<void> f3 = pool->Submit<void>([&i]() { i++; });
 
 		f1.wait();
 		f2.wait();
+
+		EXPECT_EQ(46, i);
 
 		pool->StopOnceComplete();
 	}

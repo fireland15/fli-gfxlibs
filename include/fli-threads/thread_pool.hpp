@@ -50,7 +50,7 @@ namespace threading {
 				std::lock_guard<std::mutex> lg(m_taskLock);
 				m_taskQueue.emplace_back([data]() {
 					try {
-						data->Promise.set_value(data->Function());
+						ExecuteAndSetData<TReturn>(data);
 					}
 					catch (...) {
 						data->Promise.set_exception(std::current_exception());
@@ -73,6 +73,17 @@ namespace threading {
 		void Do();
 
 		void JoinAllThreads();
+
+		template <typename TReturn>
+		static inline void ExecuteAndSetData(const std::shared_ptr<PromisedFunction<TReturn>>& data) {
+			data->Promise.set_value(data->Function());
+		}
+
+		template<>
+		static inline void ExecuteAndSetData<void>(const std::shared_ptr<PromisedFunction<void>>& data) {
+			data->Function();
+			data->Promise.set_value();
+		}
 
 		unsigned int m_numThreads;
 
