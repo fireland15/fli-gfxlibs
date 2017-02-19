@@ -122,13 +122,6 @@ namespace opengl {
 		/// <param name="desc">A Descriptor object describing the buffer usage, binding targets, data, and data structure.</param>
 		void SetData(void* pData, unsigned int size);
 
-		/// <summary>
-		/// Updates the data stored in the buffer on the GPU. The buffer target and usage remain unchanged. Data format must match that used in the original call to <code>SetData()</code>. Buffer must be bound before calling.
-		/// </summary>
-		/// <param name="pData">Pointer to the beginning of the array of data.</param>
-		/// <param name="size">The size of the data to be uploaded in bytes.</param>
-		void UpdateData(void* pData, unsigned int size);
-
 		/*************************************************************
 		* Getter Methods
 		**************************************************************/
@@ -163,7 +156,7 @@ namespace opengl {
 		/// <returns>True if the internal Buffer is usable; false otherwise.</returns>
 		bool IsValid();
 
-	private:
+	protected:
 		GLuint m_obj;
 
 		bool m_isBound;

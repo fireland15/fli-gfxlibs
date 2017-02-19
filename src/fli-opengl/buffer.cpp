@@ -86,18 +86,6 @@ namespace opengl {
 		}
 	}
 
-	void Buffer::UpdateData(void* pData, unsigned int size) {
-		if (pData == nullptr) {
-			throw std::exception("nullptr");
-		}
-
-		if (size == 0) {
-			throw std::exception("array cannot be empty");
-		}
-
-		glBufferData(m_description.Target, size, pData, m_description.Usage);
-	}
-
 	/*************************************************************
 	* Getter Methods
 	**************************************************************/

@@ -171,7 +171,7 @@ namespace opengl {
 			unsigned int numVertices = (unsigned int)desc.Vertices.size();
 
 			std::vector<up_Buffer> vertexBuffers;
-			std::map<AttributeVariable, up_Buffer, AttributeComparator> instanceBuffers;
+			std::map<AttributeVariable, up_DynamicBuffer, AttributeComparator> instanceBuffers;
 
 			up_VertexArray vao(new VertexArray());
 			if (!vao->IsValid()) {
@@ -246,7 +246,7 @@ namespace opengl {
 				buffDesc.Target = gl::BufferTarget::ArrayBuffer;
 				buffDesc.Usage = gl::BufferUsage::DynamicDraw;
 
-				up_Buffer buffer(new Buffer(buffDesc));
+				up_DynamicBuffer buffer(new DynamicBuffer(buffDesc));
 				if (!buffer->IsValid()) {
 					throw objection_creation_exception("Failed to create a valid Buffer.");
 				}
