@@ -156,6 +156,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="event_broadcaster_unittest.cpp" />
     <ClCompile Include="event_handler_unittest.cpp" />
     <ClCompile Include="event_queue_unittest.cpp" />
   </ItemGroup>

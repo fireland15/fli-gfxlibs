@@ -8,12 +8,16 @@ namespace events {
 
 	class IEventHandler {
 	private:
-		static unsigned int nextId;
-
 		const unsigned int m_id;
 
 	public:
+		static unsigned int nextId;
+
 		IEventHandler();
+
+		IEventHandler(const IEventHandler&);
+
+		IEventHandler& operator=(const IEventHandler&) = delete;
 
 		unsigned int get_id() const;
 

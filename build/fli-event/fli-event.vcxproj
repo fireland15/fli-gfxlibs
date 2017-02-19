@@ -152,6 +152,7 @@
     <ClInclude Include="..\..\include\fli-event\sender.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\fli-event\event_broadcaster.cpp" />
     <ClCompile Include="..\..\src\fli-event\event_handler.cpp" />
     <ClCompile Include="..\..\src\fli-event\sender.cpp" />
   </ItemGroup>

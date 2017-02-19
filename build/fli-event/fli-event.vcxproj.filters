@@ -41,5 +41,8 @@
     <ClCompile Include="..\..\src\fli-event\event_handler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\fli-event\event_broadcaster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -14,9 +14,13 @@ namespace events {
 
 		virtual void connect(IEventHandler* handler) = 0;
 
+		virtual void flush() = 0;
+
 		virtual size_t get_event_type_hashcode() const = 0;
 
 		virtual size_t connected_count() const = 0;
+
+		virtual size_t get_event_count() const = 0;
 	};
 
 	template <typename TEvent>
@@ -32,17 +36,16 @@ namespace events {
 		}
 
 		void connect(EventHandler<TEvent>* handler) {
-			//m_handlers.count(handler);
 			m_handlers.push_back(handler);
 		}
 
-		void connect(IEventHandler* handler) {
+		virtual void connect(IEventHandler* handler) {
 			if (handler->get_event_type_hashcode() == m_eventTypeHash) {
 				connect((EventHandler<TEvent>*)handler);
 			}
 		}
 
-		void flush() {
+		virtual void flush() {
 			while (!m_events.empty()) {
 				TEvent e = m_events.front();
 				m_events.pop();
@@ -61,7 +64,7 @@ namespace events {
 			return m_handlers.size();
 		}
 
-		size_t get_event_count() const {
+		virtual size_t get_event_count() const {
 			return m_events.size();
 		}
 

@@ -12,6 +12,7 @@ namespace {
 	**************************************************************/
 
 	TEST(EventHandlerUnitTest, HandlerId) {
+		IEventHandler::nextId = 0;
 		EventHandler<int> handler0([](int e) { /* NO-OP */ });
 		EventHandler<int> handler1([](int e) { /* NO-OP */ });
 		EventHandler<int> handler2([](int e) { /* NO-OP */ });
