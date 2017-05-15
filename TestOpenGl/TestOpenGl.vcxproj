@@ -63,7 +63,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)OpenGlFacade;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)GMock;$(SolutionDir)GTest;$(SolutionDir)OpenGl</IncludePath>
+    <IncludePath>$(SolutionDir)OpenGlFacade;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)GMock;$(SolutionDir)GTest;$(SolutionDir)OpenGl;$(SolutionDir)Common;</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)glew;$(IncludePath);$(SolutionDir)OpenGl;$(SolutionDir)GTest;$(SolutionDir)GMock;</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Link>

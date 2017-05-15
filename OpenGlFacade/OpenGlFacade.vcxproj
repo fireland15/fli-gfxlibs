@@ -70,7 +70,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Program Files %28x86%29\Windows Kits\8.1\Include\shared;C:\Program Files %28x86%29\Windows Kits\8.1\Include\um;$(VC_IncludePath);$(IncludePath);$(SolutionDir)glew</IncludePath>
+    <IncludePath>C:\Program Files %28x86%29\Windows Kits\8.1\Include\shared;C:\Program Files %28x86%29\Windows Kits\8.1\Include\um;$(VC_IncludePath);$(IncludePath);$(SolutionDir)glew;$(SolutionDir)Common;</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)glew;$(SolutionDir)Common;</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

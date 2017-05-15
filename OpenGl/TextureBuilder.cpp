@@ -108,7 +108,8 @@ std::unique_ptr<OpenGL::ITexture> OpenGL::TextureBuilder::Build() {
 	OpenGL::TexturePixelType pixelType;
 	switch (_pixelType) {
 	case OpenGL::TextureBuilder::PixelType::Float:
-		pixelType = OpenGL::TexturePixelType::Float
+		pixelType = OpenGL::TexturePixelType::RGB;
+		break;
 	}
 
 
@@ -116,7 +117,7 @@ std::unique_ptr<OpenGL::ITexture> OpenGL::TextureBuilder::Build() {
 
 	std::unique_ptr<OpenGL::ITexture> tex(new OpenGL::Texture(_gl, std::move(handle), _textureTarget));
 	tex->Bind();
-	_gl.TexImage2D(_textureTarget, 0, internalFormat, _textureDim, )
+	//_gl.TexImage2D(_textureTarget, 0, internalFormat, _textureDim, )
 
 	return std::unique_ptr<ITexture>();
 }
