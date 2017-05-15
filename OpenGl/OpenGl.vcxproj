@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{788ABE15-9257-458E-B49E-1C68C185ADC2}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>OpenGl</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Program Files %28x86%29\Windows Kits\8.1\Include\um;$(SolutionDir)OpenGLFacade;$(IncludePath);$(SolutionDir)glew</IncludePath>
+    <SourcePath>$(SolutionDir)OpenGl\source;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)OpenGl\source;$(IncludePath);$(SolutionDir)Common;</IncludePath>
+    <SourcePath>$(SolutionDir)OpenGl\source;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;GLEW_STATIC;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);glew.lib;OpenGlFacade.lib</AdditionalDependencies>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;GLEW_STATIC;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AttributeNotFoundException.hpp" />
+    <ClInclude Include="AttributeVariable.hpp" />
+    <ClInclude Include="BufferBuilder.hpp" />
+    <ClInclude Include="BufferDataBuilder.hpp" />
+    <ClInclude Include="BufferDataDescriptor.hpp" />
+    <ClInclude Include="BufferDataException.hpp" />
+    <ClInclude Include="BufferDataFormatter.hpp" />
+    <ClInclude Include="BufferDataLayout.hpp" />
+    <ClInclude Include="BufferDataPointer.hpp" />
+    <ClInclude Include="BufferRespecificationUpdateStrategy.hpp" />
+    <ClInclude Include="Exception.hpp" />
+    <ClInclude Include="IBuffer.hpp" />
+    <ClInclude Include="IBufferBuilder.hpp" />
+    <ClInclude Include="IBufferDataBuilder.hpp" />
+    <ClInclude Include="IBufferDataUpdateStrategy.hpp" />
+    <ClInclude Include="InvalidUniformAssignmentException.hpp" />
+    <ClInclude Include="IProgram.hpp" />
+    <ClInclude Include="IProgramBuilder.hpp" />
+    <ClInclude Include="IShader.hpp" />
+    <ClInclude Include="IShaderBuilder.hpp" />
+    <ClInclude Include="ITexture.hpp" />
+    <ClInclude Include="ITextureBuilder.hpp" />
+    <ClInclude Include="OpenGlContext.hpp" />
+    <ClInclude Include="Buffer.hpp" />
+    <ClInclude Include="PixelFormatEnum.hpp" />
+    <ClInclude Include="PixelTypeEnum.hpp" />
+    <ClInclude Include="Program.hpp" />
+    <ClInclude Include="ProgramLinkException.hpp" />
+    <ClInclude Include="Shader.hpp" />
+    <ClInclude Include="ShaderBuilder.hpp" />
+    <ClInclude Include="ShaderCompilationException.hpp" />
+    <ClInclude Include="ShaderSource.hpp" />
+    <ClInclude Include="Texture.hpp" />
+    <ClInclude Include="TextureBuilder.hpp" />
+    <ClInclude Include="UniformNotFoundException.hpp" />
+    <ClInclude Include="UniformTypeFormatter.hpp" />
+    <ClInclude Include="UniformVariable.hpp" />
+    <ClInclude Include="IVertexArray.hpp" />
+    <ClInclude Include="VertexArray.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\glew\glew.vcxproj">
+      <Project>{fba58cc3-bef6-4ab0-b409-1f487e5d48de}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenGlFacade\OpenGlFacade.vcxproj">
+      <Project>{39da9780-78f5-4d0d-9170-ee90ed792b05}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AttributeNotFoundException.cpp" />
+    <ClCompile Include="AttributeVariable.cpp" />
+    <ClCompile Include="BufferBuilder.cpp" />
+    <ClCompile Include="BufferDataBuilder.cpp" />
+    <ClCompile Include="BufferDataDescriptor.cpp" />
+    <ClCompile Include="BufferDataException.cpp" />
+    <ClCompile Include="BufferDataFormatter.cpp" />
+    <ClCompile Include="BufferDataLayout.cpp" />
+    <ClCompile Include="BufferDataPointer.cpp" />
+    <ClCompile Include="BufferRespecificationUpdateStrategy.cpp" />
+    <ClCompile Include="InvalidTextureDataException.cpp" />
+    <ClCompile Include="InvalidUniformAssignmentException.cpp" />
+    <ClCompile Include="OpenGlContext.cpp" />
+    <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="Program.cpp" />
+    <ClCompile Include="ProgramBuilder.cpp" />
+    <ClCompile Include="ProgramLinkException.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderBuilder.cpp" />
+    <ClCompile Include="ShaderCompilationException.cpp" />
+    <ClCompile Include="ShaderSource.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureBuilder.cpp" />
+    <ClCompile Include="UniformNotFoundException.cpp" />
+    <ClCompile Include="UniformTypeFormatter.cpp" />
+    <ClCompile Include="UniformVariable.cpp" />
+    <ClCompile Include="VertexArray.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="InvalidTextureDataException.hpp" />
+    <None Include="ProgramBuilder.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

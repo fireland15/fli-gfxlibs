@@ -1,0 +1,94 @@
+#pragma once
+
+#include "IOpenGL.hpp"
+
+namespace OpenGL {
+	class RealOpenGL : public IOpenGL {
+	public:
+		virtual void GenBuffers(int n, unsigned int* buffers) override;
+		virtual void CreateBuffers(int n, unsigned int* buffers) override;
+		virtual void DeleteBuffers(int n, const unsigned int* buffers) override;
+		virtual void BindBuffer(unsigned int target, unsigned int buffer) override;
+		virtual void BufferData(unsigned int target, int _w64 size, const void* data, unsigned int usage) override;
+		virtual void NamedBufferData(unsigned int buffer, int _w64 size, const void* data, unsigned int usage) override;
+		virtual void Clear(unsigned int mask) override;
+		virtual unsigned int GetError() override;
+		virtual void GetIntegerv(unsigned int pname, int* params) override;
+		virtual unsigned int CreateProgram() override;
+		virtual void DeleteProgram(unsigned int program) override;
+		virtual void AttachShader(unsigned int program, unsigned int shader) override;
+		virtual void DetachShader(unsigned int program, unsigned int shader) override;
+		virtual void UseProgram(unsigned int program) override;
+		virtual void LinkProgram(unsigned int program) override;
+		virtual void GetProgramiv(unsigned int program, unsigned int pname, int* params) override;
+		virtual void GetProgramInfoLog(unsigned int program, int maxLength, int* length, char* infoLog) override;
+		virtual void ProgramUniform1f(unsigned int program, int location, float v0) override;
+		virtual void ProgramUniform2f(unsigned int program, int location, float v0, float v1) override;
+		virtual void ProgramUniform3f(unsigned int program, int location, float v0, float v1, float v2) override;
+		virtual void ProgramUniform4f(unsigned int program, int location, float v0, float v1, float v2, float v3) override;
+		virtual void ProgramUniform1i(unsigned int program, int location, int v0) override;
+		virtual void ProgramUniform2i(unsigned int program, int location, int v0, int v1) override;
+		virtual void ProgramUniform3i(unsigned int program, int location, int v0, int v1, int v2) override;
+		virtual void ProgramUniform4i(unsigned int program, int location, int v0, int v1, int v2, int v3) override;
+		virtual void ProgramUniform1ui(unsigned int program, int location, unsigned int v0) override;
+		virtual void ProgramUniform2ui(unsigned int program, int location, unsigned int v0, unsigned int v1) override;
+		virtual void ProgramUniform3ui(unsigned int program, int location, unsigned int v0, unsigned int v1, unsigned int v2) override;
+		virtual void ProgramUniform4ui(unsigned int program, int location, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3) override;
+		virtual void ProgramUniform1fv(unsigned int program, int location, int count, const float* value) override;
+		virtual void ProgramUniform2fv(unsigned int program, int location, int count, const float* value) override;
+		virtual void ProgramUniform3fv(unsigned int program, int location, int count, const float* value) override;
+		virtual void ProgramUniform4fv(unsigned int program, int location, int count, const float* value) override;
+		virtual void ProgramUniform1iv(unsigned int program, int location, int count, const int* value) override;
+		virtual void ProgramUniform2iv(unsigned int program, int location, int count, const int* value) override;
+		virtual void ProgramUniform3iv(unsigned int program, int location, int count, const int* value) override;
+		virtual void ProgramUniform4iv(unsigned int program, int location, int count, const int* value) override;
+		virtual void ProgramUniform1uiv(unsigned int program, int location, int count, const unsigned int* value) override;
+		virtual void ProgramUniform2uiv(unsigned int program, int location, int count, const unsigned int* value) override;
+		virtual void ProgramUniform3uiv(unsigned int program, int location, int count, const unsigned int* value) override;
+		virtual void ProgramUniform4uiv(unsigned int program, int location, int count, const unsigned int* value) override;
+		virtual void ProgramUniformMatrix2fv(unsigned int program, int location, int count, unsigned char transpose, const float* value) override;
+		virtual void ProgramUniformMatrix3fv(unsigned int program, int location, int count, unsigned char transpose, const float* value) override;
+		virtual void ProgramUniformMatrix4fv(unsigned int program, int location, int count, unsigned char transpose, const float* value) override;
+		virtual void ProgramUniformMatrix2x3fv(unsigned int program, int location, int count, unsigned char transpose, const float* value) override;
+		virtual void ProgramUniformMatrix3x2fv(unsigned int program, int location, int count, unsigned char transpose, const float* value) override;
+		virtual void ProgramUniformMatrix2x4fv(unsigned int program, int location, int count, unsigned char transpose, const float* value) override;
+		virtual void ProgramUniformMatrix4x2fv(unsigned int program, int location, int count, unsigned char transpose, const float* value) override;
+		virtual void ProgramUniformMatrix3x4fv(unsigned int program, int location, int count, unsigned char transpose, const float* value) override;
+		virtual void ProgramUniformMatrix4x3fv(unsigned int program, int location, int count, unsigned char transpose, const float* value) override;
+		virtual void GetProgramInterfaceiv(unsigned int program, unsigned int programInterface, unsigned int pname, int* params) override;
+		virtual void GetProgramResourceiv(unsigned int program, unsigned int programInterface, unsigned int index, int propCount, const unsigned int* props, int bufSize, int* length, int* params) override;
+		virtual void GetProgramResourceName(unsigned int program, unsigned int programInterface, unsigned int index, int bufSize, int* length, char* name) override;
+		virtual int GetProgramResourceLocation(unsigned int program, unsigned int programInterface, const char* name) override;
+		virtual void ShaderSource(unsigned int shader, int count, const char** string, const int* length) override;
+		virtual unsigned int CreateShader(unsigned int shaderType) override;
+		virtual void DeleteShader(unsigned int shader) override;
+		virtual void CompileShader(unsigned int shader) override;
+		virtual void GetShaderiv(unsigned int shader, unsigned int pname, int* params) override;
+		virtual void GetShaderInfoLog(unsigned int shader, int maxLength, int* length, char* infoLog) override;
+		virtual void DrawArraysInstanced(unsigned int mode, int first, int count, int primcount) override;
+		virtual void DrawArrays(unsigned int mode, int first, int count) override;
+		virtual void GenVertexArrays(int n, unsigned int* arrays) override;
+		virtual void DeleteVertexArrays(int n, const unsigned int* arrays) override;
+		virtual void EnableVertexAttribArray(unsigned int index) override;
+		virtual void DisableVertexAttribArray(unsigned int index) override;
+		virtual void EnableVertexArrayAttrib(unsigned int vaobj, unsigned int index) override;
+		virtual void DisableVertexArrayAttrib(unsigned int vaobj, unsigned int index) override;
+		virtual void VertexAttribPointer(unsigned int index, int size, unsigned int type, unsigned char normalized, int stride, const void* pointer) override;
+		virtual void VertexAttribIPointer(unsigned int index, int size, unsigned int type, int stride, const void* pointer) override;
+		virtual void VertexAttribLPointer(unsigned int index, int size, unsigned int type, int stride, const void* pointer) override;
+		virtual void VertexAttribDivisor(unsigned int index, unsigned int divisor) override;
+		virtual void BindVertexArray(unsigned int array) override;
+		virtual void ClearColor(float red, float green, float blue, float alpha) override;
+		virtual void Viewport(int x, int y, int width, int height) override;
+		virtual void VertexArrayBindVertexBuffer() override;
+		virtual void VertexArrayVertexAttribBinding() override; 
+		virtual void VertexArrayVertexAttribDivisor() override;
+		virtual void GenTextures(int n, unsigned int * textures) override;
+		virtual void BindTexture(unsigned int target, unsigned int texture) override;
+		virtual void TexImage2D(unsigned int target, int level, int internalFormat, int width, int height, int border, unsigned int format, unsigned int type, const void * data) override;
+		virtual void ActiveTexture(unsigned int texture) override;
+		virtual void TexParameteri(unsigned int target, unsigned int pname, int param) override;
+		virtual void GenerateMipmap(unsigned int target) override;
+		virtual void GenerateTextureMipmap(unsigned int texture) override;
+	};
+}

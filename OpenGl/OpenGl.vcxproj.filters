@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Buffers">
+      <UniqueIdentifier>{684f241a-2fcd-4210-bb5f-7a38a70116b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Buffers">
+      <UniqueIdentifier>{8b4fdbe9-1b6b-4d78-96d3-d996e2876c3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Buffers\Interfaces">
+      <UniqueIdentifier>{075e6200-6f8f-49c9-841c-17320f8dcee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Programs">
+      <UniqueIdentifier>{11133dcc-61d1-4ecd-b6fa-170cf5c68009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Programs\Interfaces">
+      <UniqueIdentifier>{be915757-4e77-4c1f-b168-421e479b5caf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Program">
+      <UniqueIdentifier>{1ecab90f-41f5-4f52-8827-fec4e6ee9d47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Exceptions">
+      <UniqueIdentifier>{6b6e01b2-ad57-4a04-a166-3f19f6e42ae2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Exceptions">
+      <UniqueIdentifier>{ea25b8ac-1277-45fd-a685-e21e6d5f1dcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EnumFormatters">
+      <UniqueIdentifier>{b5ab99ec-9755-4678-8c98-b348c6a28358}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EnumFormatters">
+      <UniqueIdentifier>{4cb96a0c-57b1-43bc-b479-c2535b2b4b1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VertexArray">
+      <UniqueIdentifier>{669e722d-b10d-435b-b7ae-c915a4af98ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VertexArray\Interfaces">
+      <UniqueIdentifier>{2fbf96c1-8764-4104-8a4e-57755ea5c561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VertexArray">
+      <UniqueIdentifier>{d3032a00-531d-4b3b-9207-1f940b907cd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Textures">
+      <UniqueIdentifier>{ab322c98-3feb-42a5-86a9-78011626c218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Textures\Interfaces">
+      <UniqueIdentifier>{1c2f7bb5-bb2e-476c-a9d6-23c105edbe19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Texture">
+      <UniqueIdentifier>{ba0fe3b8-03c4-4068-a2fe-e7b889cbf655}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="OpenGlContext.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IBufferDataUpdateStrategy.hpp">
+      <Filter>Header Files\Buffers\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IBufferDataBuilder.hpp">
+      <Filter>Header Files\Buffers\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IBufferBuilder.hpp">
+      <Filter>Header Files\Buffers\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IBuffer.hpp">
+      <Filter>Header Files\Buffers\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.hpp">
+      <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferBuilder.hpp">
+      <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferDataBuilder.hpp">
+      <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferDataFormatter.hpp">
+      <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferDataDescriptor.hpp">
+      <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="IProgram.hpp">
+      <Filter>Header Files\Programs\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IShader.hpp">
+      <Filter>Header Files\Programs\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributeVariable.hpp">
+      <Filter>Header Files\Programs</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformVariable.hpp">
+      <Filter>Header Files\Programs</Filter>
+    </ClInclude>
+    <ClInclude Include="IProgramBuilder.hpp">
+      <Filter>Header Files\Programs\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Program.hpp">
+      <Filter>Header Files\Programs</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformNotFoundException.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributeNotFoundException.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformTypeFormatter.hpp">
+      <Filter>Header Files\EnumFormatters</Filter>
+    </ClInclude>
+    <ClInclude Include="InvalidUniformAssignmentException.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderSource.hpp">
+      <Filter>Header Files\Programs</Filter>
+    </ClInclude>
+    <ClInclude Include="IShaderBuilder.hpp">
+      <Filter>Header Files\Programs\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderBuilder.hpp">
+      <Filter>Header Files\Programs</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderCompilationException.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.hpp">
+      <Filter>Header Files\Programs</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramLinkException.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="IVertexArray.hpp">
+      <Filter>Header Files\VertexArray\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferDataPointer.hpp">
+      <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferDataLayout.hpp">
+      <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexArray.hpp">
+      <Filter>Header Files\VertexArray</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferRespecificationUpdateStrategy.hpp">
+      <Filter>Header Files\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferDataException.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="ITexture.hpp">
+      <Filter>Header Files\Textures\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.hpp">
+      <Filter>Header Files\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="ITextureBuilder.hpp">
+      <Filter>Header Files\Textures\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureBuilder.hpp">
+      <Filter>Header Files\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelFormatEnum.hpp">
+      <Filter>Header Files\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelTypeEnum.hpp">
+      <Filter>Header Files\Textures</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="OpenGlContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Buffer.cpp">
+      <Filter>Source Files\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferBuilder.cpp">
+      <Filter>Source Files\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferDataBuilder.cpp">
+      <Filter>Source Files\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferDataDescriptor.cpp">
+      <Filter>Source Files\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferDataFormatter.cpp">
+      <Filter>Source Files\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp">
+      <Filter>Source Files\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformVariable.cpp">
+      <Filter>Source Files\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="AttributeVariable.cpp">
+      <Filter>Source Files\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformNotFoundException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="AttributeNotFoundException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformTypeFormatter.cpp">
+      <Filter>Source Files\EnumFormatters</Filter>
+    </ClCompile>
+    <ClCompile Include="InvalidUniformAssignmentException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderSource.cpp">
+      <Filter>Source Files\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderBuilder.cpp">
+      <Filter>Source Files\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderCompilationException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramBuilder.cpp">
+      <Filter>Source Files\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramLinkException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferDataPointer.cpp">
+      <Filter>Source Files\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferDataLayout.cpp">
+      <Filter>Source Files\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexArray.cpp">
+      <Filter>Source Files\VertexArray</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferDataException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferDataException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferRespecificationUpdateStrategy.cpp">
+      <Filter>Source Files\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureBuilder.cpp">
+      <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="InvalidTextureDataException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ProgramBuilder.hpp">
+      <Filter>Header Files\Programs</Filter>
+    </None>
+    <None Include="InvalidTextureDataException.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </None>
+  </ItemGroup>
+</Project>

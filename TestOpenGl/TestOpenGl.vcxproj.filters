@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{0e491df2-1fb6-4c5e-9a47-6e930ee8e2a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{b2576705-4890-4598-b13e-3c07b31612f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mocks">
+      <UniqueIdentifier>{b794dd42-99bb-4cb6-a4ec-cf097b695a96}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MockBufferDataUpdateStrategy.hpp">
+      <Filter>Header Files\Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="MockBufferDataFormatter.hpp">
+      <Filter>Header Files\Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="MockOpenGL.hpp">
+      <Filter>Header Files\Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="MockBufferDataBuilder.hpp">
+      <Filter>Header Files\Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="MockShader.hpp">
+      <Filter>Header Files\Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpectationBuilder.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionCall.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MockBuffer.hpp">
+      <Filter>Header Files\Mocks</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Buffer.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferDataFormatter.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferDataBuilder.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferBuilder.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderSource.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderBuilder.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramBuilder.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferDataBuilding.integration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexArray.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
