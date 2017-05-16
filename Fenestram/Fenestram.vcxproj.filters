@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Exceptions">
+      <UniqueIdentifier>{b0cbcc01-cbfc-45fe-8cb9-fa581db106aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Exceptions">
+      <UniqueIdentifier>{4e9efb85-d14b-4990-9392-b6d29fcf25a1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Window.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowErrorException.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowCreationException.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="GlfwInitializationException.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlfwInitializationException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowCreationException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowErrorException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

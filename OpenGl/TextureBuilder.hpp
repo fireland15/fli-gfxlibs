@@ -17,6 +17,8 @@ namespace OpenGL {
 		virtual ITextureBuilder& Pixels(std::vector<glm::uvec4> & pixels, glm::uvec2 dim, PixelFormat format) override;
 		virtual ITextureBuilder& Pixels(std::vector<glm::vec3> & pixels, glm::uvec2 dim, PixelFormat format) override;
 		virtual ITextureBuilder& Pixels(std::vector<glm::uvec3> & pixels, glm::uvec2 dim, PixelFormat format) override;
+		virtual ITextureBuilder& Pixels(std::vector<glm::u8vec4> & pixels, glm::uvec2 dim, PixelFormat format) override;
+		virtual ITextureBuilder& Pixels(std::vector<glm::u8vec3> & pixels, glm::uvec2 dim, PixelFormat format) override;
 		virtual ITextureBuilder& WithLinearFilters() override;
 		virtual ITextureBuilder& WithNearestFilters() override;
 		virtual ITextureBuilder& ClampEdges() override;

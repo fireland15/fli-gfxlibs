@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include <glm\glm.hpp>
+#include <glm\gtx\std_based_type.hpp>
 
 #include "PixelFormatEnum.hpp"
 #include <TextureTargetEnum.hpp>
@@ -18,6 +19,8 @@ namespace OpenGL {
 		virtual ITextureBuilder& Pixels(std::vector<glm::uvec4> & pixels, glm::uvec2 dim, PixelFormat format) = 0;
 		virtual ITextureBuilder& Pixels(std::vector<glm::vec3> & pixels, glm::uvec2 dim, PixelFormat format) = 0;
 		virtual ITextureBuilder& Pixels(std::vector<glm::uvec3> & pixels, glm::uvec2 dim, PixelFormat format) = 0;
+		virtual ITextureBuilder& Pixels(std::vector<glm::u8vec4> & pixels, glm::uvec2 dim, PixelFormat format) = 0;
+		virtual ITextureBuilder& Pixels(std::vector<glm::u8vec3> & pixels, glm::uvec2 dim, PixelFormat format) = 0;
 		virtual ITextureBuilder& WithLinearFilters() = 0;
 		virtual ITextureBuilder& WithNearestFilters() = 0;
 		virtual ITextureBuilder& ClampEdges() = 0;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ShaderTypeEnum.hpp>
+#include <OpenGLFacade/ShaderTypeEnum.hpp>
 
 namespace OpenGL {
 

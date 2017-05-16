@@ -61,6 +61,9 @@
     <Filter Include="Source Files\Texture">
       <UniqueIdentifier>{ba0fe3b8-03c4-4068-a2fe-e7b889cbf655}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Textures\Pixels">
+      <UniqueIdentifier>{492e1230-8666-4cad-8854-8fc1f03bff86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -182,6 +185,9 @@
     </ClInclude>
     <ClInclude Include="PixelTypeEnum.hpp">
       <Filter>Header Files\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Pixels.hpp">
+      <Filter>Header Files\Textures\Pixels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

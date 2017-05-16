@@ -1,6 +1,7 @@
 #include "OpenGL.integration.hpp"
 #include <glew.h>
-#include <Window.hpp>
+#include <Fenestram/WindowManager.hpp>
+#include <Fenestram/Window.hpp>
 
 #include <iostream>
 #include <sstream>
@@ -8,15 +9,10 @@
 #include <cstdlib>
 
 #include <OpenGLWrapper.hpp>
-#include <WindowsWrapper.hpp>
-#include <WinGdiWrapper.hpp>
-#include <GlewProvider.hpp>
-#include <WindowsGLProvider.hpp>
-#include <WinUserWrapper.hpp>
-#include <Win32Provider.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <RealOpenGL.hpp>
+#include <OpenGl/OpenGlContext.hpp>
 
 #include <IBufferBuilder.hpp>
 #include <IBufferDataBuilder.hpp>
@@ -24,7 +20,8 @@
 #include <IProgram.hpp>
 #include <IProgramBuilder.hpp>
 #include <IShader.hpp>
-#include <Texture.hpp>
+#include <ITexture.hpp>
+#include <ITextureBuilder.hpp>
 #include <IBuffer.hpp>
 #include <IShaderBuilder.hpp>
 #include <ShaderSource.hpp>
@@ -33,36 +30,22 @@
 #include <BufferDataDescriptor.hpp>
 
 void CreateOpenGLContext() {
-	OpenGL::WindowsWrapper windows;
-	OpenGL::WinUserWrapper winUser;
-	OpenGL::GlewProvider glew;
-	OpenGL::WinGdiWrapper gdi;
-	OpenGL::WindowsGLProvider winGl;
 	OpenGL::RealOpenGL realGl;
 	OpenGL::OpenGLWrapper gl(realGl);
 
-	OpenGL::Win32Provider win32(gl, glew, winGl, winUser, gdi, windows);
-
-	Window::Window w((HINSTANCE)(GetModuleHandle(NULL)), std::string("Create OpenGL Context"), glm::uvec2(0.0f, 0.0f), glm::uvec2(300, 300), win32);
-
-	auto context = w.CreateOpenGLContext();
+	Fenestram::WindowManager windowManager;
+	auto window = windowManager.GetNewWindow(glm::uvec2(300, 300), std::string("Create OpenGL Context"));
+	auto & context = window->GetContext();
 	std::cout << "Using OpenGL Version: " << context.MajorVersion() << "." << context.MinorVersion() << std::endl;
 }
 
 void DrawTriangle() {
-	OpenGL::WindowsWrapper windows;
-	OpenGL::WinUserWrapper winUser;
-	OpenGL::GlewProvider glew;
-	OpenGL::WinGdiWrapper gdi;
-	OpenGL::WindowsGLProvider winGl;
 	OpenGL::RealOpenGL realGl;
 	OpenGL::OpenGLWrapper gl(realGl);
 
-	OpenGL::Win32Provider win32(gl, glew, winGl, winUser, gdi, windows);
-
-	Window::Window w((HINSTANCE)(GetModuleHandle(NULL)), std::string("Draw Triangle"), glm::uvec2(0.0f, 0.0f), glm::uvec2(300, 300), win32);
-
-	auto context = w.CreateOpenGLContext();
+	Fenestram::WindowManager windowManager;
+	auto window = windowManager.GetNewWindow(glm::uvec2(300, 300), std::string("Draw Triangle"));
+	auto & context = window->GetContext();
 	std::cout << "Using OpenGL Version: " << context.MajorVersion() << "." << context.MinorVersion() << std::endl;
 
 	std::vector<glm::vec4> verts;
@@ -124,24 +107,17 @@ void DrawTriangle() {
 	gl.DrawArrays(OpenGL::PrimitiveType::Triangles, 0, 3);
 
 	glFlush();
-	context.SwapBuffer();
+	window->SwapBuffers();
 	Sleep(1000);
 }
 
 void DrawColoredTriangle() {
-	OpenGL::WindowsWrapper windows;
-	OpenGL::WinUserWrapper winUser;
-	OpenGL::GlewProvider glew;
-	OpenGL::WinGdiWrapper gdi;
-	OpenGL::WindowsGLProvider winGl;
 	OpenGL::RealOpenGL realGl;
 	OpenGL::OpenGLWrapper gl(realGl);
 
-	OpenGL::Win32Provider win32(gl, glew, winGl, winUser, gdi, windows);
-
-	Window::Window w((HINSTANCE)(GetModuleHandle(NULL)), std::string("Draw Colored Triangle"), glm::uvec2(0.0f, 0.0f), glm::uvec2(300, 300), win32);
-
-	auto context = w.CreateOpenGLContext();
+	Fenestram::WindowManager windowManager;
+	auto window = windowManager.GetNewWindow(glm::uvec2(300, 300), std::string("Draw Colored Triangle"));
+	auto & context = window->GetContext();
 	std::cout << "Using OpenGL Version: " << context.MajorVersion() << "." << context.MinorVersion() << std::endl;
 
 	std::vector<glm::vec4> verts;
@@ -217,24 +193,17 @@ void DrawColoredTriangle() {
 	gl.DrawArrays(OpenGL::PrimitiveType::Triangles, 0, 3);
 
 	glFlush();
-	context.SwapBuffer();
+	window->SwapBuffers();
 	Sleep(1000);
 }
 
 void UsesUniforms() {
-	OpenGL::WindowsWrapper windows;
-	OpenGL::WinUserWrapper winUser;
-	OpenGL::GlewProvider glew;
-	OpenGL::WinGdiWrapper gdi;
-	OpenGL::WindowsGLProvider winGl;
 	OpenGL::RealOpenGL realGl;
 	OpenGL::OpenGLWrapper gl(realGl);
 
-	OpenGL::Win32Provider win32(gl, glew, winGl, winUser, gdi, windows);
-
-	Window::Window w((HINSTANCE)(GetModuleHandle(NULL)), std::string("Draw Colored Triangle"), glm::uvec2(0.0f, 0.0f), glm::uvec2(300, 300), win32);
-
-	auto context = w.CreateOpenGLContext();
+	Fenestram::WindowManager windowManager;
+	auto window = windowManager.GetNewWindow(glm::uvec2(300, 300), std::string("Use Uniforms"));
+	auto & context = window->GetContext();
 	std::cout << "Using OpenGL Version: " << context.MajorVersion() << "." << context.MinorVersion() << std::endl;
 
 	std::vector<glm::vec4> verts;
@@ -315,7 +284,7 @@ void UsesUniforms() {
 		program->SetUniform(translation, trans);
 
 		gl.DrawArrays(OpenGL::PrimitiveType::Triangles, 0, 3);
-		context.SwapBuffer();
+		window->SwapBuffers();
 		std::vector<OpenGL::Buffers> clearBufs;
 		clearBufs.push_back(OpenGL::Buffers::Color);
 		gl.Clear(clearBufs);
@@ -324,19 +293,12 @@ void UsesUniforms() {
 }
 
 void UpdateBufferData() {
-	OpenGL::WindowsWrapper windows;
-	OpenGL::WinUserWrapper winUser;
-	OpenGL::GlewProvider glew;
-	OpenGL::WinGdiWrapper gdi;
-	OpenGL::WindowsGLProvider winGl;
 	OpenGL::RealOpenGL realGl;
 	OpenGL::OpenGLWrapper gl(realGl);
 
-	OpenGL::Win32Provider win32(gl, glew, winGl, winUser, gdi, windows);
-
-	Window::Window w((HINSTANCE)(GetModuleHandle(NULL)), std::string("Draw Colored Triangle"), glm::uvec2(0.0f, 0.0f), glm::uvec2(300, 300), win32);
-
-	auto context = w.CreateOpenGLContext();
+	Fenestram::WindowManager windowManager;
+	auto window = windowManager.GetNewWindow(glm::uvec2(300, 300), std::string("Update Buffer Data"));
+	auto & context = window->GetContext();
 	std::cout << "Using OpenGL Version: " << context.MajorVersion() << "." << context.MinorVersion() << std::endl;
 
 	std::vector<glm::vec4> verts;
@@ -422,7 +384,7 @@ void UpdateBufferData() {
 
 	gl.DrawArrays(OpenGL::PrimitiveType::Triangles, 0, 3);
 
-	context.SwapBuffer();
+	window->SwapBuffers();
 	std::vector<OpenGL::Buffers> clearBufs;
 	clearBufs.push_back(OpenGL::Buffers::Color);
 	gl.Clear(clearBufs);
@@ -448,7 +410,7 @@ void UpdateBufferData() {
 		vertBuf->Update(updatedVertsData, vertsPointer, OpenGL::BufferRespecificationUpdateStrategy(gl));
 
 		gl.DrawArrays(OpenGL::PrimitiveType::Triangles, 0, 3);
-		context.SwapBuffer();
+		window->SwapBuffers();
 		gl.Clear(clearBufs);
 
 		Sleep(16);
@@ -456,20 +418,15 @@ void UpdateBufferData() {
 }
 
 void UsesTextures() {
-	OpenGL::WindowsWrapper windows;
-	OpenGL::WinUserWrapper winUser;
-	OpenGL::GlewProvider glew;
-	OpenGL::WinGdiWrapper gdi;
-	OpenGL::WindowsGLProvider winGl;
 	OpenGL::RealOpenGL realGl;
 	OpenGL::OpenGLWrapper gl(realGl);
 
-	OpenGL::Win32Provider win32(gl, glew, winGl, winUser, gdi, windows);
-
-	Window::Window w((HINSTANCE)(GetModuleHandle(NULL)), std::string("Using Textures"), glm::uvec2(800.0f, 200.0f), glm::uvec2(600, 600), win32);
-
-	auto context = w.CreateOpenGLContext();
-	std::cout << "Using OpenGL Version: " << context.MajorVersion() << "." << context.MinorVersion() << std::endl;
+	Fenestram::WindowManager windowManager;
+	auto window = windowManager.GetNewWindow(glm::uvec2(800, 800), std::string("Uses Textures"));
+	auto & context = window->GetContext();
+	std::cout << "Using OpenGL Version: " << context.MajorVersion() << "." << context.MinorVersion() << std::endl; 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	std::vector<glm::vec4> verts;
 	verts.emplace_back(0.5f, -0.5f, 0.0f, 1.0f);
@@ -479,7 +436,7 @@ void UsesTextures() {
 	std::vector<glm::vec2> uvs;
 	uvs.emplace_back(0.0f, 0.0f);
 	uvs.emplace_back(1.0f, 0.0f);
-	uvs.emplace_back(1.0f, 1.0f);
+	uvs.emplace_back(1.0f, 0.5f);
 
 	OpenGL::BufferDataPointer vertsPointer(4, OpenGL::DataType::Float);
 	OpenGL::BufferDataPointer uvPointer(2, OpenGL::DataType::Float);
@@ -525,6 +482,24 @@ void UsesTextures() {
 
 	auto program = context.NewProgram([&](OpenGL::IProgramBuilder& pb) {
 		pb.Attach(*vshader).Attach(*fshader);
+	}); 
+	
+	unsigned int imageDim = 255;
+	std::vector<glm::u8vec4> image = std::vector<glm::u8vec4>();
+	image.reserve(imageDim * imageDim);
+	for (unsigned int i = 0; i < imageDim * imageDim; i++) {
+		unsigned char r = (i / imageDim) * 3;
+		unsigned char g = (i % imageDim) * 3;
+		unsigned char a = ((float)((i + 1) / imageDim) / imageDim) * 255;
+
+		image.emplace_back(r, g, 255, a);
+	}
+
+	auto texture = context.NewTexture([&](OpenGL::ITextureBuilder& tb) {
+		tb.NewTexture(OpenGL::TextureTarget::Texture2D)
+			.Pixels(image, glm::uvec2(imageDim, imageDim), OpenGL::PixelFormat::RGBA)
+			.WithLinearFilters()
+			.Repeat();
 	});
 
 	vshader.release();
@@ -538,29 +513,7 @@ void UsesTextures() {
 	auto uv = program->AttributeVariable(std::string("uv"));
 	auto texSampler = program->UniformVariable(std::string("ourTexture"));
 
-	auto random = [](int lo, int hi) {
-		return lo + static_cast<int>(rand()) / (static_cast<int>(RAND_MAX / (hi - lo)));
-	};
-
-	unsigned int imageDim = 512;
-	std::vector<unsigned char> image(imageDim * imageDim * 4);
-	for (unsigned int i = 0; i < image.size(); i += 4) {
-		image[i] = i / imageDim;
-		image[i + 1] = 2 * i / (imageDim + 1);
-		image[i + 2] = 3 * i / (imageDim + 3);
-		image[i + 3] = 255;
-	}
-
 	vao->Bind();
-
-	OpenGL::Texture tex(gl, std::move(gl.GenTexture()), OpenGL::TextureTarget::Texture2D);
-	tex.Bind();
-	gl.TexImage2D(OpenGL::TextureTarget::Texture2D, 0, OpenGL::TextureInternalFormat::RGBA, glm::ivec2(imageDim, imageDim), OpenGL::TexturePixelType::RGBA, OpenGL::DataType::Byte, image.data());
-	tex.SetWrapS(OpenGL::TextureParameterValue::Repeat);
-	tex.SetWrapT(OpenGL::TextureParameterValue::Repeat);
-	tex.SetMagFilter(OpenGL::TextureParameterValue::Nearest);
-	tex.SetMinFilter(OpenGL::TextureParameterValue::LinearMipmapLinear);
-	gl.GenerateMipmap(OpenGL::TextureTarget::Texture2D);
 
 	vao->EnableVertexAttribute(pos);
 	vao->SetVertexAttributePointer(pos, *buf, vertsPointer);
@@ -568,13 +521,14 @@ void UsesTextures() {
 	vao->SetVertexAttributePointer(uv, *buf, uvPointer);
 
 	realGl.ClearColor(0.5f, 0.5f, 0.5f, 0.5f);
-	context.SwapBuffer();
+	window->SwapBuffers();
 
-	tex.BindToSlot(0);
+	texture->Bind();
+	texture->BindToSlot(0);
 	program->SetUniform(texSampler, 0);
 
 	gl.DrawArrays(OpenGL::PrimitiveType::Triangles, 0, 3);
-	context.SwapBuffer();
+	window->SwapBuffers();
 	std::vector<OpenGL::Buffers> clearBufs;
 	clearBufs.push_back(OpenGL::Buffers::Color);
 	gl.Clear(clearBufs);

@@ -8,54 +8,32 @@
 #include <memory>
 #include <functional>
 
-#include "IProgram.hpp"
-#include "IShader.hpp"
-#include "IVertexArray.hpp"
-#include "IBuffer.hpp"
-#include "ITexture.hpp"
-#include "IProgramBuilder.hpp"
-#include "IShaderBuilder.hpp"
-#include "IBufferBuilder.hpp"
-
 namespace OpenGL {
 
 	class OpenGLWrapper;
-	class IGlewProvider;
-	class IWindowsGLProvider;
-	class IWinUserWrapper;
-	class IWinGdiWrapper;
-	class IWindowsWrapper;
-	class Win32Provider;
 
 	class IBufferBuilder;
 	class IProgramBuilder;
 	class IShaderBuilder;
 	class ITextureBuilder;
 
+	class IBuffer;
+	class IShader;
+	class IProgram;
+	class ITexture;
+	class IVertexArray;
+
 	class OpenGlContext {
 	private:
-		HDC m_hDc;
-		HGLRC m_hRc;
-		HWND m_hWnd;
-
 		int _contextVersionMajor;
 		int _contextVersionMinor;
 
 		OpenGLWrapper& _opengl;
-		IGlewProvider& _glew;
-		IWindowsGLProvider& _wgl;
-		IWinUserWrapper& _winUser;
-		IWinGdiWrapper& _winGdi;
-		IWindowsWrapper& _win;
 
 	public:
-		OpenGlContext(Win32Provider& win32, HWND hWnd);
+		OpenGlContext(OpenGLWrapper& gl);
 
 		~OpenGlContext();
-
-		bool IsValid();
-
-		void SwapBuffer();
 
 		int MajorVersion();
 
@@ -72,11 +50,6 @@ namespace OpenGL {
 		std::unique_ptr<ITexture> NewTexture(std::function<void(ITextureBuilder&)> func);
 
 		std::unique_ptr<IVertexArray> NewVertexArray();
-
-	private:
-		void InitializeGlew();
-
-		void InitializeOpenGl();
 	};
 
 }

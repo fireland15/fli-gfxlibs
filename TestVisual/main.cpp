@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "Glfw.integration.hpp"
-#include "Window.integration.hpp"
 #include "OpenGL.integration.hpp"
 
 int main(int argc, char* argv[]) {
@@ -16,7 +15,6 @@ int main(int argc, char* argv[]) {
 
 	switch (testNum) {
 	case 1:
-		WindowCreation();
 		break;
 	case 2:
 		CreateOpenGLContext();

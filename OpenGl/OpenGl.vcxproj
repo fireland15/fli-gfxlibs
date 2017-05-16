@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Program Files %28x86%29\Windows Kits\8.1\Include\um;$(SolutionDir)OpenGLFacade;$(IncludePath);$(SolutionDir)glew;$(SolutionDir)Common;</IncludePath>
+    <IncludePath>C:\Program Files %28x86%29\Windows Kits\8.1\Include\um;$(SolutionDir)OpenGLFacade;$(IncludePath);$(SolutionDir)glew;$(SolutionDir)Common;$(SolutionDir);</IncludePath>
     <SourcePath>$(SolutionDir)OpenGl\source;$(SourcePath)</SourcePath>
     <LibraryPath>$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -166,6 +166,7 @@
     <ClInclude Include="OpenGlContext.hpp" />
     <ClInclude Include="Buffer.hpp" />
     <ClInclude Include="PixelFormatEnum.hpp" />
+    <ClInclude Include="Pixels.hpp" />
     <ClInclude Include="PixelTypeEnum.hpp" />
     <ClInclude Include="Program.hpp" />
     <ClInclude Include="ProgramLinkException.hpp" />
