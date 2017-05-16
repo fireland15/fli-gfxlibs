@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)glew;$(SolutionDir)OpenGlFacade;$(SolutionDir)OpenGl;$(IncludePath);$(SolutionDir)Window;$(SolutionDir)Common</IncludePath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)glew;$(SolutionDir)OpenGlFacade;$(SolutionDir)OpenGl;$(IncludePath);$(SolutionDir)Window;$(SolutionDir)Common</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(SolutionDir)Debug;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -95,7 +95,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);OpenGlFacade.lib;Window.lib;OpenGl.lib;glew.lib;opengl32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);OpenGlFacade.lib;Window.lib;OpenGl.lib;glew.lib;opengl32.lib;Glfw.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -149,18 +149,15 @@
     <ProjectReference Include="..\OpenGl\OpenGl.vcxproj">
       <Project>{788abe15-9257-458e-b49e-1c68c185adc2}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Window\Window.vcxproj">
-      <Project>{464a39b0-ce51-4679-b85c-e95b4e4238a8}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Glfw.integration.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OpenGL.integration.cpp" />
-    <ClCompile Include="Window.integration.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Glfw.integration.hpp" />
     <ClInclude Include="OpenGL.integration.hpp" />
-    <ClInclude Include="Window.integration.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

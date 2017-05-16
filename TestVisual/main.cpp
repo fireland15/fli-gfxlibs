@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "Glfw.integration.hpp"
 #include "Window.integration.hpp"
 #include "OpenGL.integration.hpp"
 
@@ -34,6 +35,9 @@ int main(int argc, char* argv[]) {
 		break;
 	case 7:
 		UsesTextures();
+		break;
+	case 8:
+		GlfwTest();
 		break;
 	}
 

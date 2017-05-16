@@ -21,7 +21,7 @@
     <ClCompile Include="OpenGL.integration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Window.integration.cpp">
+    <ClCompile Include="Glfw.integration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="OpenGL.integration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Window.integration.hpp">
+    <ClInclude Include="Glfw.integration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
