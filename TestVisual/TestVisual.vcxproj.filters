@@ -20,12 +20,18 @@
     <ClCompile Include="Glfw.integration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderLoader.integration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGL.integration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Glfw.integration.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLoader.integration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

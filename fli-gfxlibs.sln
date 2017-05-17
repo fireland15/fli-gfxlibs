@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLFW", "GLFW\GLFW.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fenestram", "Fenestram\Fenestram.vcxproj", "{7D60DA78-1FD2-4584-90DB-98CF27304505}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Auxili", "Auxili\Auxili.vcxproj", "{E995BF1C-3162-4BF9-9D24-F6B20EE315D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -105,6 +107,14 @@ Global
 		{7D60DA78-1FD2-4584-90DB-98CF27304505}.Release|x64.Build.0 = Release|x64
 		{7D60DA78-1FD2-4584-90DB-98CF27304505}.Release|x86.ActiveCfg = Release|Win32
 		{7D60DA78-1FD2-4584-90DB-98CF27304505}.Release|x86.Build.0 = Release|Win32
+		{E995BF1C-3162-4BF9-9D24-F6B20EE315D8}.Debug|x64.ActiveCfg = Debug|x64
+		{E995BF1C-3162-4BF9-9D24-F6B20EE315D8}.Debug|x64.Build.0 = Debug|x64
+		{E995BF1C-3162-4BF9-9D24-F6B20EE315D8}.Debug|x86.ActiveCfg = Debug|Win32
+		{E995BF1C-3162-4BF9-9D24-F6B20EE315D8}.Debug|x86.Build.0 = Debug|Win32
+		{E995BF1C-3162-4BF9-9D24-F6B20EE315D8}.Release|x64.ActiveCfg = Release|x64
+		{E995BF1C-3162-4BF9-9D24-F6B20EE315D8}.Release|x64.Build.0 = Release|x64
+		{E995BF1C-3162-4BF9-9D24-F6B20EE315D8}.Release|x86.ActiveCfg = Release|Win32
+		{E995BF1C-3162-4BF9-9D24-F6B20EE315D8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

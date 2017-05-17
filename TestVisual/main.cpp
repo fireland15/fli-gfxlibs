@@ -2,6 +2,7 @@
 
 #include "Glfw.integration.hpp"
 #include "OpenGL.integration.hpp"
+#include "ShaderLoader.integration.hpp"
 
 int main(int argc, char* argv[]) {
 	int testNum;
@@ -15,6 +16,7 @@ int main(int argc, char* argv[]) {
 
 	switch (testNum) {
 	case 1:
+		UsesShadersFromFile();
 		break;
 	case 2:
 		CreateOpenGLContext();
