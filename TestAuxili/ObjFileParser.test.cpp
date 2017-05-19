@@ -111,13 +111,12 @@ namespace {
 		auto data = parser.Parse(ss);
 		auto & errors = parser.Errors();
 		EXPECT_EQ(errors.size(), 1);
-		std::cout << errors.front() << std::endl;
 	}
 
 	TEST(ObjFileParserTest, ParserBunnyObj) {
 		std::ifstream file("Models/bunny.obj");
 		Auxili::ObjFileParser parser;
-		auto data = parser.Parse(file);		
+		auto data = parser.Parse(file);	
 	}
 
 }
