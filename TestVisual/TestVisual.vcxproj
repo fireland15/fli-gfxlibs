@@ -143,6 +143,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Auxili\Auxili.vcxproj">
+      <Project>{e995bf1c-3162-4bf9-9d24-f6b20ee315d8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Fenestram\Fenestram.vcxproj">
       <Project>{7d60da78-1fd2-4584-90db-98cf27304505}</Project>
     </ProjectReference>
