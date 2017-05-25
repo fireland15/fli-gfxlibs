@@ -14,5 +14,11 @@
     <ClCompile Include="ObjFileParser.test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LibPng.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PngImageLoader.test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

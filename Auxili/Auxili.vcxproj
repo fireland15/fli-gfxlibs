@@ -19,16 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FileIOException.hpp" />
+    <ClInclude Include="ImageData.hpp" />
     <ClInclude Include="IMeshLoader.hpp" />
+    <ClInclude Include="InvalidFileTypeException.hpp" />
     <ClInclude Include="ObjFileData.hpp" />
     <ClInclude Include="ObjFileParser.hpp" />
     <ClInclude Include="ObjParseException.hpp" />
+    <ClInclude Include="PngImageLoader.hpp" />
     <ClInclude Include="ShaderSourceLoader.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FileIOException.cpp" />
+    <ClCompile Include="InvalidFileTypeException.cpp" />
     <ClCompile Include="ObjFileData.cpp" />
     <ClCompile Include="ObjFileParser.cpp" />
     <ClCompile Include="ObjParseException.cpp" />
+    <ClCompile Include="PngImageLoader.cpp" />
     <ClCompile Include="ShaderSourceLoader.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -92,7 +99,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

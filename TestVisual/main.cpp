@@ -39,6 +39,9 @@ int main(int argc, char* argv[]) {
 	case 8:
 		GlfwTest();
 		break;
+	case 9:
+		UsesTexturesFromPngFile();
+		break;
 	}
 
 	return 0;
