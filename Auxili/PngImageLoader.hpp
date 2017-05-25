@@ -6,7 +6,7 @@
 
 namespace Auxili {
 
-	struct ImageData;
+	class ImageData;
 
 	class PngImageLoader {
 	public:

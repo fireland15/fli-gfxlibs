@@ -7,3 +7,4 @@ void UsesUniforms();
 void UpdateBufferData();
 void UsesTextures();
 void UsesTexturesFromPngFile();
+void UsesTexturesFromBmpFile();

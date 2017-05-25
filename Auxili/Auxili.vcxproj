@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BmpImageLoader.hpp" />
     <ClInclude Include="FileIOException.hpp" />
     <ClInclude Include="ImageData.hpp" />
     <ClInclude Include="IMeshLoader.hpp" />
@@ -30,6 +31,7 @@
     <ClInclude Include="ShaderSourceLoader.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BmpImageLoader.cpp" />
     <ClCompile Include="FileIOException.cpp" />
     <ClCompile Include="InvalidFileTypeException.cpp" />
     <ClCompile Include="ObjFileData.cpp" />

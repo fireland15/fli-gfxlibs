@@ -50,6 +50,9 @@
     <ClInclude Include="ImageData.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BmpImageLoader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ShaderSourceLoader.cpp">
@@ -71,6 +74,9 @@
       <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="InvalidFileTypeException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BmpImageLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

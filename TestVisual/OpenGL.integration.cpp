@@ -31,6 +31,7 @@
 
 #include <Auxili\ImageData.hpp>
 #include <Auxili\PngImageLoader.hpp>
+#include <Auxili\BmpImageLoader.hpp>
 
 void CreateOpenGLContext() {
 	OpenGL::RealOpenGL realGl;
@@ -556,7 +557,7 @@ void UsesTexturesFromPngFile() {
 
 	std::vector<glm::vec2> uvs;
 	uvs.emplace_back(0.0f, 0.0f);
-	uvs.emplace_back(1.0f, 0.0f);
+	uvs.emplace_back(0.0f, 1.0f);
 	uvs.emplace_back(1.0f, 0.5f);
 
 	OpenGL::BufferDataPointer vertsPointer(4, OpenGL::DataType::Float);
@@ -607,6 +608,116 @@ void UsesTexturesFromPngFile() {
 
 	Auxili::PngImageLoader pngLoader;
 	auto imageData = pngLoader.Load("LibPngTests_CreatePngImage2.png");
+
+	auto texture = context.NewTexture([&](OpenGL::ITextureBuilder& tb) {
+		tb.NewTexture(OpenGL::TextureTarget::Texture2D)
+			.Pixels(imageData->Pixels, imageData->Dimensions, OpenGL::PixelFormat::RGBA)
+			.WithLinearFilters()
+			.Repeat();
+	});
+
+	vshader.release();
+	fshader.release();
+
+	auto vao = context.NewVertexArray();
+
+	program->Use();
+
+	auto pos = program->AttributeVariable(std::string("pos"));
+	auto uv = program->AttributeVariable(std::string("uv"));
+	auto texSampler = program->UniformVariable(std::string("ourTexture"));
+
+	vao->Bind();
+
+	vao->EnableVertexAttribute(pos);
+	vao->SetVertexAttributePointer(pos, *buf, vertsPointer);
+	vao->EnableVertexAttribute(uv);
+	vao->SetVertexAttributePointer(uv, *buf, uvPointer);
+
+	realGl.ClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+	window->SwapBuffers();
+
+	texture->Bind();
+	texture->BindToSlot(0);
+	program->SetUniform(texSampler, 0);
+
+	gl.DrawArrays(OpenGL::PrimitiveType::Triangles, 0, 3);
+	window->SwapBuffers();
+	std::vector<OpenGL::Buffers> clearBufs;
+	clearBufs.push_back(OpenGL::Buffers::Color);
+	gl.Clear(clearBufs);
+	Sleep(4000);
+}
+
+void UsesTexturesFromBmpFile() {
+	OpenGL::RealOpenGL realGl;
+	OpenGL::OpenGLWrapper gl(realGl);
+
+	Fenestram::WindowManager windowManager;
+	auto window = windowManager.GetNewWindow(glm::uvec2(1600, 1600), std::string("Uses Textures From PNG File"));
+	auto & context = window->GetContext();
+	std::cout << "Using OpenGL Version: " << context.MajorVersion() << "." << context.MinorVersion() << std::endl;
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	std::vector<glm::vec4> verts;
+	verts.emplace_back(0.5f, -0.5f, 0.0f, 1.0f);
+	verts.emplace_back(-0.5f, -0.5f, 0.0f, 1.0f);
+	verts.emplace_back(0.0f, 0.5f, 0.0f, 1.0f);
+
+	std::vector<glm::vec2> uvs;
+	uvs.emplace_back(0.0f, 0.0f);
+	uvs.emplace_back(0.0f, 1.0f);
+	uvs.emplace_back(1.0f, 0.5f);
+
+	OpenGL::BufferDataPointer vertsPointer(4, OpenGL::DataType::Float);
+	OpenGL::BufferDataPointer uvPointer(2, OpenGL::DataType::Float);
+
+	auto buf = context.NewBuffer([&](OpenGL::IBufferBuilder& b) {
+		b.NewBuffer()
+			.Targeting(OpenGL::BufferTarget::ArrayBuffer)
+			.UsedFor(OpenGL::BufferUsage::StaticDraw)
+			.WithData([&](OpenGL::IBufferDataBuilder& db) {
+			db.Data(glm::value_ptr(verts.front()), sizeof(glm::vec4), verts.size(), vertsPointer)
+				.And(glm::value_ptr(uvs.front()), sizeof(glm::vec2), uvs.size(), uvPointer);
+		});
+	});
+
+	auto vshader = context.NewShader([&](OpenGL::IShaderBuilder& sb) {
+		std::stringstream ss;
+		ss << "#version 430" << std::endl;
+		ss << "layout(location = 0) in vec4 pos;" << std::endl;
+		ss << "layout(location = 1) in vec2 uv;" << std::endl;
+		ss << "out vec2 texCoord;" << std::endl;
+		ss << "void main() {" << std::endl;
+		ss << "\ttexCoord = uv;" << std::endl;
+		ss << "\tgl_Position = pos;" << std::endl;
+		ss << "}" << std::endl;
+		OpenGL::ShaderSource vsource(ss);
+
+		sb.AddSource(vsource).Type(OpenGL::ShaderType::Vertex);
+	});
+
+	auto fshader = context.NewShader([&](OpenGL::IShaderBuilder& sb) {
+		std::stringstream ss;
+		ss << "#version 430" << std::endl;
+		ss << "in vec2 texCoord;" << std::endl;
+		ss << "out vec4 color;" << std::endl;
+		ss << "uniform sampler2D ourTexture;" << std::endl;
+		ss << "void main() {" << std::endl;
+		ss << "\tcolor = texture(ourTexture, texCoord);" << std::endl;
+		ss << "}" << std::endl;
+		OpenGL::ShaderSource fsource(ss);
+
+		sb.AddSource(fsource).Type(OpenGL::ShaderType::Fragment);
+	});
+
+	auto program = context.NewProgram([&](OpenGL::IProgramBuilder& pb) {
+		pb.Attach(*vshader).Attach(*fshader);
+	});
+
+	Auxili::BmpImageLoader bmpLoader;
+	auto imageData = bmpLoader.Load("Dove.bmp");
 
 	auto texture = context.NewTexture([&](OpenGL::ITextureBuilder& tb) {
 		tb.NewTexture(OpenGL::TextureTarget::Texture2D)

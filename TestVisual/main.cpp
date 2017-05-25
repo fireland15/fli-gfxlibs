@@ -42,6 +42,9 @@ int main(int argc, char* argv[]) {
 	case 9:
 		UsesTexturesFromPngFile();
 		break;
+	case 10:
+		UsesTexturesFromBmpFile();
+		break;
 	}
 
 	return 0;

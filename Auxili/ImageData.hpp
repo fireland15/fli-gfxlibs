@@ -5,7 +5,8 @@
 
 namespace Auxili {
 
-	struct ImageData {
+	class ImageData {
+	public:
 		ImageData(std::vector<glm::u8vec4>& pixels, glm::uvec2 & dim) 
 			: Pixels(pixels), Dimensions(dim) { }
 		ImageData(unsigned char * pixels, glm::uvec2 & dim);
