@@ -23,6 +23,12 @@
     <ClCompile Include="ShaderLoader.integration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.integration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGL.integration.hpp">
@@ -32,6 +38,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ShaderLoader.integration.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.integration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

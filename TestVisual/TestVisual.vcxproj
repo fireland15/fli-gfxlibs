@@ -160,12 +160,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Camera.integration.cpp" />
     <ClCompile Include="Glfw.integration.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OpenGL.integration.cpp" />
     <ClCompile Include="ShaderLoader.integration.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="Camera.integration.hpp" />
     <ClInclude Include="Glfw.integration.hpp" />
     <ClInclude Include="OpenGL.integration.hpp" />
     <ClInclude Include="ShaderLoader.integration.hpp" />

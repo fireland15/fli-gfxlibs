@@ -3,6 +3,7 @@
 #include "Glfw.integration.hpp"
 #include "OpenGL.integration.hpp"
 #include "ShaderLoader.integration.hpp"
+#include "Camera.integration.hpp"
 
 int main(int argc, char* argv[]) {
 	int testNum;
@@ -44,6 +45,9 @@ int main(int argc, char* argv[]) {
 		break;
 	case 10:
 		UsesTexturesFromBmpFile();
+		break;
+	case 11:
+		UsesCamera();
 		break;
 	}
 
