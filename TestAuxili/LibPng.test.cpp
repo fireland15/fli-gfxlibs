@@ -5,7 +5,7 @@
 namespace {
 
 	float dist(unsigned int x, unsigned int y, unsigned int a, unsigned int b) {
-		return std::sqrtf((((int)x - a) * ((int)x - a) + ((int)y - b) * ((int)y - b)));
+		return std::sqrtf((((float)x - a) * ((float)x - a) + ((float)y - b) * ((float)y - b)));
 	}
 
 	TEST(LibPngTests, WriteAndReadImage) {

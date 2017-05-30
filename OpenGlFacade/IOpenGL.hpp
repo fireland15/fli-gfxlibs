@@ -702,5 +702,17 @@ namespace OpenGL {
 		/// </summary>
 		/// <param name="texture">Specifies the texture object name</param>
 		virtual void GenerateTextureMipmap(unsigned int texture) = 0;
+
+		/// <summary>
+		/// Enable server-side GL capabilities. See <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glEnable.xhtml">glEnable</a>
+		/// </summary>
+		/// <param name="capability">Specifies a symbolic constant indicating GL capability</param>
+		virtual void Enable(unsigned int capability) = 0;
+
+		/// <summary>
+		/// Disable server-side GL capabilities. See <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glEnable.xhtml">glEnable</a>
+		/// </summary>
+		/// <param name="capability">Specifies a symbolic constant indicating GL capability</param>
+		virtual void Disable(unsigned int capability) = 0;
 	};
 }

@@ -21,6 +21,11 @@ Fenestram::WindowManager::~WindowManager() {
 }
 
 std::unique_ptr<Fenestram::Window> Fenestram::WindowManager::GetNewWindow(glm::uvec2 windowDim, std::string windowTitle) {
+	glfwWindowHint(GLFW_RED_BITS, 8);
+	glfwWindowHint(GLFW_GREEN_BITS, 8);
+	glfwWindowHint(GLFW_BLUE_BITS, 8);
+	glfwWindowHint(GLFW_ALPHA_BITS, 8);
+	glfwWindowHint(GLFW_DEPTH_BITS, 24);
 	GLFWwindow* window = glfwCreateWindow(windowDim.x, windowDim.y, windowTitle.c_str(), nullptr, nullptr);
 	if (!window) {
 		throw Fenestram::WindowCreationException();

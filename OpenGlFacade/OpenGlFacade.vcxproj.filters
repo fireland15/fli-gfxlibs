@@ -144,6 +144,9 @@
     <ClInclude Include="TextureParameterValueEnum.hpp">
       <Filter>Header Files\Enums</Filter>
     </ClInclude>
+    <ClInclude Include="CapabilitiesEnum.hpp">
+      <Filter>Header Files\Enums</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GlewProvider.cpp">

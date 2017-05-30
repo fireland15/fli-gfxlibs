@@ -140,6 +140,7 @@
     <ClInclude Include="BuffersEnum.hpp" />
     <ClInclude Include="BufferTargetEnum.hpp" />
     <ClInclude Include="BufferUsageEnum.hpp" />
+    <ClInclude Include="CapabilitiesEnum.hpp" />
     <ClInclude Include="DataTypesEnum.hpp" />
     <ClInclude Include="ErrorEnum.hpp" />
     <ClInclude Include="GlewProvider.hpp" />

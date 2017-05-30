@@ -166,6 +166,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OpenGL.integration.cpp" />
     <ClCompile Include="ShaderLoader.integration.cpp" />
+    <ClCompile Include="UserInputMapper.cpp" />
+    <ClCompile Include="UserInputMapper.integration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />
@@ -173,6 +175,8 @@
     <ClInclude Include="Glfw.integration.hpp" />
     <ClInclude Include="OpenGL.integration.hpp" />
     <ClInclude Include="ShaderLoader.integration.hpp" />
+    <ClInclude Include="UserInputMapper.hpp" />
+    <ClInclude Include="UserInputMapper.integration.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
