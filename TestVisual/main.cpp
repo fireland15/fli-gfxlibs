@@ -59,6 +59,12 @@ int main(int argc, char* argv[]) {
 	case 14:
 		ParsesTokens();
 		break;
+	case 15:
+		ParsesTokensFromFile();
+		break;
+	case 16:
+		VisualTest();
+		break;
 	}
 
 	return 0;

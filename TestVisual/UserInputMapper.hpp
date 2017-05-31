@@ -139,27 +139,31 @@ enum class UserEvents {
 	G, g,
 	H, h,
 	I, i,
-J, j,
-K, k,
-L, l,
-M, m,
-N, n,
-O, o,
-P, p,
-Q, q,
-R, r,
-S, s,
-T, t,
-U, u,
-V, v,
-W, w,
-X, x,
-Y, y,
-Z, z
+	J, j,
+	K, k,
+	L, l,
+	M, m,
+	N, n,
+	O, o,
+	P, p,
+	Q, q,
+	R, r,
+	S, s,
+	T, t,
+	U, u,
+	V, v,
+	W, w,
+	X, x,
+	Y, y,
+	Z, z
 };
 
 #include <map>
 #include <functional>
+
+constexpr unsigned int str2int(const char* str, int h = 0) {
+	return !str[h] ? 5381 : (str2int(str, h + 1) * 33) ^ str[h];
+}
 
 class UserInputCallbackMap {
 public:
@@ -218,8 +222,133 @@ public:
 		_map.insert(std::make_pair(UserEvents::z, std::list<std::function<void()>>()));
 	}
 
+	void AddBinding(std::string event, std::function<void()> func) {
+		UserEvents e = ToUserEvent(event);
+		if (_map.count(e) == 0) {
+			_map.insert(std::make_pair(e, std::list<std::function<void()>>()));
+		}
+		_map[e].push_back(func);
+	}
+
+	void Invoke(UserEvents e) {
+		for (auto & func : _map[e]) {
+			func();
+		}
+	}
+
 private:
 	std::map<UserEvents, std::list<std::function<void()>>> _map;
+
+	UserEvents ToUserEvent(std::string & s) {
+		switch (str2int(s.c_str())) {
+		case str2int("A"):
+			return UserEvents::A;
+		case str2int("a"):
+			return UserEvents::a;
+		case str2int("B"):
+			return UserEvents::B;
+		case str2int("b"):
+			return UserEvents::b;
+		case str2int("C"):
+			return UserEvents::C;
+		case str2int("c"):
+			return UserEvents::c;
+		case str2int("D"):
+			return UserEvents::D;
+		case str2int("d"):
+			return UserEvents::d;
+		case str2int("E"):
+			return UserEvents::E;
+		case str2int("e"):
+			return UserEvents::e;
+		case str2int("F"):
+			return UserEvents::F;
+		case str2int("f"):
+			return UserEvents::f;
+		case str2int("G"):
+			return UserEvents::G;
+		case str2int("g"):
+			return UserEvents::g;
+		case str2int("H"):
+			return UserEvents::H;
+		case str2int("h"):
+			return UserEvents::h;
+		case str2int("I"):
+			return UserEvents::I;
+		case str2int("i"):
+			return UserEvents::i;
+		case str2int("J"):
+			return UserEvents::J;
+		case str2int("j"):
+			return UserEvents::j;
+		case str2int("K"):
+			return UserEvents::K;
+		case str2int("k"):
+			return UserEvents::k;
+		case str2int("L"):
+			return UserEvents::L;
+		case str2int("l"):
+			return UserEvents::l;
+		case str2int("M"):
+			return UserEvents::M;
+		case str2int("m"):
+			return UserEvents::m;
+		case str2int("N"):
+			return UserEvents::N;
+		case str2int("n"):
+			return UserEvents::n;
+		case str2int("O"):
+			return UserEvents::O;
+		case str2int("o"):
+			return UserEvents::o;
+		case str2int("P"):
+			return UserEvents::P;
+		case str2int("p"):
+			return UserEvents::p;
+		case str2int("Q"):
+			return UserEvents::Q;
+		case str2int("q"):
+			return UserEvents::q;
+		case str2int("R"):
+			return UserEvents::R;
+		case str2int("r"):
+			return UserEvents::r;
+		case str2int("S"):
+			return UserEvents::S;
+		case str2int("s"):
+			return UserEvents::s;
+		case str2int("T"):
+			return UserEvents::T;
+		case str2int("t"):
+			return UserEvents::t;
+		case str2int("U"):
+			return UserEvents::U;
+		case str2int("u"):
+			return UserEvents::u;
+		case str2int("V"):
+			return UserEvents::V;
+		case str2int("v"):
+			return UserEvents::v;
+		case str2int("W"):
+			return UserEvents::W;
+		case str2int("w"):
+			return UserEvents::w;
+		case str2int("X"):
+			return UserEvents::X;
+		case str2int("x"):
+			return UserEvents::x;
+		case str2int("Y"):
+			return UserEvents::Y;
+		case str2int("y"):
+			return UserEvents::y;
+		case str2int("Z"):
+			return UserEvents::Z;
+		case str2int("z"):
+			return UserEvents::z;
+		default:
+			throw std::runtime_error("Symbol not found");
+		}
+	}
 };
 
 class Parser {
@@ -245,108 +374,160 @@ public:
 		_callback_f.insert(std::make_pair(name, func));
 	}
 
+	void AddMethod(std::string & name, std::function<void(float, float)> func) {
+		if (_functionType.count(name) > 0)
+			throw std::runtime_error("cannot overload callback functions");
+		_functionType.insert(std::make_pair(name, FunctionType::void_float2));
+		_callback_f2.insert(std::make_pair(name, func));
+	}
+
 	UserInputCallbackMap Parse(std::vector<Token>& tokens) {
+		UserInputCallbackMap map;
 		unsigned int i = 0;
 		while (i < tokens.size()) {
-			if (!MatchAssignment(tokens, i))
-				throw std::runtime_error("Syntax Error");
+			if (tokens[i].Type() == Tokens::NewLine) {
+				i++;
+				continue;
+			}
+			auto assignment = MatchAssignment(tokens, i);
+			for (auto f : assignment.second) {
+				map.AddBinding(assignment.first, f);
+			}
 		}
+		return map;
 	}
 
 private:
-	bool MatchAssignment(std::vector<Token> & tokens, unsigned int& i) {
+	std::pair<std::string, std::list<std::function<void()>>> MatchAssignment(std::vector<Token> & tokens, unsigned int& i) {
 		unsigned int j = i;
-		if (!MatchIdentifier(tokens, j))
-			return false;
-		if (!MatchMapping(tokens, j))
-			return false;
+		std::string userEvent = MatchIdentifier(tokens, j);
+		std::list<std::function<void()>> funcs;
+		funcs.push_back(MatchMapping(tokens, j));
 		while (j < tokens.size() && tokens[j].Type() != Tokens::Identifier) {
-			if (!MatchMapping(tokens, j))
-				return false;
+			if (tokens[j].Type() != Tokens::NewLine)
+				throw std::runtime_error("Expected new line");
+			j++;
+			try {
+				funcs.push_back(MatchMapping(tokens, j));
+			}
+			catch (std::exception ex) {
+				i = j;
+				return std::make_pair(userEvent, funcs);
+			}
 		}
 		i = j;
-		return true;
+		return std::make_pair(userEvent, funcs);
 	}
 
-	bool MatchMapping(std::vector<Token> & tokens, unsigned int & i) {
+	std::function<void()> MatchMapping(std::vector<Token> & tokens, unsigned int & i) {
 		unsigned int j = i;
-		if (!MatchMapOperator(tokens, j))
-			return false;
-		if (!MatchFunction(tokens, j))
-			return false;
-		if (tokens[j].Type() != Tokens::NewLine)
-			return false;
-		i = j + 1;
-		return true;
+		MatchMapOperator(tokens, j);
+		std::function<void()> func = MatchFunction(tokens, j);
+		//if (tokens[j].Type() != Tokens::NewLine)
+		//	throw std::runtime_error("Expected a newline");
+		//i = j + 1;
+		i = j;
+		return func;
 	}
 
-	bool MatchIdentifier(std::vector<Token> & tokens, unsigned int & i) {
+	std::string MatchIdentifier(std::vector<Token> & tokens, unsigned int & i) {
 		if (tokens[i].Type() != Tokens::Identifier)
-			return false;
+			throw std::runtime_error("Expected an identifier");
+		std::string identifier = tokens[i].Value();
 		i++;
-		return true;
+		return identifier;
 	}
 
 	bool MatchMapOperator(std::vector<Token> & tokens, unsigned int & i) {
 		if (tokens[i].Type() != Tokens::MapOperator)
-			return false;
+			throw std::runtime_error("Expected a map operator");
 		i++;
 		return true;
 	}
 
-	bool MatchFunction(std::vector<Token> & tokens, unsigned int & i) {
+	std::function<void()> MatchFunction(std::vector<Token> & tokens, unsigned int & i) {
+		std::string funcName;
+		std::vector<std::string> args;
+
+
 		unsigned int j = i;
 		if (tokens[j].Type() != Tokens::Identifier) 
-			return false;
+			throw std::runtime_error("Expected an identifier");
+		funcName = tokens[j].Value();
 		j++;
 		if (tokens[j].Type() != Tokens::OpenParen)
-			return false;
+			throw std::runtime_error("Expected a Parenthesis");
 		j++;
 		if (j < tokens.size() && tokens[j].Type() == Tokens::CloseParen) {
 			i = j + 1;
-			return true;
 		}
 		else {
-			j++;
-			if (!MatchArgument(tokens, j))
-				return false;
+			args.push_back(MatchArgument(tokens, j));
 		}
-		j++;
 		while (j < tokens.size() && tokens[j].Type() != Tokens::CloseParen) {
 			if (tokens[j].Type() != Tokens::Comma)
-				return false;
+				throw std::runtime_error("Expected a comma");
 			j++;
-			if (!MatchArgument(tokens, j))
-				return false;
+			args.push_back(MatchArgument(tokens, j));
 		}
 		if (tokens[j].Type() != Tokens::CloseParen)
-			return false;
+			throw std::runtime_error("Expected a closing parenthesis");
 		i = j + 1;
-		return true;
+
+		if (_functionType.count(funcName) == 0) {
+			throw std::runtime_error("Unidentified function name");
+		}
+		else {
+			switch (_functionType[funcName]) {
+			case FunctionType::void_void:
+				return _callback_void[funcName];
+				break;
+			case FunctionType::void_float: {
+					std::function<void(float)> func = _callback_f[funcName];
+					char* end;
+					return std::bind(func, std::strtof(args[0].c_str(), &end));
+				}
+				break;
+			case FunctionType::void_float2: {
+					std::function<void(float, float)> func = _callback_f2[funcName];
+					char* end;
+					return std::bind(func, std::strtof(args[0].c_str(), &end), strtof(args[1].c_str(), &end));
+				}
+				break;
+			case FunctionType::void_string: {
+					std::function<void(std::string)> func = _callback_s[funcName];
+					return std::bind(func, args[0]);
+				}
+				break;
+			}
+		}
+
+		throw std::runtime_error("Invalid function");
 	}
 
-	bool MatchArgument(std::vector<Token> & tokens, unsigned int& i) {
+	std::string MatchArgument(std::vector<Token> & tokens, unsigned int& i) {
 		if (i < tokens.size()) {
-			Tokens t = tokens[i].Type();
-			if (t == Tokens::Number || t == Tokens::Identifier) {
+			Token t = tokens[i];
+			if (t.Type() == Tokens::Number || t.Type() == Tokens::Identifier) {
 				i++;
-				return true;
+				return t.Value();
 			}
 		}
 		return false;
 	}
 
-
 private:
 	enum class FunctionType {
 		void_string,
 		void_void,
-		void_float
+		void_float,
+		void_float2
 	};
 	std::map<std::string, FunctionType> _functionType;
 	std::map<std::string, std::function<void()>> _callback_void;
 	std::map<std::string, std::function<void(std::string)>> _callback_s;
 	std::map<std::string, std::function<void(float)>> _callback_f;
+	std::map<std::string, std::function<void(float, float)>> _callback_f2;
 };
 
 class UserInputMapper {
