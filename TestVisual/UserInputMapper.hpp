@@ -5,6 +5,8 @@
 #include <sstream>
 #include <cctype>
 #include <list>
+#include <map>
+#include <functional>
 
 enum class Tokens {
 	Identifier,
@@ -129,7 +131,7 @@ public:
 	}
 };
 
-enum class UserEvents {
+enum class UserEvents : unsigned int {
 	A, a,
 	B, b,
 	C, c,
@@ -158,8 +160,6 @@ enum class UserEvents {
 	Z, z
 };
 
-#include <map>
-#include <functional>
 
 constexpr unsigned int str2int(const char* str, int h = 0) {
 	return !str[h] ? 5381 : (str2int(str, h + 1) * 33) ^ str[h];

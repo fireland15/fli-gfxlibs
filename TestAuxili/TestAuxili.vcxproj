@@ -156,6 +156,9 @@
     <ProjectReference Include="..\LibPng\LibPng.vcxproj">
       <Project>{8127fa63-9911-400d-90e2-37128c70d77c}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\ZLib\ZLib.vcxproj">
+      <Project>{d92763b4-d936-4be9-96f4-e9706dc73a79}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
