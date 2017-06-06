@@ -95,7 +95,6 @@ void VisualTest() {
 
 	Fenestram::WindowManager windowManager;
 	auto window = windowManager.GetNewWindow(glm::uvec2(1000, 1000), std::string("Draw Colored Triangle"));
-	window->SetKeyCallback([](int key, int scancode, int action, int mods) { std::cout << (char)key << " pressed" << std::endl; });
 	auto & context = window->GetContext();
 	std::cout << "Using OpenGL Version: " << context.MajorVersion() << "." << context.MinorVersion() << std::endl;
 
@@ -159,10 +158,31 @@ void VisualTest() {
 	vshader.release();
 	fshader.release();
 
-	glm::vec3 p(0.0f, 0.0f, 10.0f);
+	glm::vec3 cp(0.0f, 0.0f, 10.0f);
 	glm::vec3 dir(0.0f, 0.0f, -1.0f);
 	glm::vec3 up(0.0f, 1.0f, 0.0f);
-	TestVisual::Camera camera(p, dir, up, TestVisual::ProjectionMode::Perspective);
+	TestVisual::Camera camera(cp, dir, up, TestVisual::ProjectionMode::Perspective);
+
+	std::fstream f("Scripts/UserInputMapping.txt");
+	Tokenizer t;
+	auto tokens = t.Tokenize(f);
+	Parser p;
+	p.AddMethod(std::string("moveup"), [&camera](float f) { camera.Position(camera.Position() + glm::vec3(0.0f, f, 0.0f)); });
+	p.AddMethod(std::string("movedown"), [&camera](float f) { camera.Position(camera.Position() - glm::vec3(0.0f, f, 0.0f)); });
+	p.AddMethod(std::string("pause"), []() { std::cout << "Pausing" << std::endl; });
+	p.AddMethod(std::string("resume"), []() { std::cout << "Resuming" << std::endl; });
+	auto map = p.Parse(tokens);
+
+	window->SetKeyCallback([&map](int key, int scancode, int action, int mods) {
+		switch ((char)key) {
+		case 'W':
+			map.Invoke(UserEvents::W);
+			break;
+		case 'S':
+			map.Invoke(UserEvents::S);
+			break;
+		}
+	});
 
 	auto vao = context.NewVertexArray();
 
@@ -178,7 +198,7 @@ void VisualTest() {
 	vao->EnableVertexAttribute(color);
 	vao->SetVertexAttributePointer(color, *buf, colorPointer);
 
-	for (unsigned int i = 0; i < 3600; i++) {
+	for (unsigned int i = 0; i < 600; i++) {
 		program->SetUniform(projection, std::vector<glm::mat4>({ camera.ProjectionMatrix() }));
 		program->SetUniform(view, std::vector<glm::mat4>({ camera.ViewMatrix() }));
 
@@ -187,6 +207,7 @@ void VisualTest() {
 		gl.Clear(std::vector<OpenGL::Buffers>({ OpenGL::Buffers::Color }));
 
 		window->PollEvents();
+		Sleep(100);
 	}
 
 }
