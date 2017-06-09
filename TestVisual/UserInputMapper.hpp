@@ -236,10 +236,7 @@ public:
 		}
 	}
 
-private:
-	std::map<UserEvents, std::list<std::function<void()>>> _map;
-
-	UserEvents ToUserEvent(std::string & s) {
+	static UserEvents ToUserEvent(std::string & s) {
 		switch (str2int(s.c_str())) {
 		case str2int("A"):
 			return UserEvents::A;
@@ -349,6 +346,9 @@ private:
 			throw std::runtime_error("Symbol not found");
 		}
 	}
+
+private:
+	std::map<UserEvents, std::list<std::function<void()>>> _map;
 };
 
 class Parser {

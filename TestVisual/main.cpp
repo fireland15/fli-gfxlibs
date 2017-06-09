@@ -65,6 +65,9 @@ int main(int argc, char* argv[]) {
 	case 16:
 		VisualTest();
 		break;
+	case 17:
+		UsesKeyState();
+		break;
 	}
 
 	return 0;
