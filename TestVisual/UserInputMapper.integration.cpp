@@ -166,6 +166,7 @@ void VisualTest() {
 	std::fstream f("Scripts/UserInputMapping.txt");
 	Tokenizer t;
 	auto tokens = t.Tokenize(f);
+	f.close();
 	Parser p;
 	p.AddMethod(std::string("moveup"), [&camera](float f) { camera.Position(camera.Position() + glm::vec3(0.0f, f, 0.0f)); });
 	p.AddMethod(std::string("movedown"), [&camera](float f) { camera.Position(camera.Position() - glm::vec3(0.0f, f, 0.0f)); });
@@ -174,14 +175,8 @@ void VisualTest() {
 	auto map = p.Parse(tokens);
 
 	window->SetKeyCallback([&map](int key, int scancode, int action, int mods) {
-		switch ((char)key) {
-		case 'W':
-			map.Invoke(UserEvents::W);
-			break;
-		case 'S':
-			map.Invoke(UserEvents::S);
-			break;
-		}
+		if (action != 1) return;
+		map.Invoke(UserInputCallbackMap::ToUserEvent(std::string(1, (char)key)));
 	});
 
 	auto vao = context.NewVertexArray();
@@ -209,5 +204,142 @@ void VisualTest() {
 		window->PollEvents();
 		Sleep(100);
 	}
+}
 
+void UsesKeyState() {
+	OpenGL::RealOpenGL realGl;
+	OpenGL::OpenGLWrapper gl(realGl);
+
+	Fenestram::WindowManager windowManager;
+	auto window = windowManager.GetNewWindow(glm::uvec2(1000, 1000), std::string("Draw Colored Triangle"));
+	auto & context = window->GetContext();
+	std::cout << "Using OpenGL Version: " << context.MajorVersion() << "." << context.MinorVersion() << std::endl;
+
+	std::vector<glm::vec4> verts;
+	verts.emplace_back(-0.5f, -0.5f, 0.0f, 1.0f);
+	verts.emplace_back(0.5f, -0.5f, 0.0f, 1.0f);
+	verts.emplace_back(0.0f, 0.5f, 0.0f, 1.0f);
+
+	std::vector<glm::vec4> colors;
+	colors.emplace_back(1.0f, 0.0f, 0.0f, 1.0f);
+	colors.emplace_back(0.0f, 1.0f, 0.0f, 1.0f);
+	colors.emplace_back(0.0f, 0.0f, 1.0f, 1.0f);
+
+	OpenGL::BufferDataPointer vertsPointer(4, OpenGL::DataType::Float);
+	OpenGL::BufferDataPointer colorPointer(4, OpenGL::DataType::Float);
+
+	auto buf = context.NewBuffer([&](OpenGL::IBufferBuilder& b) {
+		b.NewBuffer()
+			.Targeting(OpenGL::BufferTarget::ArrayBuffer)
+			.UsedFor(OpenGL::BufferUsage::StaticDraw)
+			.WithData([&](OpenGL::IBufferDataBuilder& db) {
+			db.Data(glm::value_ptr(verts.front()), sizeof(glm::vec4), verts.size(), vertsPointer)
+				.InterleavedWith(glm::value_ptr(colors.front()), sizeof(glm::vec4), colors.size(), colorPointer);
+		});
+	});
+
+	auto vshader = context.NewShader([&](OpenGL::IShaderBuilder& sb) {
+		std::stringstream ss;
+		ss << "#version 430" << std::endl;
+		ss << "layout(location = 0) in vec4 pos;" << std::endl;
+		ss << "layout(location = 1) in vec4 color;" << std::endl;
+		ss << "uniform mat4 view;" << std::endl;
+		ss << "uniform mat4 projection;" << std::endl;
+		ss << "out vec4 vColor;" << std::endl;
+		ss << "void main() {" << std::endl;
+		ss << "vColor = color;" << std::endl;
+		ss << "\tgl_Position = projection * view * pos;" << std::endl;
+		ss << "}" << std::endl;
+		OpenGL::ShaderSource vsource(ss);
+
+		sb.AddSource(vsource).Type(OpenGL::ShaderType::Vertex);
+	});
+
+	auto fshader = context.NewShader([&](OpenGL::IShaderBuilder& sb) {
+		std::stringstream ss;
+		ss << "#version 430" << std::endl;
+		ss << "in vec4 vColor;" << std::endl;
+		ss << "out vec4 color;" << std::endl;
+		ss << "void main() {" << std::endl;
+		ss << "\tcolor = vColor;" << std::endl;
+		ss << "}" << std::endl;
+		OpenGL::ShaderSource fsource(ss);
+
+		sb.AddSource(fsource).Type(OpenGL::ShaderType::Fragment);
+	});
+
+	auto program = context.NewProgram([&](OpenGL::IProgramBuilder& pb) {
+		pb.Attach(*vshader).Attach(*fshader);
+	});
+
+	vshader.release();
+	fshader.release();
+
+	glm::vec3 cp(0.0f, 0.0f, 10.0f);
+	glm::vec3 dir(0.0f, 0.0f, -1.0f);
+	glm::vec3 up(0.0f, 1.0f, 0.0f);
+	TestVisual::Camera camera(cp, dir, up, TestVisual::ProjectionMode::Perspective);
+
+	std::fstream f("Scripts/UserInputMapping2.txt");
+	Tokenizer t;
+	auto tokens = t.Tokenize(f);
+	Parser p;
+	p.AddMethod(std::string("moveup"), [&camera](float f) { camera.Position(camera.Position() + glm::vec3(0.0f, f, 0.0f)); });
+	p.AddMethod(std::string("movedown"), [&camera](float f) { camera.Position(camera.Position() - glm::vec3(0.0f, f, 0.0f)); });
+	p.AddMethod(std::string("moveleft"), [&camera](float f) { camera.Position(camera.Position() - glm::vec3(f, 0.0f, 0.0f)); });
+	p.AddMethod(std::string("moveright"), [&camera](float f) { camera.Position(camera.Position() + glm::vec3(f, 0.0f, 0.0f)); });
+	p.AddMethod(std::string("pause"), []() { std::cout << "Pausing" << std::endl; });
+	p.AddMethod(std::string("resume"), []() { std::cout << "Resuming" << std::endl; });
+	auto map = p.Parse(tokens);
+
+	bool keyState[256] = { false };
+	window->SetKeyCallback([&keyState](int key, int scancode, int action, int mods) {
+		if (action == 1) { //GLFW_PRESS
+			keyState[(char)key] = true;
+		}
+		else if (action == 0) { // GLFW_RELEASE
+			keyState[(char)key] = false;
+		}
+	});
+
+	auto inputSystem = [&map, &keyState]() {
+		for (unsigned int i = 0; i < 256; i++) {
+			if (keyState[i]) {
+				try {
+					map.Invoke(UserInputCallbackMap::ToUserEvent(std::string(1, static_cast<char>(i))));
+				}
+				catch (std::exception e) {
+					std::cout << (char)i << std::endl;
+				}
+			}
+		}
+		return;
+	};
+
+	auto vao = context.NewVertexArray();
+
+	program->Use();
+
+	auto pos = program->AttributeVariable(std::string("pos"));
+	auto color = program->AttributeVariable(std::string("color"));
+	const auto projection = program->UniformVariable(std::string("projection"));
+	const auto view = program->UniformVariable(std::string("view"));
+	vao->Bind();
+	vao->EnableVertexAttribute(pos);
+	vao->SetVertexAttributePointer(pos, *buf, vertsPointer);
+	vao->EnableVertexAttribute(color);
+	vao->SetVertexAttributePointer(color, *buf, colorPointer);
+
+	while (!window->ShouldClose()) {
+		program->SetUniform(projection, std::vector<glm::mat4>({ camera.ProjectionMatrix() }));
+		program->SetUniform(view, std::vector<glm::mat4>({ camera.ViewMatrix() }));
+
+		gl.DrawArrays(OpenGL::PrimitiveType::Triangles, 0, 3);
+		window->SwapBuffers();
+		gl.Clear(std::vector<OpenGL::Buffers>({ OpenGL::Buffers::Color }));
+		inputSystem();
+		window->PollEvents();
+		Sleep(10);
+	}
+	window->ShouldClose(true);
 }
