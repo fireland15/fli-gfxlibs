@@ -283,14 +283,31 @@ void UsesKeyState() {
 	std::fstream f("Scripts/UserInputMapping2.txt");
 	Tokenizer t;
 	auto tokens = t.Tokenize(f);
+	f.close();
 	Parser p;
+	UserInputCallbackMap map;
+	UserInputCallbackMap tempMap;
+	bool swapMaps = false;
 	p.AddMethod(std::string("moveup"), [&camera](float f) { camera.Position(camera.Position() + glm::vec3(0.0f, f, 0.0f)); });
 	p.AddMethod(std::string("movedown"), [&camera](float f) { camera.Position(camera.Position() - glm::vec3(0.0f, f, 0.0f)); });
 	p.AddMethod(std::string("moveleft"), [&camera](float f) { camera.Position(camera.Position() - glm::vec3(f, 0.0f, 0.0f)); });
 	p.AddMethod(std::string("moveright"), [&camera](float f) { camera.Position(camera.Position() + glm::vec3(f, 0.0f, 0.0f)); });
+	p.AddMethod(std::string("loadkeys"), [&tempMap, &camera, &swapMaps]() {
+		std::fstream f("Scripts/UserInputMapping3.txt");
+		Tokenizer t;
+		auto tokens = t.Tokenize(f);
+		f.close();
+		Parser p;
+		p.AddMethod(std::string("moveup"), [&camera](float f) { camera.Position(camera.Position() + glm::vec3(0.0f, f, 0.0f)); });
+		p.AddMethod(std::string("movedown"), [&camera](float f) { camera.Position(camera.Position() - glm::vec3(0.0f, f, 0.0f)); });
+		p.AddMethod(std::string("moveleft"), [&camera](float f) { camera.Position(camera.Position() - glm::vec3(f, 0.0f, 0.0f)); });
+		p.AddMethod(std::string("moveright"), [&camera](float f) { camera.Position(camera.Position() + glm::vec3(f, 0.0f, 0.0f)); });
+		tempMap = p.Parse(tokens);
+		swapMaps = true;
+	});
 	p.AddMethod(std::string("pause"), []() { std::cout << "Pausing" << std::endl; });
 	p.AddMethod(std::string("resume"), []() { std::cout << "Resuming" << std::endl; });
-	auto map = p.Parse(tokens);
+	map = p.Parse(tokens);
 
 	bool keyState[256] = { false };
 	window->SetKeyCallback([&keyState](int key, int scancode, int action, int mods) {
@@ -313,7 +330,6 @@ void UsesKeyState() {
 				}
 			}
 		}
-		return;
 	};
 
 	auto vao = context.NewVertexArray();
@@ -338,6 +354,9 @@ void UsesKeyState() {
 		window->SwapBuffers();
 		gl.Clear(std::vector<OpenGL::Buffers>({ OpenGL::Buffers::Color }));
 		inputSystem();
+		if (swapMaps) {
+			map = tempMap;
+		}
 		window->PollEvents();
 		Sleep(10);
 	}
