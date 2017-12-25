@@ -1,10 +1,12 @@
 #include "BmpImageLoader.hpp"
 #include "FileIOException.hpp"
 #include "InvalidFileTypeException.hpp"
+#include "InvalidArgumentException.hpp"
 #include "ImageData.hpp"
 #include <vector>
 #include <glm\glm.hpp>
 #include <iterator>
+#include <fstream>
 
 std::unique_ptr<Auxili::ImageData> Auxili::BmpImageLoader::Load(const char * file) {
 	return Load(std::string(file));
@@ -67,8 +69,51 @@ std::unique_ptr<Auxili::ImageData> Auxili::BmpImageLoader::Load(std::string & fi
 	return std::unique_ptr<Auxili::ImageData>(new ImageData(pixels, dim));
 }
 
-void Auxili::BmpImageLoader::Save(const char * file, Auxili::ImageData & image) {
+void saveImage(std::string& filename, unsigned int width, unsigned int height, unsigned char* data) {
+	int dataPos = 54;
+	unsigned int imageSize = width * height * 3;
+	unsigned char header[54];
+	header[0] = 'B';
+	header[1] = 'M';
+	*(int*)(&header[0x0A]) = dataPos;
+	*(int*)(&header[0x22]) = imageSize;
+	*(int*)(&header[0x12]) = width;
+	*(int*)(&header[0x16]) = height;
 
+	std::fstream f(filename, std::ios::binary);
+	if (!f.is_open()) {
+		throw Auxili::FileIOException(filename);
+	}
+
+	f.write(reinterpret_cast<const char*>(header), 54);
+	f.write(reinterpret_cast<const char*>(data), imageSize);
+	f.close();
+}
+
+void Auxili::BmpImageLoader::Save(const char * file, Auxili::ImageData & image) {
+	unsigned int width;
+	unsigned int height;
+
+	width = image.Dimensions.x;
+	height = image.Dimensions.y;
+
+	if (width == 0) {
+		throw Auxili::InvalidArgumentException(std::string("Image Width"), std::string("Cannot save image with 0 width"));
+	}
+	if (height == 0) {
+		throw Auxili::InvalidArgumentException(std::string("Image Height"), std::string("Cannot save image with 0 height"));
+	}
+	
+	std::vector<unsigned char> pixels(image.Pixels.size() * 3);
+
+	for (unsigned int i = 0; i < image.Pixels.size(); i++) {
+		unsigned int x = i * 3;
+		pixels[x + 2] = image.Pixels[i].r;
+		pixels[x + 1] = image.Pixels[i].g;
+		pixels[x] = image.Pixels[i].b;
+	}
+
+	saveImage(std::string(file), width, height, pixels.data());
 }
 
 void Auxili::BmpImageLoader::Save(std::string & file, Auxili::ImageData & image) {

@@ -4,6 +4,7 @@
 #include "OpenGL.integration.hpp"
 #include "ShaderLoader.integration.hpp"
 #include "Camera.integration.hpp"
+#include "UserInputMapper.integration.hpp"
 
 int main(int argc, char* argv[]) {
 	int testNum;
@@ -48,6 +49,24 @@ int main(int argc, char* argv[]) {
 		break;
 	case 11:
 		UsesCamera();
+		break;
+	case 12:
+		UsesCameraWithObjBunny();
+		break;
+	case 13:
+		TokenizesFile();
+		break;
+	case 14:
+		ParsesTokens();
+		break;
+	case 15:
+		ParsesTokensFromFile();
+		break;
+	case 16:
+		VisualTest();
+		break;
+	case 17:
+		UsesKeyState();
 		break;
 	}
 

@@ -584,3 +584,11 @@ void OpenGL::OpenGLWrapper::ActiveTexture(unsigned int slot) {
 	_gl.ActiveTexture(slot);
 }
 
+void OpenGL::OpenGLWrapper::Enable(Capabilities cap) {
+	_gl.Enable(static_cast<unsigned int>(cap));
+}
+
+void OpenGL::OpenGLWrapper::Disable(Capabilities cap) {
+	_gl.Disable(static_cast<unsigned int>(cap));
+}
+

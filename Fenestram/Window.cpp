@@ -1,5 +1,6 @@
 #include "Window.hpp"
 
+#include <functional>
 #include <glew\glew.h>
 #include <GLFW\glfw3.h>
 #include <OpenGlFacade\RealOpenGL.hpp>
@@ -9,6 +10,7 @@
 #include "WindowCreationException.hpp"
 
 void WindowCloseFunction(GLFWwindow* window);
+
 
 Fenestram::Window::Window(GLFWwindow* window) 
 	: _glfwWindow(window) {
@@ -51,6 +53,15 @@ void Fenestram::Window::ShouldClose(bool shouldClose) {
 	_shouldClose = shouldClose;
 }
 
+void Fenestram::Window::SetKeyCallback(std::function<void(int, int, int, int)> callback) {
+	glfwSetKeyCallback(_glfwWindow, Fenestram::Window::KeyCallback);
+	_keyCallback = callback;
+}
+
+void Fenestram::Window::PollEvents() {
+	glfwPollEvents();
+}
+
 void Fenestram::Window::SwapBuffers() {
 	glfwSwapBuffers(_glfwWindow);
 }
@@ -58,4 +69,9 @@ void Fenestram::Window::SwapBuffers() {
 void WindowCloseFunction(GLFWwindow* window) {
 	Fenestram::Window* This = static_cast<Fenestram::Window*>(glfwGetWindowUserPointer(window));
 	This->ShouldClose(true);
+}
+
+void Fenestram::Window::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	Fenestram::Window* This = static_cast<Fenestram::Window*>(glfwGetWindowUserPointer(window));
+	This->_keyCallback(key, scancode, action, mods);
 }

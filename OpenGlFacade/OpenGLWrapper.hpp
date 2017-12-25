@@ -24,6 +24,7 @@
 #include "PrimitiveTypes.hpp"
 #include "DataTypesEnum.hpp"
 #include "NormalizeEnum.hpp"
+#include "CapabilitiesEnum.hpp"
 
 namespace OpenGL {
 
@@ -115,6 +116,8 @@ namespace OpenGL {
 		void GenerateMipmap(TextureTarget target);
 		void GenerateTextureMipmap(const Handle& h);
 		void ActiveTexture(unsigned int slot);
+		void Enable(Capabilities cap);
+		void Disable(Capabilities cap);
 	private:
 		IOpenGL& _gl;
 	};

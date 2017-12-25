@@ -90,5 +90,7 @@ namespace OpenGL {
 		virtual void TexParameteri(unsigned int target, unsigned int pname, int param) override;
 		virtual void GenerateMipmap(unsigned int target) override;
 		virtual void GenerateTextureMipmap(unsigned int texture) override;
+		virtual void Enable(unsigned int capability) override;
+		virtual void Disable(unsigned int capability) override;
 	};
 }

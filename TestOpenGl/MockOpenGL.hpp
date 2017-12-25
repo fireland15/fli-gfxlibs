@@ -92,4 +92,6 @@ public:
 	MOCK_METHOD3(TexParameteri, void(unsigned int, unsigned int, int));
 	MOCK_METHOD1(GenerateMipmap, void(unsigned int));
 	MOCK_METHOD1(GenerateTextureMipmap, void(unsigned int));
+	MOCK_METHOD1(Enable, void(unsigned int));
+	MOCK_METHOD1(Disable, void(unsigned int));
 };

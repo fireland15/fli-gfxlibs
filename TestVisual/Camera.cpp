@@ -41,6 +41,6 @@ glm::mat4 TestVisual::Camera::ProjectionMatrix() {
 		return glm::ortho(-5.0f, 5.0f, -5.0f, 5.0f, 0.001f, 1000.0f);
 	}
 	else {
-		return glm::perspective(glm::radians(45.0f), 1.0f, 0.001f, 1000.0f);
+		return glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
 	}
 }

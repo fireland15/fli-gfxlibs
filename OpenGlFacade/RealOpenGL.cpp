@@ -314,7 +314,7 @@ void OpenGL::RealOpenGL::VertexArrayVertexAttribBinding() {
 }
 
 void OpenGL::RealOpenGL::VertexArrayVertexAttribDivisor() {
-
+	throw std::exception("Not Implemented");
 }
 
 void OpenGL::RealOpenGL::GenTextures(int n, unsigned int * textures) {
@@ -349,6 +349,14 @@ void OpenGL::RealOpenGL::GenerateMipmap(unsigned int target) {
 
 void OpenGL::RealOpenGL::GenerateTextureMipmap(unsigned int texture) {
 	glGenerateTextureMipmap(static_cast<GLuint>(texture));
+}
+
+void OpenGL::RealOpenGL::Enable(unsigned int capability) {
+	glEnable(static_cast<GLenum>(capability));
+}
+
+void OpenGL::RealOpenGL::Disable(unsigned int capability) {
+	glDisable(static_cast<GLenum>(capability));
 }
 
 void OpenGL::RealOpenGL::TexParameteri(unsigned int target, unsigned int pname, int param) {

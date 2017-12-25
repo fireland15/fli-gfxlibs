@@ -75,8 +75,9 @@
     <LibraryPath>$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)OpenGl\source;$(IncludePath);$(SolutionDir)Common;</IncludePath>
+    <IncludePath>C:\Program Files %28x86%29\Windows Kits\8.1\Include\um;$(SolutionDir)OpenGLFacade;$(IncludePath);$(SolutionDir)glew;$(SolutionDir)Common;$(SolutionDir);</IncludePath>
     <SourcePath>$(SolutionDir)OpenGl\source;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)OpenGlFacade;$(SolutionDir)Common;$(SolutionDir)glew;</IncludePath>

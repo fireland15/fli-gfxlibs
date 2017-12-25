@@ -1,0 +1,5 @@
+W --> moveup(0.1)
+S --> movedown(0.2)
+O --> resume()
+  --> moveup(1.5)
+P --> pause()

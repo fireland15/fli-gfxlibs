@@ -32,6 +32,7 @@
 #include <Auxili\ImageData.hpp>
 #include <Auxili\PngImageLoader.hpp>
 #include <Auxili\BmpImageLoader.hpp>
+#include <Auxili\FileIOException.hpp>
 
 void CreateOpenGLContext() {
 	OpenGL::RealOpenGL realGl;
@@ -607,7 +608,14 @@ void UsesTexturesFromPngFile() {
 	});
 
 	Auxili::PngImageLoader pngLoader;
-	auto imageData = pngLoader.Load("LibPngTests_CreatePngImage2.png");
+	std::unique_ptr<Auxili::ImageData> imageData;
+	try {
+		imageData = pngLoader.Load("LibPngTests_CreatePngImage2.png");
+	}
+	catch (Auxili::FileIOException e) {
+		std::cout << "Error loading texture image" << std::endl;
+		return;
+	}
 
 	auto texture = context.NewTexture([&](OpenGL::ITextureBuilder& tb) {
 		tb.NewTexture(OpenGL::TextureTarget::Texture2D)

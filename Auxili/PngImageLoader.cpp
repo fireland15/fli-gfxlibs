@@ -36,6 +36,9 @@ std::unique_ptr<Auxili::ImageData> Auxili::PngImageLoader::Load(const char * fil
 			}
 		}
 	}
+	else {
+		throw FileIOException(std::string(file));
+	}
 
 	return std::unique_ptr<Auxili::ImageData>(new Auxili::ImageData(pixels, glm::uvec2(static_cast<unsigned int>(image.width), static_cast<unsigned int>(image.height))));
 }
