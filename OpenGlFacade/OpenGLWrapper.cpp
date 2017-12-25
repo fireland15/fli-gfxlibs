@@ -27,9 +27,6 @@ void OpenGL::OpenGLWrapper::BindBuffer(OpenGL::BufferTarget target, const OpenGL
 }
 
 void OpenGL::OpenGLWrapper::BufferData(OpenGL::BufferTarget target, const std::vector<unsigned char>& data, OpenGL::BufferUsage usage) {
-	if (data.empty()) {
-		_gl.BufferData(static_cast<unsigned int>(target), data.size(), data.data(), static_cast<unsigned int>(usage));
-	}
 	_gl.BufferData(static_cast<unsigned int>(target), data.size(), data.data(), static_cast<unsigned int>(usage));
 }
 
