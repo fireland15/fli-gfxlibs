@@ -68,9 +68,19 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SolutionDir)glew;$(IncludePath);$(SolutionDir)OpenGl;$(SolutionDir)GTest;$(SolutionDir)GMock;</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)OpenGlFacade;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)GMock;$(SolutionDir)GTest;$(SolutionDir)OpenGl;$(SolutionDir)Common;$(SolutionDir);</IncludePath>
+    <LibraryPath>$(SolutionDir)Release;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Link>
       <AdditionalDependencies>GTest.lib;GMock.lib;OpenGl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Link>
+      <AdditionalDependencies>GTest.lib;GMock.lib;OpenGl.lib;</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>

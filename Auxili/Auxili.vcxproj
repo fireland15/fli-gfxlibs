@@ -23,6 +23,7 @@
     <ClInclude Include="FileIOException.hpp" />
     <ClInclude Include="ImageData.hpp" />
     <ClInclude Include="IMeshLoader.hpp" />
+    <ClInclude Include="InvalidArgumentException.hpp" />
     <ClInclude Include="InvalidFileTypeException.hpp" />
     <ClInclude Include="ObjFileData.hpp" />
     <ClInclude Include="ObjFileParser.hpp" />
@@ -33,6 +34,7 @@
   <ItemGroup>
     <ClCompile Include="BmpImageLoader.cpp" />
     <ClCompile Include="FileIOException.cpp" />
+    <ClCompile Include="InvalidArgumentException.cpp" />
     <ClCompile Include="InvalidFileTypeException.cpp" />
     <ClCompile Include="ObjFileData.cpp" />
     <ClCompile Include="ObjFileParser.cpp" />
@@ -95,6 +97,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)Common;</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)Common;</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -127,7 +132,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

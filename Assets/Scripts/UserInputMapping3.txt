@@ -1,0 +1,5 @@
+W --> movedown(0.1)
+S --> moveleft(0.2)
+A --> moveright(0.1)
+D --> moveup(0.1)
+

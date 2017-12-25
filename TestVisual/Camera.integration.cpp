@@ -40,91 +40,91 @@ void UsesCamera() {
 	std::vector<glm::vec4> colors;
 	colors.emplace_back(1.0f, 0.0f, 0.0f, 1.0f);
 	colors.emplace_back(0.0f, 1.0f, 0.0f, 1.0f);
-colors.emplace_back(0.0f, 0.0f, 1.0f, 1.0f);
+	colors.emplace_back(0.0f, 0.0f, 1.0f, 1.0f);
 
-OpenGL::BufferDataPointer vertsPointer(4, OpenGL::DataType::Float);
-OpenGL::BufferDataPointer colorPointer(4, OpenGL::DataType::Float);
+	OpenGL::BufferDataPointer vertsPointer(4, OpenGL::DataType::Float);
+	OpenGL::BufferDataPointer colorPointer(4, OpenGL::DataType::Float);
 
-auto buf = context.NewBuffer([&](OpenGL::IBufferBuilder& b) {
-	b.NewBuffer()
-		.Targeting(OpenGL::BufferTarget::ArrayBuffer)
-		.UsedFor(OpenGL::BufferUsage::StaticDraw)
-		.WithData([&](OpenGL::IBufferDataBuilder& db) {
-		db.Data(glm::value_ptr(verts.front()), sizeof(glm::vec4), verts.size(), vertsPointer)
-			.InterleavedWith(glm::value_ptr(colors.front()), sizeof(glm::vec4), colors.size(), colorPointer);
+	auto buf = context.NewBuffer([&](OpenGL::IBufferBuilder& b) {
+		b.NewBuffer()
+			.Targeting(OpenGL::BufferTarget::ArrayBuffer)
+			.UsedFor(OpenGL::BufferUsage::StaticDraw)
+			.WithData([&](OpenGL::IBufferDataBuilder& db) {
+			db.Data(glm::value_ptr(verts.front()), sizeof(glm::vec4), verts.size(), vertsPointer)
+				.InterleavedWith(glm::value_ptr(colors.front()), sizeof(glm::vec4), colors.size(), colorPointer);
+		});
 	});
-});
 
-auto vshader = context.NewShader([&](OpenGL::IShaderBuilder& sb) {
-	std::stringstream ss;
-	ss << "#version 430" << std::endl;
-	ss << "layout(location = 0) in vec4 pos;" << std::endl;
-	ss << "layout(location = 1) in vec4 color;" << std::endl;
-	ss << "uniform mat4 view;" << std::endl;
-	ss << "uniform mat4 projection;" << std::endl;
-	ss << "out vec4 vColor;" << std::endl;
-	ss << "void main() {" << std::endl;
-	ss << "vColor = color;" << std::endl;
-	ss << "\tgl_Position = projection * view * pos;" << std::endl;
-	ss << "}" << std::endl;
-	OpenGL::ShaderSource vsource(ss);
+	auto vshader = context.NewShader([&](OpenGL::IShaderBuilder& sb) {
+		std::stringstream ss;
+		ss << "#version 430" << std::endl;
+		ss << "layout(location = 0) in vec4 pos;" << std::endl;
+		ss << "layout(location = 1) in vec4 color;" << std::endl;
+		ss << "uniform mat4 view;" << std::endl;
+		ss << "uniform mat4 projection;" << std::endl;
+		ss << "out vec4 vColor;" << std::endl;
+		ss << "void main() {" << std::endl;
+		ss << "vColor = color;" << std::endl;
+		ss << "\tgl_Position = projection * view * pos;" << std::endl;
+		ss << "}" << std::endl;
+		OpenGL::ShaderSource vsource(ss);
 
-	sb.AddSource(vsource).Type(OpenGL::ShaderType::Vertex);
-});
+		sb.AddSource(vsource).Type(OpenGL::ShaderType::Vertex);
+	});
 
-auto fshader = context.NewShader([&](OpenGL::IShaderBuilder& sb) {
-	std::stringstream ss;
-	ss << "#version 430" << std::endl;
-	ss << "in vec4 vColor;" << std::endl;
-	ss << "out vec4 color;" << std::endl;
-	ss << "void main() {" << std::endl;
-	ss << "\tcolor = vColor;" << std::endl;
-	ss << "}" << std::endl;
-	OpenGL::ShaderSource fsource(ss);
+	auto fshader = context.NewShader([&](OpenGL::IShaderBuilder& sb) {
+		std::stringstream ss;
+		ss << "#version 430" << std::endl;
+		ss << "in vec4 vColor;" << std::endl;
+		ss << "out vec4 color;" << std::endl;
+		ss << "void main() {" << std::endl;
+		ss << "\tcolor = vColor;" << std::endl;
+		ss << "}" << std::endl;
+		OpenGL::ShaderSource fsource(ss);
 
-	sb.AddSource(fsource).Type(OpenGL::ShaderType::Fragment);
-});
+		sb.AddSource(fsource).Type(OpenGL::ShaderType::Fragment);
+	});
 
-auto program = context.NewProgram([&](OpenGL::IProgramBuilder& pb) {
-	pb.Attach(*vshader).Attach(*fshader);
-});
+	auto program = context.NewProgram([&](OpenGL::IProgramBuilder& pb) {
+		pb.Attach(*vshader).Attach(*fshader);
+	});
 
-vshader.release();
-fshader.release();
+	vshader.release();
+	fshader.release();
 
-glm::vec3 p(0.0f, 0.0f, 3.0f);
-glm::vec3 dir(0.0f, 0.0f, -1.0f);
-glm::vec3 up(0.0f, 1.0f, 0.0f);
-TestVisual::Camera camera(p, dir, up, TestVisual::ProjectionMode::Perspective);
+	glm::vec3 p(0.0f, 0.1f, 3.0f);
+	glm::vec3 dir(0.0f, 0.0f, -1.0f);
+	glm::vec3 up(0.0f, 1.0f, 0.0f);
+	TestVisual::Camera camera(p, dir, up, TestVisual::ProjectionMode::Perspective);
 
-auto vao = context.NewVertexArray();
+	auto vao = context.NewVertexArray();
 
-program->Use();
+	program->Use();
 
-auto pos = program->AttributeVariable(std::string("pos"));
-auto color = program->AttributeVariable(std::string("color"));
-const auto projection = program->UniformVariable(std::string("projection"));
-const auto view = program->UniformVariable(std::string("view"));
-vao->Bind();
-vao->EnableVertexAttribute(pos);
-vao->SetVertexAttributePointer(pos, *buf, vertsPointer);
-vao->EnableVertexAttribute(color);
-vao->SetVertexAttributePointer(color, *buf, colorPointer);
+	auto pos = program->AttributeVariable(std::string("pos"));
+	auto color = program->AttributeVariable(std::string("color"));
+	const auto projection = program->UniformVariable(std::string("projection"));
+	const auto view = program->UniformVariable(std::string("view"));
+	vao->Bind();
+	vao->EnableVertexAttribute(pos);
+	vao->SetVertexAttributePointer(pos, *buf, vertsPointer);
+	vao->EnableVertexAttribute(color);
+	vao->SetVertexAttributePointer(color, *buf, colorPointer);
 
-float angle = 0.0f;
+	float angle = 0.0f;
 
-for (unsigned int i = 0; i < 3600; i++) {
-	program->SetUniform(projection, std::vector<glm::mat4>({ camera.ProjectionMatrix() }));
-	program->SetUniform(view, std::vector<glm::mat4>({ camera.ViewMatrix() }));
+	for (unsigned int i = 0; i < 3600; i++) {
+		program->SetUniform(projection, std::vector<glm::mat4>({ camera.ProjectionMatrix() }));
+		program->SetUniform(view, std::vector<glm::mat4>({ camera.ViewMatrix() }));
 
-	gl.DrawArrays(OpenGL::PrimitiveType::Triangles, 0, 3);
-	window->SwapBuffers();
-	gl.Clear(std::vector<OpenGL::Buffers>({ OpenGL::Buffers::Color }));
+		gl.DrawArrays(OpenGL::PrimitiveType::Triangles, 0, 3);
+		window->SwapBuffers();
+		gl.Clear(std::vector<OpenGL::Buffers>({ OpenGL::Buffers::Color }));
 
-	angle += 0.1f;
-	camera.Position(glm::vec3(10 * std::sinf(glm::radians(angle)), std::sinf(glm::radians(3 * angle)), 10 * std::cosf(glm::radians(angle))));
-	camera.Direction(glm::normalize(-1.0f * camera.Position()));
-}
+		angle += 0.2f;
+		camera.Position(glm::vec3(10 * std::sinf(glm::radians(angle)), std::sinf(glm::radians(3 * angle)), 10 * std::cosf(glm::radians(angle))));
+		camera.Direction(glm::normalize(-1.0f * camera.Position()));
+	}
 }
 
 void UsesCameraWithObjBunny() {
@@ -136,7 +136,7 @@ void UsesCameraWithObjBunny() {
 	std::cout << "Using OpenGL Version: " << context.MajorVersion() << "." << context.MinorVersion() << std::endl;
 
 	Auxili::ObjFileParser parser;
-	std::fstream bunnyFile("Models/bunny.obj");
+	std::fstream bunnyFile("../Assets/Models/bunny.obj");
 	auto bunnyData = parser.Parse(bunnyFile);
 
 	std::vector<glm::vec4> verts;
