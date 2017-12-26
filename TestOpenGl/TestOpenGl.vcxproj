@@ -87,6 +87,9 @@
       <AdditionalDependencies>GTest.lib;GMock.lib;OpenGl.lib;</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.test.cpp" />

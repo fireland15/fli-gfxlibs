@@ -276,7 +276,7 @@ namespace {
 		OpenGL::OpenGLWrapper wrap(mgl);
 		OpenGL::Program p(wrap, std::move(h), std::vector<OpenGL::AttributeVariable>(), uvl);
 
-		EXPECT_THROW(p.SetUniform(OpenGL::UniformVariable(1, "ben", OpenGL::UniformType::Int), 4), OpenGL::UniformNotFoundException);
+		EXPECT_THROW(p.SetUniform(OpenGL::UniformVariable(1, "ben", OpenGL::UniformType::Int), 4), OpenGL::InvalidUniformAssignmentException);
 	}
 
 	TEST(ProgramTest, SetUniformInt_ThrowsInvalidUniformAssignmentWhenTypeIsWrong) {
